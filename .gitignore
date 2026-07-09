@@ -1,3 +1,5 @@
 node_modules/
 .env
 *.log
+package-lock.json
+docs/proposal-raw.txt

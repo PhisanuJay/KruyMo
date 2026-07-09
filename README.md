@@ -2,6 +2,11 @@
 
 ระบบเช่าชุดครุยออนไลน์ แยก 3 ฝั่งผู้ใช้งาน: **ลูกค้า (Customer)**, **พนักงาน (Staff)**, **แอดมิน (Admin)**
 
+## เอกสารโครงงาน
+
+- ข้อเสนอโครงงาน (อ่านบน GitHub): [docs/proposal.md](./docs/proposal.md)
+- ไฟล์ต้นฉบับ PDF: [docs/proposal-kruymo.pdf](./docs/proposal-kruymo.pdf)
+
 ## Tech Stack
 
 - **Frontend:** React + Vite
