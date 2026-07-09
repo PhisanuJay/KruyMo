@@ -1,0 +1,16 @@
+[
+  {
+    "id": "dee59174-080d-452e-82ee-aaa517e86de5",
+    "action": "create_booking",
+    "details": "สร้างการจอง 87d4b219-89a1-41c2-a70f-4750e6428d66",
+    "userId": "74ef22ea-cbea-4ad0-b377-223262d9e001",
+    "createdAt": "2026-07-09T07:11:37.463Z"
+  },
+  {
+    "id": "5faeabda-326a-452e-b182-c8ebfafad575",
+    "action": "upload_slip",
+    "details": "อัปโหลดสลิป การจอง 87d4b219-89a1-41c2-a70f-4750e6428d66",
+    "userId": "74ef22ea-cbea-4ad0-b377-223262d9e001",
+    "createdAt": "2026-07-09T07:11:49.531Z"
+  }
+]

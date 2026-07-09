@@ -1,0 +1,12 @@
+[
+  {
+    "id": "2795379e-f408-4fa1-a719-d811638bdcdb",
+    "bookingId": "87d4b219-89a1-41c2-a70f-4750e6428d66",
+    "slipImage": "/uploads/1783581157672-969105180.jpg",
+    "status": "pending",
+    "submittedAt": "2026-07-09T07:12:57.337Z",
+    "verifiedAt": null,
+    "verifiedBy": null,
+    "updatedAt": "2026-07-09T07:12:57.337Z"
+  }
+]

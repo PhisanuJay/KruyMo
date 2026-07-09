@@ -1,0 +1,8 @@
+[
+  { "id": "fac-comm", "universityId": "uni-spu", "name": "คณะนิเทศศาสตร์", "color": "#F4C430" },
+  { "id": "fac-acc", "universityId": "uni-spu", "name": "คณะบัญชี", "color": "#2ECC71" },
+  { "id": "fac-law", "universityId": "uni-spu", "name": "คณะนิติศาสตร์", "color": "#F5F5F5" },
+  { "id": "fac-lib", "universityId": "uni-spu", "name": "คณะศิลปศาสตร์", "color": "#FF6B35" },
+  { "id": "fac-bus", "universityId": "uni-spu", "name": "คณะบริหารธุรกิจ", "color": "#4CC9F0" },
+  { "id": "fac-it", "universityId": "uni-spu", "name": "คณะเทคโนโลยีสารสนเทศ", "color": "#9B59B6" }
+]

@@ -1,0 +1,103 @@
+# KruyMo - ระบบเช่าชุดครุยบัณฑิตออนไลน์
+
+ระบบเช่าชุดครุยออนไลน์ แยก 3 ฝั่งผู้ใช้งาน: **ลูกค้า (Customer)**, **พนักงาน (Staff)**, **แอดมิน (Admin)**
+
+## Tech Stack
+
+- **Frontend:** React + Vite
+- **Backend:** Node.js + Express (REST API)
+- **Storage:** JSON files (ไม่ใช้ database)
+
+## โครงสร้างโปรเจกต์
+
+```
+/backend
+  /data        <- ไฟล์ JSON ทั้งหมด
+  /uploads     <- รูปภาพที่อัปโหลด
+  /routes      <- API routes
+  server.js
+/frontend
+  /src
+    /pages     <- หน้าเว็บแยกตาม role
+    /components
+    /services  <- API calls
+```
+
+## วิธีรัน
+
+### 1. Backend
+
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+API จะรันที่ `http://localhost:3001`
+
+### 2. Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+เว็บจะเปิดที่ `http://localhost:5173`
+
+## บัญชีทดสอบ
+
+| Role | Email | Password |
+|------|-------|----------|
+| ลูกค้า | customer@test.com | customer123 |
+| พนักงาน | staff@kruymo.com | staff123 |
+| แอดมิน | admin@kruymo.com | admin123 |
+
+## ฟีเจอร์หลัก
+
+### ฝั่งลูกค้า
+- สมัครสมาชิก / เข้าสู่ระบบ / ลืมรหัสผ่าน
+- ค้นหาและกรองชุดครุย (มหาวิทยาลัย, คณะ, ไซส์, ระดับปริญญา)
+- จองชุด + คำนวณค่าเช่า/มัดจำอัตโนมัติ
+- ชำระเงิน (QR PromptPay + อัปโหลดสลิป)
+- ติดตามสถานะ (Timeline/Stepper)
+- รับ-คืนชุด + อัปโหลดรูปสภาพชุด
+- แจ้งเตือน (Notification Bell)
+
+### ฝั่งพนักงาน
+- Dashboard ภาพรวม
+- จัดการคำสั่งเช่า (อนุมัติ/ปฏิเสธ)
+- รับ-คืนชุด (ค้นหาเลขจอง + อัปโหลดรูป + ค่าปรับ)
+- คืนเงินมัดจำ
+
+### ฝั่งแอดมิน
+- Dashboard สถิติ (รายได้, การเช่า, สต็อก)
+- CRUD ชุดครุย (อัปโหลดหลายรูป)
+- CRUD มหาวิทยาลัย/คณะ/ไซส์
+- จัดการผู้ใช้ + กำหนด role
+- รายงานรายได้ + สต็อก + Export CSV
+- ประวัติการทำรายการ (Activity Log)
+- ตั้งค่าเทมเพลตแจ้งเตือน
+
+## การออกแบบ UI
+
+- โทนสี **สดใส colorful** แยกตามมหาวิทยาลัย/คณะ
+- พื้นหลังขาว/สีอ่อน ให้สีประจำคณะโดดเด่น
+- Font: Noto Sans Thai (รองรับภาษาไทย)
+- Responsive รองรับมือถือและเดสก์ท็อป
+- ป้ายสถานะสี: เหลือง=รอดำเนินการ, เขียว=สำเร็จ, แดง=ยกเลิก/ปฏิเสธ
+
+## API Endpoints
+
+| Method | Endpoint | คำอธิบาย |
+|--------|----------|----------|
+| POST | /api/auth/register | สมัครสมาชิก |
+| POST | /api/auth/login | เข้าสู่ระบบ |
+| GET | /api/costumes | รายการชุดครุย |
+| POST | /api/bookings | สร้างการจอง |
+| PATCH | /api/bookings/:id/status | อัปเดตสถานะ |
+| POST | /api/payments/:bookingId/slip | อัปโหลดสลิป |
+| POST | /api/upload | อัปโหลดรูปภาพ |
+| GET | /api/reports/dashboard | ข้อมูลแดชบอร์ด |
+
+ดูรายละเอียด API เพิ่มเติมใน source code ที่ `backend/routes/`

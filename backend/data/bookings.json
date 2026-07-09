@@ -1,0 +1,29 @@
+[
+  {
+    "id": "87d4b219-89a1-41c2-a70f-4750e6428d66",
+    "userId": "74ef22ea-cbea-4ad0-b377-223262d9e001",
+    "costumeId": "costume-005",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "startDate": "2026-07-10",
+    "endDate": "2026-07-22",
+    "status": "payment_pending",
+    "rentalPrice": 5200,
+    "deposit": 2000,
+    "totalPrice": 7200,
+    "days": 13,
+    "rejectReason": null,
+    "prepChecklist": {
+      "gown": false,
+      "cap": false,
+      "sash": false,
+      "accessories": false
+    },
+    "pickupConfirmedAt": null,
+    "returnImages": [],
+    "penaltyAmount": 0,
+    "refundAmount": null,
+    "createdAt": "2026-07-09T07:11:37.462Z",
+    "updatedAt": "2026-07-09T07:11:49.531Z"
+  }
+]

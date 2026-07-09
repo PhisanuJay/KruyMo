@@ -1,0 +1,10 @@
+[
+  {
+    "id": "ded3a4cd-19b5-480b-9401-e1a08bc3fae1",
+    "userId": "74ef22ea-cbea-4ad0-b377-223262d9e001",
+    "type": "booking_success",
+    "message": "การจองของคุณสำเร็จแล้ว กรุณาชำระเงินภายใน 24 ชั่วโมง",
+    "isRead": false,
+    "createdAt": "2026-07-09T07:11:37.463Z"
+  }
+]
