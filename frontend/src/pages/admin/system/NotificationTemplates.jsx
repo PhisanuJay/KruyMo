@@ -4,7 +4,9 @@ import DashboardLayout from '../../../components/DashboardLayout';
 
 const TEMPLATE_LABELS = {
   booking_success: 'จองสำเร็จ',
+  payment_submitted: 'ส่งสลิปแล้ว',
   payment_verified: 'ยืนยันการชำระเงิน',
+  payment_rejected: 'สลิปไม่ผ่าน',
   booking_approved: 'อนุมัติการจอง',
   booking_rejected: 'ปฏิเสธการจอง',
   ready_for_pickup: 'พร้อมรับชุด',

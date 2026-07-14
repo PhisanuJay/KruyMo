@@ -3,6 +3,17 @@ import { addItem } from './db.js';
 
 export const generateId = () => uuidv4();
 
+export const createNotification = (userId, type, message) => {
+  addItem('notifications.json', {
+    id: generateId(),
+    userId,
+    type,
+    message,
+    isRead: false,
+    createdAt: new Date().toISOString(),
+  });
+};
+
 export const logActivity = (action, details, userId = null) => {
   addItem('activityLog.json', {
     id: generateId(),
@@ -41,7 +52,7 @@ export const BOOKING_STATUSES = [
 ];
 
 export const STATUS_LABELS = {
-  pending: 'รอดำเนินการ',
+  pending: 'รออนุมัติ',
   payment_pending: 'รอชำระเงิน',
   payment_verified: 'ตรวจสอบการชำระแล้ว',
   approved: 'อนุมัติแล้ว',

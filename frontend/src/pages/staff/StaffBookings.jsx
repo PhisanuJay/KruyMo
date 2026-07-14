@@ -48,6 +48,7 @@ export default function StaffBookings() {
         <select className="form-input" style={{ maxWidth: 250 }} value={filter} onChange={(e) => setFilter(e.target.value)}>
           <option value="">ทุกสถานะ</option>
           <option value="payment_pending">รอชำระเงิน</option>
+          <option value="pending">รออนุมัติ</option>
           <option value="payment_verified">ตรวจสอบการชำระแล้ว</option>
           <option value="approved">อนุมัติแล้ว</option>
           <option value="preparing">กำลังเตรียมชุด</option>
@@ -87,14 +88,26 @@ export default function StaffBookings() {
                   <td><StatusBadge status={b.status} size="sm" /></td>
                   <td>
                     <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                      {b.status === 'payment_verified' && (
+                      {(b.status === 'payment_verified' || b.status === 'pending') && (
                         <>
-                          <button className="btn btn-success btn-sm" onClick={() => setModal({ ...b, action: 'approve' })}>อนุมัติ</button>
-                          <button className="btn btn-danger btn-sm" onClick={() => setModal({ ...b, action: 'reject' })}>ปฏิเสธ</button>
+                          {b.status === 'pending' && (
+                            <button className="btn btn-secondary btn-sm" onClick={() => handleVerifyPayment(b.id)}>
+                              ยืนยันชำระเงินและอนุมัติ
+                            </button>
+                          )}
+                          {b.status === 'payment_verified' && (
+                            <>
+                              <button className="btn btn-success btn-sm" onClick={() => setModal({ ...b, action: 'approve' })}>อนุมัติ</button>
+                              <button className="btn btn-danger btn-sm" onClick={() => setModal({ ...b, action: 'reject' })}>ปฏิเสธ</button>
+                            </>
+                          )}
+                          {b.status === 'pending' && (
+                            <button className="btn btn-danger btn-sm" onClick={() => setModal({ ...b, action: 'reject' })}>ปฏิเสธ</button>
+                          )}
                         </>
                       )}
                       {b.status === 'payment_pending' && (
-                        <button className="btn btn-secondary btn-sm" onClick={() => handleVerifyPayment(b.id)}>ยืนยันชำระเงิน</button>
+                        <span style={{ fontSize: '0.8rem', color: '#999' }}>รอลูกค้าชำระเงิน</span>
                       )}
                       {b.status === 'approved' && (
                         <button className="btn btn-primary btn-sm"

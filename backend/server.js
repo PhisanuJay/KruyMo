@@ -15,6 +15,8 @@ import masterDataRoutes from './routes/masterData.js';
 import reportRoutes from './routes/reports.js';
 import notificationRoutes from './routes/notifications.js';
 import uploadRoutes from './routes/upload.js';
+import favoriteRoutes from './routes/favorites.js';
+import cartRoutes from './routes/cart.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -59,6 +61,8 @@ app.use('/api', masterDataRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/favorites', favoriteRoutes);
+app.use('/api/cart', cartRoutes);
 
 app.get('/api/health', (_req, res) => res.json({ status: 'ok', name: 'KruyMo API' }));
 

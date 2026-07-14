@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { Heart, ShoppingCart } from 'lucide-react';
 import { costumeAPI, masterDataAPI } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
+import { useShop } from '../../context/ShopContext';
 import CustomerLayout from '../../components/CustomerLayout';
 import UniversityTag from '../../components/UniversityTag';
+import DateRangePicker from '../../components/DateRangePicker';
 
 const DEGREE_OPTIONS = [
   { value: 'bachelor', label: 'ปริญญาตรี' },
@@ -23,10 +26,14 @@ export default function CostumeDetail() {
   const [availability, setAvailability] = useState(null);
   const [checking, setChecking] = useState(false);
   const [availError, setAvailError] = useState('');
-  const [showSizeChart, setShowSizeChart] = useState(true);
+  const [cartMsg, setCartMsg] = useState('');
+  const [cartError, setCartError] = useState('');
+  const [addingCart, setAddingCart] = useState(false);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
+  const { isFavorite, toggleFavorite, addToCart } = useShop();
   const navigate = useNavigate();
+  const favorited = isFavorite(id);
 
   useEffect(() => {
     Promise.all([
@@ -35,6 +42,7 @@ export default function CostumeDetail() {
     ]).then(([c, s]) => {
       setCostume(c.data);
       setSizes(s.data);
+      if (c.data?.degreeLevel) setDegreeLevel(c.data.degreeLevel);
     }).finally(() => setLoading(false));
   }, [id]);
 
@@ -105,6 +113,35 @@ export default function CostumeDetail() {
     });
   };
 
+  const handleFavorite = async () => {
+    if (!user) { navigate('/login'); return; }
+    try {
+      await toggleFavorite(id);
+    } catch {
+      // ignore
+    }
+  };
+
+  const handleAddToCart = async () => {
+    if (!user) { navigate('/login'); return; }
+    if (!canBook) return;
+    setAddingCart(true);
+    setCartMsg('');
+    setCartError('');
+    try {
+      const result = await addToCart({ costumeId: id, startDate, endDate, sizeId, degreeLevel });
+      if (result?.needsLogin) {
+        navigate('/login');
+        return;
+      }
+      setCartMsg('เพิ่มลงตะกร้าแล้ว');
+    } catch (err) {
+      setCartError(err.response?.data?.error || 'เพิ่มตะกร้าไม่สำเร็จ');
+    } finally {
+      setAddingCart(false);
+    }
+  };
+
   if (loading) return <CustomerLayout><div className="loading">กำลังโหลด...</div></CustomerLayout>;
   if (!costume) return <CustomerLayout><div className="empty-state">ไม่พบชุดครุย</div></CustomerLayout>;
 
@@ -142,7 +179,18 @@ export default function CostumeDetail() {
               {costume.university && <UniversityTag name={costume.university.name} color={costume.university.color} />}
               {costume.faculty && <UniversityTag name={costume.faculty.name} color={facultyColor} />}
             </div>
-            <h1 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '0.5rem' }}>{costume.name}</h1>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: '0.5rem' }}>
+              <h1 style={{ fontSize: '1.75rem', fontWeight: 800, flex: 1, margin: 0 }}>{costume.name}</h1>
+              <button
+                type="button"
+                className={`fav-btn detail ${favorited ? 'is-active' : ''}`}
+                onClick={handleFavorite}
+                aria-label={favorited ? 'ลบจากรายการโปรด' : 'เพิ่มรายการโปรด'}
+                title={favorited ? 'ลบจากรายการโปรด' : 'เพิ่มรายการโปรด'}
+              >
+                <Heart size={20} fill={favorited ? 'currentColor' : 'none'} />
+              </button>
+            </div>
             <p style={{ color: '#636E72', marginBottom: '1rem' }}>{costume.description}</p>
             <p style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--primary)', marginBottom: '1.5rem' }}>
               ฿{costume.pricePerDay}/วัน · มัดจำ ฿{costume.deposit}
@@ -154,23 +202,15 @@ export default function CostumeDetail() {
                 เลือกวันรับ-คืนก่อน ระบบจะเช็คว่าไซส์และระดับไหนยังว่างในช่วงนั้น
               </p>
 
-              <div className="grid-2">
-                <div className="form-group">
-                  <label>วันรับชุด</label>
-                  <input className="form-input" type="date" value={startDate}
-                    min={new Date().toISOString().split('T')[0]}
-                    onChange={(e) => {
-                      setStartDate(e.target.value);
-                      if (endDate && e.target.value && endDate < e.target.value) setEndDate('');
-                    }} />
-                </div>
-                <div className="form-group">
-                  <label>วันคืนชุด</label>
-                  <input className="form-input" type="date" value={endDate}
-                    min={startDate || new Date().toISOString().split('T')[0]}
-                    onChange={(e) => setEndDate(e.target.value)} />
-                </div>
-              </div>
+              <DateRangePicker
+                startDate={startDate}
+                endDate={endDate}
+                minDate={new Date().toISOString().split('T')[0]}
+                onChange={({ startDate: s, endDate: e }) => {
+                  setStartDate(s);
+                  setEndDate(e);
+                }}
+              />
 
               {days > 0 && (
                 <div style={{ background: '#f8f9fa', borderRadius: '10px', padding: '1rem', marginBottom: '1.25rem' }}>
@@ -194,98 +234,95 @@ export default function CostumeDetail() {
                 <select
                   className="form-input"
                   value={degreeLevel}
-                  disabled={!datesReady}
-                  onChange={(e) => setDegreeLevel(e.target.value)}
+                  disabled
                 >
                   {DEGREE_OPTIONS.map((o) => (
                     <option key={o.value} value={o.value}>{o.label}</option>
                   ))}
                 </select>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.35rem' }}>
+                  ระดับตามชุดที่เลือก · ถ้าต้องการระดับอื่น ให้เลือกจากหน้าชุดครุย
+                </p>
               </div>
 
-              <div className="form-group">
-                <label>ไซส์</label>
-                <select
-                  className="form-input"
-                  value={sizeId}
-                  disabled={!datesReady || checking}
-                  onChange={(e) => setSizeId(e.target.value)}
-                >
-                  <option value="">เลือกไซส์ที่ว่าง</option>
-                  {sizeOptions.map((s) => (
-                    <option key={s.sizeId} value={s.sizeId} disabled={datesReady && !s.inStock}>
-                      {s.label} ({s.description})
-                      {datesReady ? (s.inStock ? ` · เหลือ ${s.available}` : ' · เต็มแล้ว') : ''}
-                    </option>
-                  ))}
-                </select>
+              <div className="form-group" style={{ marginBottom: '0.5rem' }}>
+                <label>ไซส์ — คลิกแถวในตารางเพื่อเลือก</label>
+              </div>
+
+              <div className="size-chart" style={{ marginBottom: '1rem' }}>
+                <div className="size-chart-head">
+                  <strong>ตารางไซส์ชุดครุย</strong>
+                  <span>{datesReady ? 'คงเหลือตามวันที่เลือก' : 'อ้างอิงตามส่วนสูง (ซม.)'}</span>
+                </div>
+                <div className="table-wrapper">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Size</th>
+                        <th>Height (cm)</th>
+                        <th>คงเหลือ</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {sizeOptions.map((s) => (
+                        <tr
+                          key={s.sizeId}
+                          className={s.sizeId === sizeId ? 'is-selected' : ''}
+                          onClick={() => {
+                            if (!datesReady || !s.inStock) return;
+                            setSizeId(s.sizeId);
+                          }}
+                          style={{ cursor: datesReady && s.inStock ? 'pointer' : 'default', opacity: datesReady && !s.inStock ? 0.45 : 1 }}
+                        >
+                          <td><strong>{s.label}</strong></td>
+                          <td>{s.heightMin}-{s.heightMax}</td>
+                          <td>
+                            {!datesReady && '-'}
+                            {datesReady && checking && '...'}
+                            {datesReady && !checking && (s.inStock ? s.available : 'เต็ม')}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.75rem' }}>
+                  เลือกวันก่อน แล้วคลิกแถวที่ยังว่างเพื่อเลือกไซส์ · ไม่ใช้เกณฑ์น้ำหนัก
+                </p>
               </div>
 
               {selectedSize && datesReady && (
                 <p style={{ fontSize: '0.9rem', marginBottom: '1rem', color: selectedSize.inStock ? 'var(--success)' : 'var(--danger)' }}>
                   {selectedSize.inStock
-                    ? `ไซส์ ${selectedSize.label} ว่าง ${selectedSize.available} ชุด ในช่วงวันที่เลือก`
+                    ? `เลือกไซส์ ${selectedSize.label} แล้ว · ว่าง ${selectedSize.available} ชุด ในช่วงวันที่เลือก`
                     : `ไซส์ ${selectedSize.label} เต็มในช่วงวันที่เลือก`}
                 </p>
               )}
-
-              <button
-                type="button"
-                className="btn btn-ghost btn-sm"
-                style={{ marginBottom: '1rem', paddingLeft: 0 }}
-                onClick={() => setShowSizeChart((v) => !v)}
-              >
-                {showSizeChart ? 'ซ่อนตารางไซส์' : 'ดูตารางไซส์ตามส่วนสูง'}
-              </button>
-
-              {showSizeChart && (
-                <div className="size-chart" style={{ marginBottom: '1.25rem' }}>
-                  <div className="size-chart-head">
-                    <strong>ตารางไซส์ชุดครุย</strong>
-                    <span>{datesReady ? 'คงเหลือตามวันที่เลือก' : 'อ้างอิงตามส่วนสูง (ซม.)'}</span>
-                  </div>
-                  <div className="table-wrapper">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Size</th>
-                          <th>Height (cm)</th>
-                          <th>คงเหลือ</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {sizeOptions.map((s) => (
-                          <tr
-                            key={s.sizeId}
-                            className={s.sizeId === sizeId ? 'is-selected' : ''}
-                            onClick={() => {
-                              if (!datesReady || !s.inStock) return;
-                              setSizeId(s.sizeId);
-                            }}
-                            style={{ cursor: datesReady && s.inStock ? 'pointer' : 'default', opacity: datesReady && !s.inStock ? 0.45 : 1 }}
-                          >
-                            <td><strong>{s.label}</strong></td>
-                            <td>{s.heightMin}-{s.heightMax}</td>
-                            <td>
-                              {!datesReady && '-'}
-                              {datesReady && checking && '...'}
-                              {datesReady && !checking && (s.inStock ? s.available : 'เต็ม')}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.75rem' }}>
-                    เลือกวันก่อน แล้วคลิกแถวที่ยังว่างเพื่อเลือกไซส์ · ไม่ใช้เกณฑ์น้ำหนัก
-                  </p>
-                </div>
+              {datesReady && !sizeId && !checking && (
+                <p style={{ fontSize: '0.9rem', marginBottom: '1rem', color: 'var(--text-muted)' }}>
+                  ยังไม่ได้เลือกไซส์ — คลิกแถวในตารางด้านบน
+                </p>
               )}
 
-              <button className="btn btn-primary" style={{ width: '100%' }}
-                disabled={!canBook} onClick={handleBook}>
-                {!datesReady ? 'เลือกวันจองก่อน' : !sizeId ? 'เลือกไซส์ที่ว่าง' : 'จองชุดครุย'}
-              </button>
+              {cartMsg && <div className="alert alert-success">{cartMsg} <Link to="/cart">ดูตะกร้า</Link></div>}
+              {cartError && <div className="alert alert-error">{cartError}</div>}
+
+              <div style={{ display: 'grid', gap: 10 }}>
+                <button className="btn btn-primary" style={{ width: '100%' }}
+                  disabled={!canBook} onClick={handleBook}>
+                  {!datesReady ? 'เลือกวันจองก่อน' : !sizeId ? 'เลือกไซส์จากตาราง' : 'จองชุดครุยเลย'}
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-outline"
+                  style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+                  disabled={!canBook || addingCart}
+                  onClick={handleAddToCart}
+                >
+                  <ShoppingCart size={18} />
+                  {addingCart ? 'กำลังเพิ่ม...' : 'เพิ่มลงตะกร้า'}
+                </button>
+              </div>
             </div>
           </div>
         </div>

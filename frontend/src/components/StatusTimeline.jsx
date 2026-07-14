@@ -1,6 +1,6 @@
 const STEPS = [
   { key: 'payment_pending', label: 'จองแล้ว' },
-  { key: 'payment_verified', label: 'ชำระเงิน' },
+  { key: 'pending', label: 'รออนุมัติ' },
   { key: 'approved', label: 'อนุมัติ' },
   { key: 'ready_for_pickup', label: 'พร้อมรับ' },
   { key: 'picked_up', label: 'รับชุด' },
@@ -10,8 +10,15 @@ const STEPS = [
 
 const STATUS_ORDER = STEPS.map((s) => s.key);
 
+const normalizeStatus = (status) => {
+  if (status === 'payment_verified') return 'pending';
+  if (status === 'preparing') return 'approved';
+  return status;
+};
+
 export default function StatusTimeline({ status }) {
-  const currentIndex = STATUS_ORDER.indexOf(status);
+  const normalized = normalizeStatus(status);
+  const currentIndex = STATUS_ORDER.indexOf(normalized);
   const isCancelled = status === 'cancelled' || status === 'rejected';
 
   if (isCancelled) {

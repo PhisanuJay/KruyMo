@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { readJSON, findById, addItem, updateById, deleteById } from '../utils/db.js';
 import { authenticate, authorize } from '../middleware/auth.js';
-import { generateId, calculateRentalPrice, logActivity, countBookedUnits } from '../utils/helpers.js';
+import { generateId, calculateRentalPrice, logActivity, countBookedUnits, createNotification } from '../utils/helpers.js';
 
 const router = Router();
 
@@ -31,17 +31,6 @@ const enrichBooking = (booking) => {
   };
 };
 
-const createNotification = (userId, type, message) => {
-  addItem('notifications.json', {
-    id: generateId(),
-    userId,
-    type,
-    message,
-    isRead: false,
-    createdAt: new Date().toISOString(),
-  });
-};
-
 router.get('/', authenticate, (req, res) => {
   let bookings = readJSON('bookings.json');
   if (req.user.role === 'customer') {
@@ -49,6 +38,7 @@ router.get('/', authenticate, (req, res) => {
   }
   const { status } = req.query;
   if (status) bookings = bookings.filter((b) => b.status === status);
+  bookings.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
   res.json(bookings.map(enrichBooking));
 });
 

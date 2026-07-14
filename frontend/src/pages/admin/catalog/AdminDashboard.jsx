@@ -313,7 +313,7 @@ export default function AdminDashboard() {
                   <td>{formatThaiDate(b.endDate)}</td>
                   <td>{formatBaht(b.totalPrice)}</td>
                   <td>
-                    <Link to={`/bookings/${b.id}`} className="dash-view-btn" title="ดูรายละเอียด">
+                    <Link to={`/admin/bookings/${b.id}`} className="dash-view-btn" title="ดูรายละเอียด">
                       <Eye size={16} />
                     </Link>
                   </td>

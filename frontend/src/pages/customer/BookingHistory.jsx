@@ -1,47 +1,155 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { Search, Filter } from 'lucide-react';
 import { bookingAPI } from '../../services/api';
 import CustomerLayout from '../../components/CustomerLayout';
 import StatusBadge from '../../components/StatusBadge';
 
+const STATUS_FILTERS = [
+  { value: '', label: 'ทุกสถานะ' },
+  { value: 'payment_pending', label: 'รอชำระเงิน' },
+  { value: 'pending', label: 'รออนุมัติ' },
+  { value: 'payment_verified', label: 'ตรวจสอบการชำระแล้ว' },
+  { value: 'approved', label: 'อนุมัติแล้ว' },
+  { value: 'preparing', label: 'กำลังเตรียมชุด' },
+  { value: 'ready_for_pickup', label: 'พร้อมรับชุด' },
+  { value: 'picked_up', label: 'รับชุดแล้ว' },
+  { value: 'returned', label: 'คืนชุดแล้ว' },
+  { value: 'deposit_refunded', label: 'คืนเงินมัดจำแล้ว' },
+  { value: 'cancelled', label: 'ยกเลิก' },
+  { value: 'rejected', label: 'ปฏิเสธ' },
+];
+
+const QUICK_FILTERS = [
+  { value: '', label: 'ทั้งหมด' },
+  { value: 'payment_pending', label: 'รอชำระเงิน' },
+  { value: 'pending', label: 'รออนุมัติ' },
+  { value: 'approved', label: 'อนุมัติแล้ว' },
+  { value: 'ready_for_pickup', label: 'พร้อมรับ' },
+  { value: 'cancelled', label: 'ยกเลิก' },
+];
+
 export default function BookingHistory() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [statusFilter, setStatusFilter] = useState('');
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
-    bookingAPI.getAll().then((r) => setBookings(r.data)).finally(() => setLoading(false));
+    bookingAPI.getAll()
+      .then((r) => {
+        const sorted = [...r.data].sort(
+          (a, b) => new Date(b.createdAt || b.updatedAt || 0) - new Date(a.createdAt || a.updatedAt || 0)
+        );
+        setBookings(sorted);
+      })
+      .finally(() => setLoading(false));
   }, []);
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return bookings.filter((b) => {
+      if (statusFilter && b.status !== statusFilter) return false;
+      if (!q) return true;
+      const name = (b.costume?.name || '').toLowerCase();
+      const id = (b.id || '').toLowerCase();
+      return name.includes(q) || id.includes(q);
+    });
+  }, [bookings, statusFilter, search]);
 
   return (
     <CustomerLayout>
       <div className="container" style={{ padding: '2rem 20px' }}>
-        <h1 className="page-title">การจองของฉัน</h1>
-        <p className="page-subtitle">ประวัติการเช่าชุดครุยทั้งหมด</p>
+        <h1 className="page-title">ประวัติการจอง</h1>
+        <p className="page-subtitle">รายการล่าสุดอยู่บนสุด · ค้นหาและกรองสถานะได้</p>
+
+        <div className="card booking-history-filters">
+          <div className="booking-history-filters-row">
+            <div className="booking-search">
+              <Search size={18} />
+              <input
+                className="form-input"
+                type="search"
+                placeholder="ค้นหาชื่อชุดครุย..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+            <div className="booking-status-select">
+              <Filter size={16} />
+              <select
+                className="form-input"
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+              >
+                {STATUS_FILTERS.map((f) => (
+                  <option key={f.value || 'all'} value={f.value}>{f.label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="booking-quick-filters">
+            {QUICK_FILTERS.map((f) => (
+              <button
+                key={f.value || 'all'}
+                type="button"
+                className={`booking-chip ${statusFilter === f.value ? 'is-active' : ''}`}
+                onClick={() => setStatusFilter(f.value)}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
         {loading ? (
           <div className="loading">กำลังโหลด...</div>
         ) : bookings.length === 0 ? (
           <div className="empty-state">
-            ยังไม่มีการจอง <Link to="/catalog" style={{ color: '#FF6B6B' }}>เลือกชุดครุย</Link>
+            ยังไม่มีประวัติการจอง{' '}
+            <Link to="/catalog" style={{ color: 'var(--primary)' }}>เลือกชุดครุย</Link>
           </div>
+        ) : filtered.length === 0 ? (
+          <div className="empty-state">ไม่พบรายการที่ตรงกับตัวกรอง</div>
         ) : (
-          <div style={{ display: 'grid', gap: '1rem' }}>
-            {bookings.map((b) => (
-              <Link key={b.id} to={`/bookings/${b.id}`} className="card" style={{
-                padding: '1.5rem', display: 'flex', justifyContent: 'space-between',
-                alignItems: 'center', flexWrap: 'wrap', gap: '1rem',
-              }}>
-                <div>
-                  <h3 style={{ fontWeight: 700 }}>{b.costume?.name || 'ชุดครุย'}</h3>
-                  <p style={{ fontSize: '0.85rem', color: '#636E72' }}>
-                    {new Date(b.startDate).toLocaleDateString('th-TH')} - {new Date(b.endDate).toLocaleDateString('th-TH')}
-                  </p>
-                  <p style={{ fontWeight: 600, color: '#FF6B6B', marginTop: '4px' }}>฿{b.totalPrice?.toLocaleString()}</p>
-                </div>
-                <StatusBadge status={b.status} />
-              </Link>
-            ))}
-          </div>
+          <>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.85rem' }}>
+              แสดง {filtered.length} จาก {bookings.length} รายการ
+            </p>
+            <div style={{ display: 'grid', gap: '1rem' }}>
+              {filtered.map((b) => (
+                <Link
+                  key={b.id}
+                  to={`/bookings/${b.id}`}
+                  className="card booking-history-item"
+                >
+                  <div className="booking-history-item-main">
+                    {b.costume?.images?.[0] && (
+                      <img
+                        src={b.costume.images[0]}
+                        alt=""
+                        className="booking-history-thumb"
+                      />
+                    )}
+                    <div>
+                      <h3>{b.costume?.name || 'ชุดครุย'}</h3>
+                      <p className="booking-history-meta">
+                        {new Date(b.startDate).toLocaleDateString('th-TH')}
+                        {' – '}
+                        {new Date(b.endDate).toLocaleDateString('th-TH')}
+                      </p>
+                      <p className="booking-history-date">
+                        จองเมื่อ {new Date(b.createdAt || b.updatedAt).toLocaleString('th-TH')}
+                      </p>
+                      <p className="booking-history-price">฿{b.totalPrice?.toLocaleString()}</p>
+                    </div>
+                  </div>
+                  <StatusBadge status={b.status} />
+                </Link>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </CustomerLayout>

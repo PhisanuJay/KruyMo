@@ -10,7 +10,7 @@ export default function StaffDashboard() {
     bookingAPI.getAll().then((r) => setBookings(r.data));
   }, []);
 
-  const pending = bookings.filter((b) => ['payment_pending', 'payment_verified'].includes(b.status));
+  const pending = bookings.filter((b) => ['pending', 'payment_pending', 'payment_verified'].includes(b.status));
   const active = bookings.filter((b) => ['approved', 'preparing', 'ready_for_pickup', 'picked_up'].includes(b.status));
 
   return (

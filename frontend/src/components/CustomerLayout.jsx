@@ -1,9 +1,15 @@
 import { Link } from 'react-router-dom';
+import { Heart, ShoppingCart } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useShop } from '../context/ShopContext';
 import NotificationBell from './NotificationBell';
 
 export default function CustomerLayout({ children }) {
   const { user, logout } = useAuth();
+  const shop = useShop();
+  const favoriteCount = shop?.favoriteIds?.length || 0;
+  const cartCount = shop?.cartCount || 0;
+  const isCustomer = user?.role === 'customer';
 
   return (
     <div>
@@ -16,13 +22,25 @@ export default function CustomerLayout({ children }) {
           <div className="nav-links">
             <Link to="/">หน้าแรก</Link>
             <Link to="/catalog">ชุดครุย</Link>
-            {user && <Link to="/bookings">การจอง</Link>}
+            {user && <Link to="/bookings">ประวัติการจอง</Link>}
             {user && <Link to="/profile">โปรไฟล์</Link>}
           </div>
 
           <div className="nav-actions">
             {user ? (
               <>
+                {isCustomer && (
+                  <>
+                    <Link to="/favorites" className="nav-icon-btn" title="รายการโปรด" aria-label="รายการโปรด">
+                      <Heart size={22} />
+                      {favoriteCount > 0 && <span className="nav-badge">{favoriteCount}</span>}
+                    </Link>
+                    <Link to="/cart" className="nav-icon-btn" title="ตะกร้า" aria-label="ตะกร้า">
+                      <ShoppingCart size={22} />
+                      {cartCount > 0 && <span className="nav-badge">{cartCount}</span>}
+                    </Link>
+                  </>
+                )}
                 <NotificationBell />
                 <button onClick={logout} className="btn btn-ghost btn-sm">ออกจากระบบ</button>
               </>

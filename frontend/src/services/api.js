@@ -85,6 +85,24 @@ export const notificationAPI = {
   updateTemplates: (data) => api.put('/notifications/templates', data),
 };
 
+export const favoriteAPI = {
+  getAll: () => api.get('/favorites'),
+  getIds: () => api.get('/favorites/ids'),
+  add: (costumeId) => api.post('/favorites', { costumeId }),
+  toggle: (costumeId) => api.post('/favorites/toggle', { costumeId }),
+  remove: (costumeId) => api.delete(`/favorites/${costumeId}`),
+};
+
+export const cartAPI = {
+  getAll: () => api.get('/cart'),
+  getCount: () => api.get('/cart/count'),
+  add: (data) => api.post('/cart', data),
+  update: (id, data) => api.patch(`/cart/${id}`, data),
+  remove: (id) => api.delete(`/cart/${id}`),
+  clear: () => api.delete('/cart'),
+  checkout: () => api.post('/cart/checkout'),
+};
+
 export const uploadAPI = {
   single: (file) => {
     const form = new FormData();

@@ -12,7 +12,7 @@ const DEGREE_SHORT = { bachelor: 'ป.ตรี', master: 'ป.โท', doctoral
 
 const GROUP_STATUSES = {
   all: null,
-  pending: ['payment_pending', 'payment_verified', 'approved', 'preparing', 'ready_for_pickup'],
+  pending: ['payment_pending', 'pending', 'payment_verified', 'approved', 'preparing', 'ready_for_pickup'],
   renting: ['picked_up'],
   returned: ['returned', 'deposit_refunded'],
   canceled: ['cancelled', 'rejected'],
@@ -321,10 +321,10 @@ export default function AllBookings() {
                     </td>
                     <td>
                       <div className="booking-row-actions">
-                        <Link to={`/bookings/${b.id}`} className="dash-view-btn" title="ดูรายละเอียด">
+                        <Link to={`/admin/bookings/${b.id}`} className="dash-view-btn" title="ดูรายละเอียด">
                           <Eye size={16} />
                         </Link>
-                        <Link to={`/bookings/${b.id}`} className="dash-view-btn" title="แก้ไข">
+                        <Link to={`/admin/bookings/${b.id}`} className="dash-view-btn" title="จัดการ">
                           <Pencil size={16} />
                         </Link>
                         <button type="button" className="dash-view-btn" title="เพิ่มเติม">

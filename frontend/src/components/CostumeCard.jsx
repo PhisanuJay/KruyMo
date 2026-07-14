@@ -1,5 +1,8 @@
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { Heart } from 'lucide-react';
 import UniversityTag from './UniversityTag';
+import { useAuth } from '../context/AuthContext';
+import { useShop } from '../context/ShopContext';
 
 const DEGREE_LABELS = { bachelor: 'ปริญญาตรี', master: 'ปริญญาโท', doctoral: 'ปริญญาเอก' };
 
@@ -9,6 +12,25 @@ export default function CostumeCard({ costume }) {
   const tagTextColor = ['#f5f5f5', '#e8e8e8', '#ffd700', '#f4c430'].includes((facultyColor || '').toLowerCase())
     ? '#111'
     : undefined;
+  const { user } = useAuth();
+  const { isFavorite, toggleFavorite } = useShop();
+  const navigate = useNavigate();
+  const favorited = isFavorite(costume.id);
+
+  const handleFavorite = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    if (user.role !== 'customer') return;
+    try {
+      await toggleFavorite(costume.id);
+    } catch {
+      // ignore
+    }
+  };
 
   return (
     <Link to={`/costume/${costume.id}`} className="product-card">
@@ -18,6 +40,15 @@ export default function CostumeCard({ costume }) {
         ) : (
           <span style={{ fontSize: '4rem', opacity: 0.35 }}>🎓</span>
         )}
+        <button
+          type="button"
+          className={`fav-btn ${favorited ? 'is-active' : ''}`}
+          onClick={handleFavorite}
+          aria-label={favorited ? 'ลบจากรายการโปรด' : 'เพิ่มรายการโปรด'}
+          title={favorited ? 'ลบจากรายการโปรด' : 'เพิ่มรายการโปรด'}
+        >
+          <Heart size={18} fill={favorited ? 'currentColor' : 'none'} />
+        </button>
         {costume.stock <= 3 && costume.stock > 0 && (
           <span className="stock-chip">เหลือ {costume.stock}</span>
         )}
