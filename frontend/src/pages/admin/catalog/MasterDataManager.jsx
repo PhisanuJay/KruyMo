@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { masterDataAPI } from '../../services/api';
-import DashboardLayout from '../../components/DashboardLayout';
+import { masterDataAPI } from '../../../services/api';
+import DashboardLayout from '../../../components/DashboardLayout';
 
 const TABS = [
   { key: 'universities', label: 'มหาวิทยาลัย' },

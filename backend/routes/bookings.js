@@ -15,12 +15,16 @@ const enrichBooking = (booking) => {
   const costumes = readJSON('costumes.json');
   const users = readJSON('users.json');
   const sizes = readJSON('sizes.json');
+  const universities = readJSON('universities.json');
+  const faculties = readJSON('faculties.json');
   const costume = costumes.find((c) => c.id === booking.costumeId);
   const user = users.find((u) => u.id === booking.userId);
   const size = sizes.find((s) => s.id === booking.sizeId);
+  const university = universities.find((u) => u.id === costume?.universityId);
+  const faculty = faculties.find((f) => f.id === costume?.facultyId);
   return {
     ...booking,
-    costume,
+    costume: costume ? { ...costume, university, faculty } : null,
     size,
     degreeLabel: DEGREE_LABELS[booking.degreeLevel] || booking.degreeLevel,
     user: user ? { id: user.id, name: user.name, email: user.email, phone: user.phone } : null,

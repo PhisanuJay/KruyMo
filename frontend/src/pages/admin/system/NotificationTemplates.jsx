@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { notificationAPI } from '../../services/api';
-import DashboardLayout from '../../components/DashboardLayout';
+import { notificationAPI } from '../../../services/api';
+import DashboardLayout from '../../../components/DashboardLayout';
 
 const TEMPLATE_LABELS = {
   booking_success: 'จองสำเร็จ',

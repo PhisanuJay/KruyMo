@@ -1,10 +1,13 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { bookingAPI, uploadAPI } from '../../services/api';
 import DashboardLayout from '../../components/DashboardLayout';
 import UploadBox from '../../components/UploadBox';
 import StatusBadge from '../../components/StatusBadge';
 
 export default function PickupReturn() {
+  const location = useLocation();
+  const layoutRole = location.pathname.startsWith('/admin') ? 'admin' : 'staff';
   const [searchId, setSearchId] = useState('');
   const [booking, setBooking] = useState(null);
   const [returnImages, setReturnImages] = useState([]);
@@ -41,7 +44,7 @@ export default function PickupReturn() {
   };
 
   return (
-    <DashboardLayout role="staff">
+    <DashboardLayout role={layoutRole}>
       <h1 className="page-title">รับ-คืนชุด</h1>
       <p className="page-subtitle">ค้นหาเลขที่จองเพื่อยืนยันรับหรือบันทึกคืนชุด</p>
 

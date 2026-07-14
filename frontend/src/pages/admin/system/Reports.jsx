@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { reportAPI } from '../../services/api';
-import DashboardLayout from '../../components/DashboardLayout';
-import UniversityTag from '../../components/UniversityTag';
+import { reportAPI } from '../../../services/api';
+import DashboardLayout from '../../../components/DashboardLayout';
+import UniversityTag from '../../../components/UniversityTag';
 
 export default function Reports() {
   const [revenue, setRevenue] = useState(null);

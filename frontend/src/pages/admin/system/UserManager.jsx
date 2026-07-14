@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { userAPI } from '../../services/api';
-import DashboardLayout from '../../components/DashboardLayout';
+import { userAPI } from '../../../services/api';
+import DashboardLayout from '../../../components/DashboardLayout';
 
 const ROLE_LABELS = { customer: 'ลูกค้า', staff: 'พนักงาน', admin: 'แอดมิน' };
 const ROLE_COLORS = { customer: '#74B9FF', staff: '#A29BFE', admin: '#FF6B6B' };

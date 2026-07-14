@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { bookingAPI } from '../../services/api';
 import DashboardLayout from '../../components/DashboardLayout';
 import StatusBadge from '../../components/StatusBadge';
 
 export default function DepositRefund() {
+  const location = useLocation();
+  const layoutRole = location.pathname.startsWith('/admin') ? 'admin' : 'staff';
   const [bookings, setBookings] = useState([]);
   const [selected, setSelected] = useState(null);
 
@@ -19,7 +22,7 @@ export default function DepositRefund() {
   };
 
   return (
-    <DashboardLayout role="staff">
+    <DashboardLayout role={layoutRole}>
       <h1 className="page-title">คืนเงินมัดจำ</h1>
       <p className="page-subtitle">คำนวณและยืนยันการคืนเงินมัดจำหลังคืนชุด</p>
 

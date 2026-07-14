@@ -19,13 +19,16 @@ import StaffBookings from './pages/staff/StaffBookings';
 import PickupReturn from './pages/staff/PickupReturn';
 import DepositRefund from './pages/staff/DepositRefund';
 
-import AdminDashboard from './pages/admin/AdminDashboard';
-import CostumeManager from './pages/admin/CostumeManager';
-import MasterDataManager from './pages/admin/MasterDataManager';
-import UserManager from './pages/admin/UserManager';
-import Reports from './pages/admin/Reports';
-import ActivityLog from './pages/admin/ActivityLog';
-import NotificationTemplates from './pages/admin/NotificationTemplates';
+/* Admin — catalog (คนที่ 1) */
+import AdminDashboard from './pages/admin/catalog/AdminDashboard';
+import CostumeManager from './pages/admin/catalog/CostumeManager';
+import MasterDataManager from './pages/admin/catalog/MasterDataManager';
+import AllBookings from './pages/admin/catalog/AllBookings';
+/* Admin — system (คนที่ 2) */
+import UserManager from './pages/admin/system/UserManager';
+import Reports from './pages/admin/system/Reports';
+import ActivityLog from './pages/admin/system/ActivityLog';
+import NotificationTemplates from './pages/admin/system/NotificationTemplates';
 
 function ProtectedRoute({ children, roles }) {
   const { user, loading } = useAuth();
@@ -61,9 +64,12 @@ export default function App() {
 
       {/* Admin */}
       <Route path="/admin" element={<ProtectedRoute roles={['admin']}><AdminDashboard /></ProtectedRoute>} />
+      <Route path="/admin/bookings" element={<ProtectedRoute roles={['admin']}><AllBookings /></ProtectedRoute>} />
       <Route path="/admin/costumes" element={<ProtectedRoute roles={['admin']}><CostumeManager /></ProtectedRoute>} />
       <Route path="/admin/master-data" element={<ProtectedRoute roles={['admin']}><MasterDataManager /></ProtectedRoute>} />
       <Route path="/admin/users" element={<ProtectedRoute roles={['admin']}><UserManager /></ProtectedRoute>} />
+      <Route path="/admin/pickup-return" element={<ProtectedRoute roles={['admin']}><PickupReturn /></ProtectedRoute>} />
+      <Route path="/admin/refund" element={<ProtectedRoute roles={['admin']}><DepositRefund /></ProtectedRoute>} />
       <Route path="/admin/reports" element={<ProtectedRoute roles={['admin']}><Reports /></ProtectedRoute>} />
       <Route path="/admin/activity" element={<ProtectedRoute roles={['admin']}><ActivityLog /></ProtectedRoute>} />
       <Route path="/admin/notifications" element={<ProtectedRoute roles={['admin']}><NotificationTemplates /></ProtectedRoute>} />

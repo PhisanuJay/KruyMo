@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { readJSON, writeJSON } from '../utils/db.js';
+import { readJSON } from '../utils/db.js';
 import { authenticate, authorize } from '../middleware/auth.js';
 
 const router = Router();
@@ -51,23 +51,126 @@ router.get('/stock', authenticate, authorize('admin', 'staff'), (req, res) => {
   res.json({ totalStock: costumes.reduce((s, c) => s + c.stock, 0), byUniversity, byFaculty });
 });
 
+const DEGREE_SHORT = { bachelor: 'ป.ตรี', master: 'ป.โท', doctoral: 'ป.เอก' };
+const THAI_MONTHS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+
+const formatOrderId = (booking) => {
+  const d = new Date(booking.createdAt);
+  const y = d.getFullYear() + 543;
+  const md = `${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+  const seq = booking.id.replace(/-/g, '').slice(-3).toUpperCase();
+  return `#ORD-${y}${md}-${seq}`;
+};
+
+const daysUntil = (dateStr) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const end = new Date(dateStr);
+  end.setHours(0, 0, 0, 0);
+  return Math.ceil((end - today) / (1000 * 60 * 60 * 24));
+};
+
 router.get('/dashboard', authenticate, authorize('admin'), (req, res) => {
   const bookings = readJSON('bookings.json');
   const costumes = readJSON('costumes.json');
+  const users = readJSON('users.json');
+  const universities = readJSON('universities.json');
+  const notifications = readJSON('notifications.json');
   const today = new Date().toISOString().substring(0, 10);
+  const year = new Date().getFullYear();
 
   const todayBookings = bookings.filter((b) => b.createdAt.startsWith(today));
   const pendingApproval = bookings.filter((b) => b.status === 'payment_verified');
+  const paidStatuses = ['approved', 'picked_up', 'returned', 'deposit_refunded'];
+  const todayPaidBookings = todayBookings.filter((b) => paidStatuses.includes(b.status));
+  const todayRevenue = todayPaidBookings.reduce((s, b) => s + (b.rentalPrice || 0), 0);
   const totalRevenue = bookings
-    .filter((b) => ['approved', 'picked_up', 'returned', 'deposit_refunded'].includes(b.status))
+    .filter((b) => paidStatuses.includes(b.status))
     .reduce((s, b) => s + (b.rentalPrice || 0), 0);
+  const totalMembers = users.filter((u) => u.role === 'customer').length || users.length;
+  const nearReturnBookings = bookings.filter((b) => {
+    if (!['picked_up', 'approved', 'preparing', 'ready_for_pickup'].includes(b.status)) return false;
+    const days = daysUntil(b.endDate);
+    return days >= 0 && days <= 3;
+  });
+
+  const monthlyRevenue = THAI_MONTHS.map((label, i) => {
+    const key = `${year}-${String(i + 1).padStart(2, '0')}`;
+    const amount = bookings
+      .filter((b) => paidStatuses.includes(b.status) && b.createdAt.startsWith(key))
+      .reduce((s, b) => s + (b.rentalPrice || 0), 0);
+    return { month: i + 1, label, key, amount, buddhistYear: year + 543 };
+  }).filter((_, i) => i <= new Date().getMonth());
+
+  // สถานะชุดครุย — ใช้ stock จากจัดการชุด เป็นฐาน รวมกับสถานะการจองจริง
+  const totalPool = costumes.reduce((s, c) => s + (c.stock || 0), 0);
+  const rented = bookings.filter((b) => b.status === 'picked_up').length;
+  const cleaning = bookings.filter((b) => b.status === 'returned' && !(b.penaltyAmount > 0)).length;
+  const repair = bookings.filter((b) => b.status === 'returned' && (b.penaltyAmount || 0) > 0).length;
+  const reserved = bookings.filter((b) => (
+    ['approved', 'preparing', 'ready_for_pickup'].includes(b.status)
+  )).length;
+  const available = Math.max(0, totalPool - rented - cleaning - repair - reserved);
+  const gownTotal = available + rented + cleaning + repair || 1;
+  const gownStatus = [
+    { key: 'available', label: 'พร้อมให้ใช้', count: available, color: '#22C55E' },
+    { key: 'rented', label: 'กำลังเช่า', count: rented, color: '#F59E0B' },
+    { key: 'cleaning', label: 'ซักทำความสะอาด', count: cleaning, color: '#3B82F6' },
+    { key: 'repair', label: 'ซ่อมแซม', count: repair, color: '#EF4444' },
+  ].map((item) => ({
+    ...item,
+    percent: Math.round((item.count / gownTotal) * 100),
+  }));
+
+  const enrichRecent = (b) => {
+    const costume = costumes.find((c) => c.id === b.costumeId);
+    const user = users.find((u) => u.id === b.userId);
+    const university = universities.find((u) => u.id === costume?.universityId);
+    return {
+      id: b.id,
+      orderId: formatOrderId(b),
+      status: b.status,
+      totalPrice: b.totalPrice,
+      endDate: b.endDate,
+      createdAt: b.createdAt,
+      customerName: user?.name || '—',
+      universityName: university?.name || '—',
+      degreeShort: DEGREE_SHORT[b.degreeLevel] || b.degreeLevel,
+    };
+  };
+
+  const recentBookings = [...bookings]
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 8)
+    .map(enrichRecent);
+
+  const recentNotifications = [...notifications]
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 6)
+    .map((n) => ({
+      id: n.id,
+      type: n.type,
+      message: n.message,
+      isRead: n.isRead,
+      createdAt: n.createdAt,
+      timeLabel: new Date(n.createdAt).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }),
+    }));
 
   res.json({
     totalRevenue,
+    todayRevenue,
+    todayPaidCount: todayPaidBookings.length,
     todayRentals: todayBookings.length,
-    totalStock: costumes.reduce((s, c) => s + c.stock, 0),
+    totalStock: available,
+    stockCapacity: totalPool,
     pendingApproval: pendingApproval.length,
-    recentBookings: bookings.slice(-5).reverse(),
+    totalMembers,
+    nearReturnDeadline: nearReturnBookings.length,
+    monthlyRevenue,
+    gownStatus,
+    gownTotal: available + rented + cleaning + repair,
+    recentBookings,
+    recentNotifications,
   });
 });
 

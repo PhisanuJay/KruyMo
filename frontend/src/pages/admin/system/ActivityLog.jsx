@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { reportAPI } from '../../services/api';
-import DashboardLayout from '../../components/DashboardLayout';
+import { reportAPI } from '../../../services/api';
+import DashboardLayout from '../../../components/DashboardLayout';
 
 export default function ActivityLog() {
   const [logs, setLogs] = useState([]);
