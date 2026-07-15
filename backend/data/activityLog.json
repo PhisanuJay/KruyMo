@@ -201,5 +201,40 @@
     "details": "คืนเงินมัดจำ 1500 บาท การจอง sim-return-waiting",
     "userId": "f3ce4c6d-0718-4305-ad72-acb4fee46855",
     "createdAt": "2026-07-15T00:49:09.396Z"
+  },
+  {
+    "id": "bff5d237-abe4-48ab-904f-fbc4f6de4147",
+    "action": "create_booking",
+    "details": "สร้างการจอง 8e61ff09-8c6e-4a8d-8869-17d697f8c710",
+    "userId": "74ef22ea-cbea-4ad0-b377-223262d9e001",
+    "createdAt": "2026-07-15T05:24:15.475Z"
+  },
+  {
+    "id": "d5490a4a-915c-44c1-9f32-55f211ca5dc8",
+    "action": "create_booking",
+    "details": "สร้างการจอง ae9839f4-31b7-49da-96ba-58ce46322db0",
+    "userId": "74ef22ea-cbea-4ad0-b377-223262d9e001",
+    "createdAt": "2026-07-15T05:29:15.955Z"
+  },
+  {
+    "id": "569d7550-1cf2-494f-817e-4ee5b01b593a",
+    "action": "create_booking",
+    "details": "สร้างการจอง b24d967f-1793-4d48-b1ef-5411e3fe7d32",
+    "userId": "74ef22ea-cbea-4ad0-b377-223262d9e001",
+    "createdAt": "2026-07-15T05:33:25.557Z"
+  },
+  {
+    "id": "0cd98666-7676-4286-898b-2c0a81545194",
+    "action": "create_booking",
+    "details": "สร้างการจอง ae727182-cb8a-4c21-b7bc-94a3855054c9",
+    "userId": "74ef22ea-cbea-4ad0-b377-223262d9e001",
+    "createdAt": "2026-07-15T05:38:05.416Z"
+  },
+  {
+    "id": "9a297559-8066-47b9-950e-b887960b0bf4",
+    "action": "upload_slip",
+    "details": "อัปโหลดสลิป การจอง ae727182-cb8a-4c21-b7bc-94a3855054c9",
+    "userId": "74ef22ea-cbea-4ad0-b377-223262d9e001",
+    "createdAt": "2026-07-15T05:38:54.071Z"
   }
 ]

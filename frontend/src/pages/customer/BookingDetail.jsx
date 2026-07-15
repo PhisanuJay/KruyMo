@@ -27,6 +27,14 @@ export default function BookingDetail() {
   const [payment, setPayment] = useState(null);
   const [returnImages, setReturnImages] = useState([]);
   const [returnNote, setReturnNote] = useState('');
+  const [refundAccount, setRefundAccount] = useState({
+    method: 'promptpay',
+    promptpay: '',
+    bankName: '',
+    accountNumber: '',
+    accountName: '',
+  });
+  const [returnError, setReturnError] = useState('');
   const [loading, setLoading] = useState(true);
   const [acting, setActing] = useState(false);
   const [editingAddress, setEditingAddress] = useState(false);
@@ -41,6 +49,17 @@ export default function BookingDetail() {
     setBooking(b.data);
     setPayment(p.data);
     setReturnImages(b.data?.returnImages || []);
+    if (b.data?.refundAccount) {
+      setRefundAccount({
+        method: b.data.refundAccount.method || 'promptpay',
+        promptpay: b.data.refundAccount.promptpay || '',
+        bankName: b.data.refundAccount.bankName || '',
+        accountNumber: b.data.refundAccount.accountNumber || '',
+        accountName: b.data.refundAccount.accountName || '',
+      });
+    } else if (b.data?.user?.name) {
+      setRefundAccount((prev) => (prev.accountName ? prev : { ...prev, accountName: b.data.user.name }));
+    }
     if (b.data?.deliveryAddress) {
       setAddressDraft({
         recipientName: b.data.deliveryAddress.recipientName || '',
@@ -79,14 +98,31 @@ export default function BookingDetail() {
     setReturnImages((prev) => [...prev, ...data.urls]);
   };
 
+  const validateRefund = () => {
+    if (!refundAccount.accountName.trim()) return 'กรุณากรอกชื่อบัญชีสำหรับรับเงินคืน';
+    if (refundAccount.method === 'promptpay') {
+      if (!refundAccount.promptpay.trim()) return 'กรุณากรอกเบอร์พร้อมเพย์สำหรับรับเงินคืน';
+    } else {
+      if (!refundAccount.bankName.trim()) return 'กรุณากรอกชื่อธนาคาร';
+      if (!refundAccount.accountNumber.trim()) return 'กรุณากรอกเลขบัญชี';
+    }
+    return '';
+  };
+
   const handleSubmitReturn = async () => {
-    if (!confirm('ยืนยันว่าคุณส่งคืนชุดแล้ว? พนักงานจะตรวจรับเข้าคลังต่อไป')) return;
+    const err = validateRefund();
+    if (err) {
+      setReturnError(err);
+      return;
+    }
+    if (!confirm('ยืนยันว่าคุณส่งคืนชุดแล้ว? พนักงานจะตรวจรับเข้าคลังและคืนมัดจำตามบัญชีที่กรอก')) return;
+    setReturnError('');
     setActing(true);
     try {
-      await bookingAPI.submitReturn(id, { returnImages, note: returnNote });
+      await bookingAPI.submitReturn(id, { returnImages, note: returnNote, refundAccount });
       await load();
-    } catch {
-      alert('แจ้งส่งคืนไม่สำเร็จ');
+    } catch (e) {
+      setReturnError(e.response?.data?.error || 'แจ้งส่งคืนไม่สำเร็จ');
     } finally {
       setActing(false);
     }
@@ -300,6 +336,13 @@ export default function BookingDetail() {
         {booking.status === 'return_submitted' && (
           <div className="alert alert-success" style={{ marginTop: '1rem' }}>
             แจ้งส่งคืนแล้ว — รอพนักงานตรวจรับเข้าคลังและคืนมัดจำ
+            {booking.refundAccount && (
+              <div style={{ fontSize: '0.85rem', marginTop: '0.35rem', opacity: 0.9 }}>
+                คืนเข้า: {booking.refundAccount.method === 'bank'
+                  ? `${booking.refundAccount.bankName} ${booking.refundAccount.accountNumber} (${booking.refundAccount.accountName})`
+                  : `พร้อมเพย์ ${booking.refundAccount.promptpay} (${booking.refundAccount.accountName})`}
+              </div>
+            )}
           </div>
         )}
 
@@ -341,7 +384,7 @@ export default function BookingDetail() {
           <div className="card" style={{ padding: '1.5rem', marginTop: '1rem' }}>
             <h3 style={{ fontWeight: 700, marginBottom: '0.5rem' }}>แจ้งว่าส่งคืนแล้ว</h3>
             <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
-              หลังนำชุดมาส่งคืนที่ร้านแล้ว กดแจ้งสถานะด้านล่าง พนักงานจะตรวจรับเข้าคลังและดำเนินการคืนมัดจำ
+              หลังส่งชุดกลับมาที่ร้านตามที่อยู่ด้านบนแล้ว กดแจ้งสถานะด้านล่าง พนักงานจะตรวจรับเข้าคลังและดำเนินการคืนมัดจำ
             </p>
             <UploadBox
               label="อัปโหลดรูปหลักฐานการส่งคืน / สภาพชุด (ถ้ามี)"
@@ -359,6 +402,71 @@ export default function BookingDetail() {
                 placeholder="รายละเอียดการส่งคืน"
               />
             </div>
+
+            <div style={{ marginTop: '1.25rem', paddingTop: '1.25rem', borderTop: '1px solid var(--border)' }}>
+              <h4 style={{ fontWeight: 700, marginBottom: '0.35rem' }}>บัญชีรับเงินคืนมัดจำ</h4>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.85rem' }}>
+                กรอกบัญชีที่ต้องการให้พนักงานโอนเงินมัดจำ (฿{(booking.deposit || 0).toLocaleString()}) คืน
+              </p>
+              <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.85rem', flexWrap: 'wrap' }}>
+                {[{ v: 'promptpay', l: 'พร้อมเพย์' }, { v: 'bank', l: 'บัญชีธนาคาร' }].map((opt) => (
+                  <button
+                    key={opt.v}
+                    type="button"
+                    className={`btn ${refundAccount.method === opt.v ? 'btn-primary' : 'btn-outline'}`}
+                    style={{ flex: 1, minWidth: 120 }}
+                    onClick={() => setRefundAccount((prev) => ({ ...prev, method: opt.v }))}
+                  >
+                    {opt.l}
+                  </button>
+                ))}
+              </div>
+
+              {refundAccount.method === 'promptpay' ? (
+                <div className="form-group">
+                  <label>เบอร์พร้อมเพย์ / เลขบัตรประชาชน</label>
+                  <input
+                    className="form-input"
+                    value={refundAccount.promptpay}
+                    onChange={(e) => setRefundAccount((prev) => ({ ...prev, promptpay: e.target.value }))}
+                    placeholder="เช่น 0812345678"
+                  />
+                </div>
+              ) : (
+                <>
+                  <div className="form-group">
+                    <label>ธนาคาร</label>
+                    <input
+                      className="form-input"
+                      value={refundAccount.bankName}
+                      onChange={(e) => setRefundAccount((prev) => ({ ...prev, bankName: e.target.value }))}
+                      placeholder="เช่น กสิกรไทย"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>เลขบัญชี</label>
+                    <input
+                      className="form-input"
+                      value={refundAccount.accountNumber}
+                      onChange={(e) => setRefundAccount((prev) => ({ ...prev, accountNumber: e.target.value }))}
+                      placeholder="เช่น 123-4-56789-0"
+                    />
+                  </div>
+                </>
+              )}
+
+              <div className="form-group">
+                <label>ชื่อบัญชี</label>
+                <input
+                  className="form-input"
+                  value={refundAccount.accountName}
+                  onChange={(e) => setRefundAccount((prev) => ({ ...prev, accountName: e.target.value }))}
+                  placeholder="ชื่อ-นามสกุลเจ้าของบัญชี"
+                />
+              </div>
+            </div>
+
+            {returnError && <div className="alert alert-error" style={{ marginTop: '0.5rem' }}>{returnError}</div>}
             <button type="button" className="btn btn-primary" style={{ marginTop: '1rem' }} disabled={acting} onClick={handleSubmitReturn}>
               {acting ? 'กำลังบันทึก...' : 'แจ้งว่าส่งคืนแล้ว'}
             </button>

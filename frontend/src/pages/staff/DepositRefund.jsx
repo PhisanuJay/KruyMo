@@ -154,6 +154,39 @@ export default function DepositRefund() {
                       </div>
                     )}
 
+                    <div className="staff-refund-account">
+                      <div className="staff-section-label">บัญชีรับเงินคืนของลูกค้า</div>
+                      {b.refundAccount ? (
+                        <div className="staff-account-box">
+                          {b.refundAccount.method === 'bank' ? (
+                            <>
+                              <div className="staff-account-row">
+                                <span>ธนาคาร</span>
+                                <strong>{b.refundAccount.bankName || '-'}</strong>
+                              </div>
+                              <div className="staff-account-row">
+                                <span>เลขบัญชี</span>
+                                <strong>{b.refundAccount.accountNumber || '-'}</strong>
+                              </div>
+                            </>
+                          ) : (
+                            <div className="staff-account-row">
+                              <span>พร้อมเพย์</span>
+                              <strong>{b.refundAccount.promptpay || '-'}</strong>
+                            </div>
+                          )}
+                          <div className="staff-account-row">
+                            <span>ชื่อบัญชี</span>
+                            <strong>{b.refundAccount.accountName || '-'}</strong>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="staff-account-box staff-account-empty">
+                          ลูกค้ายังไม่ได้ระบุบัญชีรับเงินคืน — ติดต่อลูกค้าที่ {b.user?.phone || b.user?.email || 'ไม่มีข้อมูล'}
+                        </div>
+                      )}
+                    </div>
+
                     <div className="staff-deduct-block">
                       <div className="staff-section-label">หักค่าเสียหาย / ค่าปรับ</div>
                       <div className="form-group">

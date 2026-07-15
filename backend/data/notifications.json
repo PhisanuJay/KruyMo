@@ -198,7 +198,128 @@
     "userId": "74ef22ea-cbea-4ad0-b377-223262d9e001",
     "type": "deposit_refunded",
     "message": "เงินมัดจำของคุณได้รับการคืนแล้ว จำนวน 1500 บาท",
+    "isRead": true,
+    "createdAt": "2026-07-15T00:49:09.396Z",
+    "updatedAt": "2026-07-15T05:21:30.283Z"
+  },
+  {
+    "id": "cd379630-4faa-4731-bdf8-bb6591febf54",
+    "userId": "74ef22ea-cbea-4ad0-b377-223262d9e001",
+    "type": "booking_success",
+    "message": "การจองของคุณสำเร็จแล้ว กรุณาชำระเงินภายใน 24 ชั่วโมง",
+    "isRead": true,
+    "createdAt": "2026-07-15T05:24:15.472Z"
+  },
+  {
+    "id": "f5b00917-7156-4383-b3c5-120476b97d99",
+    "userId": "f3ce4c6d-0718-4305-ad72-acb4fee46855",
+    "type": "new_booking",
+    "message": "มีการจองใหม่จาก ลูกค้าทดสอบ — รอชำระเงิน",
     "isRead": false,
-    "createdAt": "2026-07-15T00:49:09.396Z"
+    "createdAt": "2026-07-15T05:24:15.473Z"
+  },
+  {
+    "id": "d962d3b1-e315-499b-bf15-e4f337eee202",
+    "userId": "f3f3b1a1-0dbb-4b69-b651-06e67495436c",
+    "type": "new_booking",
+    "message": "มีการจองใหม่จาก ลูกค้าทดสอบ — รอชำระเงิน",
+    "isRead": false,
+    "createdAt": "2026-07-15T05:24:15.474Z"
+  },
+  {
+    "id": "dbee9765-1256-4df6-b4f2-f92f75f065df",
+    "userId": "74ef22ea-cbea-4ad0-b377-223262d9e001",
+    "type": "booking_success",
+    "message": "การจองของคุณสำเร็จแล้ว กรุณาชำระเงินภายใน 24 ชั่วโมง",
+    "isRead": true,
+    "createdAt": "2026-07-15T05:29:15.944Z"
+  },
+  {
+    "id": "39d50d2f-24bc-4720-a347-819d996312b9",
+    "userId": "f3ce4c6d-0718-4305-ad72-acb4fee46855",
+    "type": "new_booking",
+    "message": "มีการจองใหม่จาก ลูกค้าทดสอบ — รอชำระเงิน",
+    "isRead": false,
+    "createdAt": "2026-07-15T05:29:15.953Z"
+  },
+  {
+    "id": "9ffee61b-b435-419d-9665-232439e5b4da",
+    "userId": "f3f3b1a1-0dbb-4b69-b651-06e67495436c",
+    "type": "new_booking",
+    "message": "มีการจองใหม่จาก ลูกค้าทดสอบ — รอชำระเงิน",
+    "isRead": false,
+    "createdAt": "2026-07-15T05:29:15.954Z"
+  },
+  {
+    "id": "f685ac98-2bd6-4317-8ba7-b4af24d9a4f8",
+    "userId": "74ef22ea-cbea-4ad0-b377-223262d9e001",
+    "type": "booking_success",
+    "message": "การจองของคุณสำเร็จแล้ว กรุณาชำระเงินภายใน 24 ชั่วโมง",
+    "isRead": true,
+    "createdAt": "2026-07-15T05:33:25.554Z"
+  },
+  {
+    "id": "24e5ec87-3ef2-46aa-98d4-279d815ceb88",
+    "userId": "f3ce4c6d-0718-4305-ad72-acb4fee46855",
+    "type": "new_booking",
+    "message": "มีการจองใหม่จาก ลูกค้าทดสอบ — รอชำระเงิน",
+    "isRead": false,
+    "createdAt": "2026-07-15T05:33:25.555Z"
+  },
+  {
+    "id": "8039a0ba-71fc-4946-8f61-5216f92df0f6",
+    "userId": "f3f3b1a1-0dbb-4b69-b651-06e67495436c",
+    "type": "new_booking",
+    "message": "มีการจองใหม่จาก ลูกค้าทดสอบ — รอชำระเงิน",
+    "isRead": false,
+    "createdAt": "2026-07-15T05:33:25.556Z"
+  },
+  {
+    "id": "bf66258a-fd94-47a1-a923-9080e786b4d2",
+    "userId": "74ef22ea-cbea-4ad0-b377-223262d9e001",
+    "type": "booking_success",
+    "message": "การจองของคุณสำเร็จแล้ว กรุณาชำระเงินภายใน 24 ชั่วโมง",
+    "isRead": true,
+    "createdAt": "2026-07-15T05:38:05.413Z"
+  },
+  {
+    "id": "55e2acca-62af-40e0-a662-963fef501b9b",
+    "userId": "f3ce4c6d-0718-4305-ad72-acb4fee46855",
+    "type": "new_booking",
+    "message": "มีการจองใหม่จาก ลูกค้าทดสอบ — รอชำระเงิน",
+    "isRead": false,
+    "createdAt": "2026-07-15T05:38:05.414Z"
+  },
+  {
+    "id": "5eb21379-1e66-480d-aace-a8336eae57f4",
+    "userId": "f3f3b1a1-0dbb-4b69-b651-06e67495436c",
+    "type": "new_booking",
+    "message": "มีการจองใหม่จาก ลูกค้าทดสอบ — รอชำระเงิน",
+    "isRead": false,
+    "createdAt": "2026-07-15T05:38:05.415Z"
+  },
+  {
+    "id": "508cba20-0e26-469f-9e6e-ae737113c2cb",
+    "userId": "74ef22ea-cbea-4ad0-b377-223262d9e001",
+    "type": "payment_submitted",
+    "message": "ได้รับสลิปของคุณแล้ว การจองอยู่ระหว่างรออนุมัติ",
+    "isRead": true,
+    "createdAt": "2026-07-15T05:38:54.068Z"
+  },
+  {
+    "id": "9b4e2b9b-5d66-4a5d-b4be-011505d039fb",
+    "userId": "f3ce4c6d-0718-4305-ad72-acb4fee46855",
+    "type": "slip_pending",
+    "message": "มีสลิปใหม่รอตรวจ — เลขจอง ae727182…",
+    "isRead": false,
+    "createdAt": "2026-07-15T05:38:54.069Z"
+  },
+  {
+    "id": "44b8b7a6-8ae0-4395-862b-723f6b5840e7",
+    "userId": "f3f3b1a1-0dbb-4b69-b651-06e67495436c",
+    "type": "slip_pending",
+    "message": "มีสลิปใหม่รอตรวจ — เลขจอง ae727182…",
+    "isRead": false,
+    "createdAt": "2026-07-15T05:38:54.070Z"
   }
 ]

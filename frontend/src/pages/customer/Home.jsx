@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import CustomerLayout from '../../components/CustomerLayout';
 import CostumeCard from '../../components/CostumeCard';
 import { costumeAPI } from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
 
 const CATEGORIES = [
   {
@@ -47,6 +48,7 @@ const CATEGORIES = [
 
 export default function Home() {
   const [featured, setFeatured] = useState([]);
+  const { user } = useAuth();
 
   useEffect(() => {
     costumeAPI.getAll().then((r) => setFeatured(r.data.slice(0, 4))).catch(() => {});
@@ -67,7 +69,7 @@ export default function Home() {
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <Link to="/catalog" className="btn btn-primary">เลือกชุดครุย</Link>
-              <Link to="/register" className="btn btn-outline">สมัครสมาชิก</Link>
+              {!user && <Link to="/register" className="btn btn-outline">สมัครสมาชิก</Link>}
             </div>
           </div>
           <div className="hero-visual">
@@ -98,23 +100,6 @@ export default function Home() {
               <span className="browse">Browse</span>
               <img src={cat.img} alt={cat.name} />
             </Link>
-          ))}
-        </div>
-
-        <div className="trust-bar">
-          {[
-            { icon: '🎓', title: 'เฉพาะศรีปทุม', sub: 'ครบทุกคณะ' },
-            { icon: '🛡️', title: 'มัดจำปลอดภัย', sub: 'คืนเมื่อส่งชุด' },
-            { icon: '💬', title: 'ซัพพอร์ตตลอด', sub: 'แอดมินช่วยเหลือ' },
-            { icon: '🔒', title: 'ชำระเงินปลอดภัย', sub: 'อัปโหลดสลิปได้' },
-          ].map((item) => (
-            <div key={item.title} className="trust-item">
-              <div className="trust-icon">{item.icon}</div>
-              <div>
-                <strong>{item.title}</strong>
-                <span>{item.sub}</span>
-              </div>
-            </div>
           ))}
         </div>
 

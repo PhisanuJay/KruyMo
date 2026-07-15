@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import {
   GraduationCap,
@@ -7,9 +7,16 @@ import {
   CalendarCheck,
   Timer,
   ArrowLeft,
+  ArrowRight,
+  Smartphone,
+  Copy,
+  Check,
+  ShieldCheck,
+  Clock,
 } from 'lucide-react';
-import { bookingAPI } from '../../services/api';
+import { bookingAPI, paymentAPI, uploadAPI } from '../../services/api';
 import CustomerLayout from '../../components/CustomerLayout';
+import UploadBox from '../../components/UploadBox';
 import DeliveryAddressFields, {
   emptyDeliveryAddress,
   validateDeliveryAddress,
@@ -20,6 +27,12 @@ const DEGREE_LABELS = {
   bachelor: 'ปริญญาตรี',
   master: 'ปริญญาโท',
   doctoral: 'ปริญญาเอก',
+};
+
+const PROMPTPAY = {
+  phone: '097-070-9141',
+  phoneRaw: '0970709141',
+  name: 'KruyMo',
 };
 
 const formatThaiDate = (iso) => new Date(iso).toLocaleDateString('th-TH', {
@@ -33,9 +46,21 @@ export default function BookingForm() {
   const { id } = useParams();
   const { state } = useLocation();
   const navigate = useNavigate();
+
+  const [step, setStep] = useState('confirm');
+  const [bookingId, setBookingId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [deliveryAddress, setDeliveryAddress] = useState(emptyDeliveryAddress());
+
+  const [slipPreview, setSlipPreview] = useState(null);
+  const [payment, setPayment] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, []);
 
   const costume = state?.costume;
   const startDate = state?.startDate;
@@ -88,6 +113,8 @@ export default function BookingForm() {
     },
   ];
 
+  const submitted = payment?.status === 'pending' || payment?.status === 'verified';
+
   const handleConfirm = async () => {
     const addrError = validateDeliveryAddress(deliveryAddress);
     if (addrError) {
@@ -107,13 +134,182 @@ export default function BookingForm() {
         deliveryAddress: normalizeDeliveryAddress(deliveryAddress),
       });
       window.dispatchEvent(new Event('kruymo:notifications-refresh'));
-      navigate(`/payment/${data.id}`);
+      setBookingId(data.id);
+      setStep('pay');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       setError(err.response?.data?.error || 'จองไม่สำเร็จ');
     } finally {
       setLoading(false);
     }
   };
+
+  const handleUpload = async (file) => {
+    const { data } = await uploadAPI.single(file);
+    setSlipPreview(data.url);
+    return data.url;
+  };
+
+  const handleSubmitSlip = async () => {
+    if (!slipPreview || !bookingId) return;
+    setSubmitting(true);
+    setError('');
+    try {
+      const { data } = await paymentAPI.uploadSlip(bookingId, slipPreview);
+      setPayment(data);
+      window.dispatchEvent(new Event('kruymo:notifications-refresh'));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      setError(err.response?.data?.error || 'อัปโหลดสลิปไม่สำเร็จ');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const copyPhone = async () => {
+    try {
+      await navigator.clipboard.writeText(PROMPTPAY.phoneRaw);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // ignore
+    }
+  };
+
+  const priceBox = (
+    <div className="booking-price-box">
+      <div className="booking-price-row">
+        <span>ค่าเช่า ({days} วัน × ฿{costume.pricePerDay.toLocaleString()})</span>
+        <strong>฿{rentalPrice.toLocaleString()}</strong>
+      </div>
+      <div className="booking-price-row">
+        <span>เงินมัดจำ</span>
+        <strong>฿{costume.deposit.toLocaleString()}</strong>
+      </div>
+      <div className="booking-price-total">
+        <span>รวมทั้งสิ้น</span>
+        <strong>฿{total.toLocaleString()}</strong>
+      </div>
+    </div>
+  );
+
+  if (step === 'pay') {
+    return (
+      <CustomerLayout>
+        <div className="container" style={{ padding: '2rem 20px', maxWidth: 760 }}>
+          <h1 className="page-title">ชำระเงิน</h1>
+          <p className="page-subtitle">
+            {submitted
+              ? 'เราได้รับสลิปของคุณแล้ว กำลังรอพนักงานตรวจสอบ'
+              : 'สแกน QR หรือโอนพร้อมเพย์ แล้วอัปโหลดสลิปเพื่อรอตรวจสอบ'}
+          </p>
+          {error && <div className="alert alert-error">{error}</div>}
+
+          <div className="card" style={{ padding: '1.25rem 1.35rem', marginBottom: '1.25rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <h3 style={{ fontWeight: 700, margin: 0, flex: 1 }}>{costume.name}</h3>
+              <strong style={{ color: 'var(--primary)', fontSize: '1.15rem' }}>฿{total.toLocaleString()}</strong>
+            </div>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', margin: '0.35rem 0 0' }}>
+              {DEGREE_LABELS[degreeLevel] || degreeLevel} · ไซส์ {size?.label || sizeId} · {formatThaiDate(startDate)} – {formatThaiDate(endDate)}
+            </p>
+          </div>
+
+          {submitted ? (
+            <div className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+              <div style={{
+                width: 64, height: 64, borderRadius: '50%', background: '#FFF8E1',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem',
+              }}>
+                <Clock size={30} color="#FDCB6E" />
+              </div>
+              <h3 style={{ fontWeight: 800, marginBottom: '0.5rem' }}>รอดำเนินการ</h3>
+              <p style={{ color: 'var(--text-muted)', marginBottom: '1.25rem' }}>
+                เราได้รับสลิปการชำระเงินของคุณแล้ว พนักงานกำลังตรวจสอบ<br />
+                จะแจ้งเตือนเมื่อการจองได้รับการอนุมัติ
+              </p>
+              {slipPreview && (
+                <a href={slipPreview} target="_blank" rel="noreferrer" className="booking-slip-preview" style={{ display: 'inline-block', marginBottom: '1.25rem', maxWidth: 220 }}>
+                  <img src={slipPreview} alt="สลิปการชำระเงิน" style={{ width: '100%', borderRadius: 12 }} />
+                </a>
+              )}
+              <div style={{ display: 'flex', gap: '0.6rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+                <button type="button" className="btn btn-primary" onClick={() => navigate(`/bookings/${bookingId}`)}>
+                  ดูสถานะการจอง
+                  <ArrowRight size={16} />
+                </button>
+                <button type="button" className="btn btn-outline" onClick={() => navigate('/bookings')}>
+                  การจองทั้งหมด
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="card" style={{ padding: '1.5rem', marginBottom: '1.25rem' }}>
+                <div className="payment-qr-panel">
+                  <div className="payment-qr-frame">
+                    <img src="/images/promptpay-qr.png" alt="QR Code PromptPay KruyMo" className="payment-qr-image" />
+                  </div>
+                  <div className="payment-transfer-info">
+                    <div className="payment-info-row">
+                      <Smartphone size={18} />
+                      <div className="payment-info-text">
+                        <span className="payment-info-label">พร้อมเพย์</span>
+                        <div className="payment-phone-line">
+                          <strong className="payment-phone">{PROMPTPAY.phone}</strong>
+                          <button type="button" className="payment-copy-btn" onClick={copyPhone}>
+                            {copied ? <Check size={16} /> : <Copy size={16} />}
+                            <span>{copied ? 'คัดลอกแล้ว' : 'คัดลอก'}</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="payment-info-row">
+                      <ShieldCheck size={18} />
+                      <div className="payment-info-text">
+                        <span className="payment-info-label">ชื่อบัญชี</span>
+                        <strong>{PROMPTPAY.name}</strong>
+                      </div>
+                    </div>
+                    <p className="payment-tip">
+                      โอนให้ตรงยอด <strong>฿{total.toLocaleString()}</strong> แล้วอัปโหลดสลิปด้านล่าง
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="card" style={{ padding: '1.5rem' }}>
+                <h4 style={{ fontWeight: 700, marginBottom: '0.85rem' }}>อัปโหลดสลิปการโอน</h4>
+                <UploadBox
+                  label="ลากสลิปมาวาง หรือคลิกเพื่อเลือกไฟล์"
+                  preview={slipPreview}
+                  onUpload={handleUpload}
+                  onRemove={() => setSlipPreview(null)}
+                />
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  style={{ width: '100%', marginTop: '1rem' }}
+                  disabled={!slipPreview || submitting}
+                  onClick={handleSubmitSlip}
+                >
+                  {submitting ? 'กำลังส่ง...' : 'ส่งสลิปเพื่อรอตรวจสอบ'}
+                </button>
+                <button
+                  type="button"
+                  className="payment-status-link"
+                  onClick={() => navigate(`/bookings/${bookingId}`)}
+                >
+                  ข้ามไปดูสถานะการจอง (ส่งสลิปภายหลังได้)
+                  <ArrowRight size={16} />
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </CustomerLayout>
+    );
+  }
 
   return (
     <CustomerLayout>
@@ -124,7 +320,7 @@ export default function BookingForm() {
         </button>
 
         <h1 className="page-title">ยืนยันการจอง</h1>
-        <p className="page-subtitle">กรอกที่อยู่จัดส่ง ตรวจสอบรายละเอียด แล้วไปหน้าชำระเงิน</p>
+        <p className="page-subtitle">กรอกที่อยู่จัดส่ง ตรวจสอบรายละเอียด แล้วดำเนินการชำระเงิน</p>
         {error && <div className="alert alert-error">{error}</div>}
 
         <DeliveryAddressFields value={deliveryAddress} onChange={setDeliveryAddress} />
@@ -170,20 +366,7 @@ export default function BookingForm() {
               ))}
             </ul>
 
-            <div className="booking-price-box">
-              <div className="booking-price-row">
-                <span>ค่าเช่า ({days} วัน × ฿{costume.pricePerDay.toLocaleString()})</span>
-                <strong>฿{rentalPrice.toLocaleString()}</strong>
-              </div>
-              <div className="booking-price-row">
-                <span>เงินมัดจำ</span>
-                <strong>฿{costume.deposit.toLocaleString()}</strong>
-              </div>
-              <div className="booking-price-total">
-                <span>รวมทั้งสิ้น</span>
-                <strong>฿{total.toLocaleString()}</strong>
-              </div>
-            </div>
+            {priceBox}
 
             <div className="booking-confirm-actions">
               <button type="button" className="btn btn-outline" onClick={() => navigate(-1)}>

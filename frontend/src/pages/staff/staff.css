@@ -503,6 +503,42 @@
   margin-bottom: 0.45rem;
 }
 
+.staff-ops .staff-account-box {
+  background: var(--staff-soft);
+  border: 1px solid var(--staff-border, rgba(0, 0, 0, 0.08));
+  border-radius: 12px;
+  padding: 0.7rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.staff-ops .staff-account-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+
+.staff-ops .staff-account-row span {
+  color: var(--staff-muted);
+}
+
+.staff-ops .staff-account-row strong {
+  color: var(--staff-ink);
+  font-weight: 700;
+  text-align: right;
+  word-break: break-word;
+}
+
+.staff-ops .staff-account-empty {
+  font-size: 0.85rem;
+  color: #b45309;
+  background: #fff7ed;
+  border-color: #fed7aa;
+}
+
 .staff-ops .staff-deduct-block .form-group {
   margin-bottom: 0;
 }

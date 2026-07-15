@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { readJSON, findById, addItem, updateById, deleteById } from '../utils/db.js';
 import { authenticate, authorize } from '../middleware/auth.js';
-import { generateId, calculateRentalPrice, logActivity, countBookedUnits, createNotification, notifyStaff, canTransitionStatus, formatAddress, normalizeDeliveryAddress, validateDeliveryAddress, EDITABLE_DELIVERY_STATUSES } from '../utils/helpers.js';
+import { generateId, calculateRentalPrice, logActivity, countBookedUnits, createNotification, notifyStaff, canTransitionStatus, formatAddress, normalizeDeliveryAddress, validateDeliveryAddress, EDITABLE_DELIVERY_STATUSES, normalizeRefundAccount, validateRefundAccount, formatRefundAccount } from '../utils/helpers.js';
 
 const router = Router();
 
@@ -38,6 +38,7 @@ const enrichBooking = (booking) => {
       }
       : null,
     deliveryAddressText: formatAddress(booking.deliveryAddress) || formatAddress(user?.address),
+    refundAccountText: formatRefundAccount(booking.refundAccount),
   };
 };
 
@@ -127,6 +128,7 @@ router.post('/', authenticate, (req, res) => {
     penaltyAmount: 0,
     penaltyReason: null,
     refundAmount: null,
+    refundAccount: null,
     deliveryAddress,
     messenger: null,
     createdAt: new Date().toISOString(),
@@ -214,11 +216,15 @@ router.post('/:id/submit-return', authenticate, (req, res) => {
     return res.status(400).json({ error: 'สถานะนี้ยังไม่สามารถแจ้งส่งคืนได้' });
   }
 
-  const { returnImages, note } = req.body;
+  const { returnImages, note, refundAccount } = req.body;
+  const accountError = validateRefundAccount(refundAccount);
+  if (accountError) return res.status(400).json({ error: accountError });
+
   const updated = updateById('bookings.json', req.params.id, {
     status: 'return_submitted',
     returnImages: returnImages || booking.returnImages || [],
     returnNote: note || null,
+    refundAccount: normalizeRefundAccount(refundAccount),
     returnSubmittedAt: new Date().toISOString(),
   });
   createNotification(

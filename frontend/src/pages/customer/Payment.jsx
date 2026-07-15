@@ -18,8 +18,8 @@ import UploadBox from '../../components/UploadBox';
 import StatusBadge from '../../components/StatusBadge';
 
 const PROMPTPAY = {
-  phone: '081-234-5678',
-  phoneRaw: '0812345678',
+  phone: '097-070-9141',
+  phoneRaw: '0970709141',
   name: 'KruyMo',
 };
 

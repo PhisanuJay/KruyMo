@@ -195,6 +195,7 @@ export default function AdminRefund() {
                 <th>มัดจำ</th>
                 <th>หัก</th>
                 <th>คืนสุทธิ</th>
+                <th>บัญชีรับเงิน</th>
                 <th>สถานะ</th>
                 <th>{tab === 'done' ? 'วันที่คืน' : 'รับคืนเมื่อ'}</th>
                 <th>ดู</th>
@@ -218,6 +219,11 @@ export default function AdminRefund() {
                   </td>
                   <td style={{ fontWeight: 700, color: '#00B894' }}>
                     ฿{refundAmount(b).toLocaleString()}
+                  </td>
+                  <td style={{ maxWidth: 220 }}>
+                    {b.refundAccountText
+                      ? <small style={{ color: '#555' }}>{b.refundAccountText}</small>
+                      : <small style={{ color: '#E17055' }}>ยังไม่ระบุ</small>}
                   </td>
                   <td><StatusBadge status={b.status} size="sm" /></td>
                   <td>

@@ -261,7 +261,7 @@ export default function AdminBookingDetail() {
         </section>
       )}
 
-      {(returnImages.length > 0 || booking.returnNote || booking.returnSubmittedAt) && (
+      {(returnImages.length > 0 || booking.returnNote || booking.returnSubmittedAt || booking.refundAccount) && (
         <section className="card" style={{ padding: '1.5rem', marginTop: '1.25rem' }}>
           <h3 style={{ fontWeight: 700, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: 8 }}>
             <PackageCheck size={18} color="var(--primary)" />
@@ -271,6 +271,21 @@ export default function AdminBookingDetail() {
             <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
               ลูกค้าแจ้งเมื่อ {new Date(booking.returnSubmittedAt).toLocaleString('th-TH')}
             </p>
+          )}
+          {booking.refundAccount && (
+            <div style={{
+              background: 'var(--bg-soft, #f7f7f9)', borderRadius: 10, padding: '0.75rem 0.9rem',
+              marginBottom: '0.75rem', fontSize: '0.9rem', lineHeight: 1.7,
+            }}>
+              <strong style={{ display: 'block', marginBottom: '0.25rem' }}>บัญชีรับเงินคืนมัดจำ</strong>
+              {booking.refundAccount.method === 'bank' ? (
+                <span>
+                  {booking.refundAccount.bankName} · {booking.refundAccount.accountNumber} · {booking.refundAccount.accountName}
+                </span>
+              ) : (
+                <span>พร้อมเพย์ {booking.refundAccount.promptpay} · {booking.refundAccount.accountName}</span>
+              )}
+            </div>
           )}
           {booking.returnNote && (
             <p style={{ marginBottom: '0.75rem' }}>หมายเหตุ: {booking.returnNote}</p>

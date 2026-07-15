@@ -146,6 +146,43 @@ export const formatAddress = (address) => {
   return parts.join(' ');
 };
 
+export const normalizeRefundAccount = (raw) => {
+  if (!raw || typeof raw !== 'object') return null;
+  const method = raw.method === 'bank' ? 'bank' : 'promptpay';
+  return {
+    method,
+    promptpay: String(raw.promptpay || '').trim(),
+    bankName: String(raw.bankName || '').trim(),
+    accountNumber: String(raw.accountNumber || '').trim(),
+    accountName: String(raw.accountName || '').trim(),
+  };
+};
+
+export const validateRefundAccount = (raw) => {
+  const a = normalizeRefundAccount(raw);
+  if (!a) return 'กรุณากรอกช่องทางรับเงินคืนมัดจำ';
+  if (!a.accountName) return 'กรุณากรอกชื่อบัญชี';
+  if (a.method === 'promptpay') {
+    if (!a.promptpay) return 'กรุณากรอกเบอร์พร้อมเพย์';
+  } else {
+    if (!a.bankName) return 'กรุณากรอกชื่อธนาคาร';
+    if (!a.accountNumber) return 'กรุณากรอกเลขบัญชี';
+  }
+  return '';
+};
+
+export const formatRefundAccount = (account) => {
+  if (!account) return '';
+  if (account.method === 'bank') {
+    return [account.bankName, account.accountNumber, account.accountName]
+      .filter(Boolean)
+      .join(' · ');
+  }
+  return [`พร้อมเพย์ ${account.promptpay}`, account.accountName]
+    .filter(Boolean)
+    .join(' · ');
+};
+
 /** สถานะที่ลูกค้ายังแก้ที่อยู่จัดส่งได้ (ก่อนออกแมสฯ) */
 export const EDITABLE_DELIVERY_STATUSES = [
   'payment_pending',
