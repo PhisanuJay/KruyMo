@@ -4,6 +4,11 @@ import { ShoppingCart, Trash2 } from 'lucide-react';
 import { cartAPI } from '../../services/api';
 import { useShop } from '../../context/ShopContext';
 import CustomerLayout from '../../components/CustomerLayout';
+import DeliveryAddressFields, {
+  emptyDeliveryAddress,
+  validateDeliveryAddress,
+  normalizeDeliveryAddress,
+} from '../../components/DeliveryAddressFields';
 
 const DEGREE_LABELS = {
   bachelor: 'ปริญญาตรี',
@@ -17,6 +22,7 @@ export default function Cart() {
   const [checkingOut, setCheckingOut] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const [deliveryAddress, setDeliveryAddress] = useState(emptyDeliveryAddress());
   const { refreshCartCount, setCartCount } = useShop();
   const navigate = useNavigate();
 
@@ -61,11 +67,19 @@ export default function Cart() {
   };
 
   const handleCheckout = async () => {
+    const addrError = validateDeliveryAddress(deliveryAddress);
+    if (addrError) {
+      setError(addrError);
+      return;
+    }
+
     setCheckingOut(true);
     setError('');
     setMessage('');
     try {
-      const { data } = await cartAPI.checkout();
+      const { data } = await cartAPI.checkout({
+        deliveryAddress: normalizeDeliveryAddress(deliveryAddress),
+      });
       await refreshCartCount();
       setMessage(data.message);
       window.dispatchEvent(new Event('kruymo:notifications-refresh'));
@@ -187,6 +201,8 @@ export default function Cart() {
               ))}
             </div>
 
+            <DeliveryAddressFields value={deliveryAddress} onChange={setDeliveryAddress} />
+
             <div className="card" style={{ padding: '1.5rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
                 <span>ค่าเช่ารวม</span>
@@ -211,7 +227,7 @@ export default function Cart() {
                 {checkingOut ? 'กำลังสร้างการจอง...' : `ยืนยันจองทั้งหมด (${items.length} รายการ)`}
               </button>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.75rem', textAlign: 'center' }}>
-                หลังยืนยันจะสร้างการจองแยกตามรายการ แล้วไปหน้าชำระเงิน
+                ที่อยู่ด้านบนจะใช้จัดส่งแมสฯ ให้ทุกรายการในตะกร้านี้
               </p>
             </div>
           </>

@@ -38,7 +38,8 @@ export const bookingAPI = {
   updatePrep: (id, data) => api.patch(`/bookings/${id}/prep`, data),
   pickup: (id) => api.post(`/bookings/${id}/pickup`),
   return: (id, data) => api.post(`/bookings/${id}/return`, data),
-  refund: (id) => api.post(`/bookings/${id}/refund`),
+  submitReturn: (id, data) => api.post(`/bookings/${id}/submit-return`, data),
+  refund: (id, data) => api.post(`/bookings/${id}/refund`, data || {}),
   cancel: (id) => api.delete(`/bookings/${id}`),
 };
 
@@ -100,7 +101,7 @@ export const cartAPI = {
   update: (id, data) => api.patch(`/cart/${id}`, data),
   remove: (id) => api.delete(`/cart/${id}`),
   clear: () => api.delete('/cart'),
-  checkout: () => api.post('/cart/checkout'),
+  checkout: (data) => api.post('/cart/checkout', data || {}),
 };
 
 export const uploadAPI = {

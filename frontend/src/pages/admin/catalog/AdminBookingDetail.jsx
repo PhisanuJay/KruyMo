@@ -175,6 +175,9 @@ export default function AdminBookingDetail() {
             <p><User size={16} /> {booking.user?.name || '—'}</p>
             <p><Mail size={16} /> {booking.user?.email || '—'}</p>
             <p><Phone size={16} /> {booking.user?.phone || '—'}</p>
+            <p style={{ alignItems: 'flex-start' }}>
+              ที่อยู่จัดส่ง: {booking.deliveryAddressText || booking.user?.addressText || 'ยังไม่ระบุ'}
+            </p>
           </div>
           {booking.rejectReason && (
             <div className="alert alert-error" style={{ marginTop: '1rem', marginBottom: 0 }}>
@@ -231,15 +234,30 @@ export default function AdminBookingDetail() {
             </button>
           )}
           {booking.status === 'preparing' && (
-            <button type="button" className="btn btn-primary btn-sm" disabled={acting} onClick={() => handleStatus('ready_for_pickup')}>
-              ตั้งเป็นพร้อมรับ
+            <button type="button" className="btn btn-primary btn-sm" disabled={acting} onClick={() => handleStatus('ready_to_ship')}>
+              พร้อมส่งแมสฯ
             </button>
+          )}
+          {['ready_to_ship', 'ready_for_pickup', 'out_for_delivery', 'return_submitted'].includes(booking.status) && (
+            <Link to="/staff/dispatch" className="btn btn-secondary btn-sm">
+              ไปคิวส่งแมสฯ / รับคืน
+            </Link>
+          )}
+          {booking.status === 'returned' && (
+            <Link to="/admin/refund" className="btn btn-success btn-sm">
+              ไปคืนมัดจำ
+            </Link>
           )}
           {booking.status === 'payment_pending' && (
             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>รอลูกค้าชำระเงิน / ส่งสลิป</p>
           )}
-          {!['pending', 'payment_verified', 'approved', 'preparing', 'payment_pending'].includes(booking.status) && (
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>ไม่มีปุ่มจัดการเพิ่มเติมในสถานะนี้</p>
+          {(booking.deliveryAddressText || booking.user?.addressText) && (
+            <p style={{ width: '100%', fontSize: '0.9rem', color: 'var(--text-muted)', marginTop: 8 }}>
+              ที่อยู่จัดส่ง: {booking.deliveryAddressText || booking.user?.addressText}
+            </p>
+          )}
+          {!['pending', 'payment_verified', 'approved', 'preparing', 'payment_pending', 'ready_to_ship', 'ready_for_pickup', 'out_for_delivery', 'return_submitted', 'returned'].includes(booking.status) && (
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>ไม่มีปุ่มจัดการเพิ่มเติมในสถานะนี้ — ดู timeline ด้านบน</p>
           )}
         </div>
 

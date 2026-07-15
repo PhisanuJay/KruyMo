@@ -12,8 +12,8 @@ const DEGREE_SHORT = { bachelor: 'ป.ตรี', master: 'ป.โท', doctoral
 
 const GROUP_STATUSES = {
   all: null,
-  pending: ['payment_pending', 'pending', 'payment_verified', 'approved', 'preparing', 'ready_for_pickup'],
-  renting: ['picked_up'],
+  pending: ['payment_pending', 'pending', 'payment_verified', 'approved', 'preparing', 'ready_to_ship', 'ready_for_pickup'],
+  renting: ['out_for_delivery', 'delivered', 'picked_up', 'return_submitted'],
   returned: ['returned', 'deposit_refunded'],
   canceled: ['cancelled', 'rejected'],
 };
@@ -219,12 +219,15 @@ export default function AllBookings() {
             <select className="form-input" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
               <option value="">ทั้งหมด</option>
               <option value="payment_pending">รอชำระเงิน</option>
+              <option value="pending">รออนุมัติ / ตรวจสลิป</option>
               <option value="payment_verified">ตรวจสอบการชำระแล้ว</option>
               <option value="approved">อนุมัติแล้ว</option>
               <option value="preparing">กำลังเตรียมชุด</option>
-              <option value="ready_for_pickup">พร้อมรับชุด</option>
-              <option value="picked_up">รับชุดแล้ว / กำลังเช่า</option>
-              <option value="returned">คืนชุดแล้ว</option>
+              <option value="ready_to_ship">พร้อมส่งแมสฯ</option>
+              <option value="out_for_delivery">แมสฯ กำลังนำส่ง</option>
+              <option value="delivered">ส่งถึงแล้ว</option>
+              <option value="return_submitted">ลูกค้าส่งคืนแล้ว</option>
+              <option value="returned">รับคืนแล้ว</option>
               <option value="deposit_refunded">คืนเงินมัดจำแล้ว</option>
               <option value="cancelled">ยกเลิก</option>
               <option value="rejected">ปฏิเสธ</option>

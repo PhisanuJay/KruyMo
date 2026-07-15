@@ -5,11 +5,12 @@ import { useAuth } from '../context/AuthContext';
 
 const POLL_MS = 10000;
 
-export default function NotificationBell() {
+export default function NotificationBell({ variant = 'dark' }) {
   const { user } = useAuth();
   const [notifications, setNotifications] = useState([]);
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
+  const iconColor = variant === 'light' ? 'rgba(255,255,255,0.9)' : '#2D3436';
 
   const load = useCallback(async () => {
     if (!user) return;
@@ -91,7 +92,7 @@ export default function NotificationBell() {
         }}
         aria-label="การแจ้งเตือน"
       >
-        <Bell size={22} color="#2D3436" />
+        <Bell size={22} color={iconColor} />
         {unread > 0 && (
           <span style={{
             position: 'absolute', top: 2, right: 2,

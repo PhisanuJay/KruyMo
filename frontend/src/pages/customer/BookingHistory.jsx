@@ -12,9 +12,11 @@ const STATUS_FILTERS = [
   { value: 'payment_verified', label: 'ตรวจสอบการชำระแล้ว' },
   { value: 'approved', label: 'อนุมัติแล้ว' },
   { value: 'preparing', label: 'กำลังเตรียมชุด' },
-  { value: 'ready_for_pickup', label: 'พร้อมรับชุด' },
-  { value: 'picked_up', label: 'รับชุดแล้ว' },
-  { value: 'returned', label: 'คืนชุดแล้ว' },
+  { value: 'ready_to_ship', label: 'พร้อมส่งแมสฯ' },
+  { value: 'out_for_delivery', label: 'แมสฯ กำลังนำส่ง' },
+  { value: 'delivered', label: 'ส่งถึงแล้ว' },
+  { value: 'return_submitted', label: 'ส่งคืนแล้ว (รอรับ)' },
+  { value: 'returned', label: 'รับคืนแล้ว' },
   { value: 'deposit_refunded', label: 'คืนเงินมัดจำแล้ว' },
   { value: 'cancelled', label: 'ยกเลิก' },
   { value: 'rejected', label: 'ปฏิเสธ' },
@@ -24,9 +26,10 @@ const QUICK_FILTERS = [
   { value: '', label: 'ทั้งหมด' },
   { value: 'payment_pending', label: 'รอชำระเงิน' },
   { value: 'pending', label: 'รออนุมัติ' },
-  { value: 'approved', label: 'อนุมัติแล้ว' },
-  { value: 'ready_for_pickup', label: 'พร้อมรับ' },
-  { value: 'cancelled', label: 'ยกเลิก' },
+  { value: 'out_for_delivery', label: 'กำลังส่ง' },
+  { value: 'delivered', label: 'ส่งถึงแล้ว' },
+  { value: 'return_submitted', label: 'ส่งคืนแล้ว' },
+  { value: 'deposit_refunded', label: 'คืนมัดจำแล้ว' },
 ];
 
 export default function BookingHistory() {

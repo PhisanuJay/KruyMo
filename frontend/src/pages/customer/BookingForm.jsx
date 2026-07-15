@@ -10,6 +10,11 @@ import {
 } from 'lucide-react';
 import { bookingAPI } from '../../services/api';
 import CustomerLayout from '../../components/CustomerLayout';
+import DeliveryAddressFields, {
+  emptyDeliveryAddress,
+  validateDeliveryAddress,
+  normalizeDeliveryAddress,
+} from '../../components/DeliveryAddressFields';
 
 const DEGREE_LABELS = {
   bachelor: 'ปริญญาตรี',
@@ -30,6 +35,7 @@ export default function BookingForm() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [deliveryAddress, setDeliveryAddress] = useState(emptyDeliveryAddress());
 
   const costume = state?.costume;
   const startDate = state?.startDate;
@@ -83,6 +89,12 @@ export default function BookingForm() {
   ];
 
   const handleConfirm = async () => {
+    const addrError = validateDeliveryAddress(deliveryAddress);
+    if (addrError) {
+      setError(addrError);
+      return;
+    }
+
     setLoading(true);
     setError('');
     try {
@@ -92,6 +104,7 @@ export default function BookingForm() {
         endDate,
         sizeId,
         degreeLevel,
+        deliveryAddress: normalizeDeliveryAddress(deliveryAddress),
       });
       window.dispatchEvent(new Event('kruymo:notifications-refresh'));
       navigate(`/payment/${data.id}`);
@@ -111,8 +124,10 @@ export default function BookingForm() {
         </button>
 
         <h1 className="page-title">ยืนยันการจอง</h1>
-        <p className="page-subtitle">ตรวจสอบรายละเอียดก่อนยืนยัน แล้วไปหน้าชำระเงิน</p>
+        <p className="page-subtitle">กรอกที่อยู่จัดส่ง ตรวจสอบรายละเอียด แล้วไปหน้าชำระเงิน</p>
         {error && <div className="alert alert-error">{error}</div>}
+
+        <DeliveryAddressFields value={deliveryAddress} onChange={setDeliveryAddress} />
 
         <div className="booking-confirm-card">
           <div className="booking-confirm-media" style={{ '--accent': facultyColor }}>

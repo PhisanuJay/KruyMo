@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { readJSON, findById, addItem, updateById } from '../utils/db.js';
 import { authenticate, authorize } from '../middleware/auth.js';
-import { generateId, logActivity, createNotification } from '../utils/helpers.js';
+import { generateId, logActivity, createNotification, notifyStaff } from '../utils/helpers.js';
 
 const router = Router();
 
@@ -42,6 +42,7 @@ router.post('/:bookingId/slip', authenticate, (req, res) => {
       'payment_submitted',
       'ได้รับสลิปของคุณแล้ว การจองอยู่ระหว่างรออนุมัติ'
     );
+    notifyStaff('slip_pending', `มีสลิปใหม่รอตรวจ — เลขจอง ${req.params.bookingId.slice(0, 8)}…`);
     logActivity('upload_slip', `อัปโหลดสลิปใหม่ การจอง ${req.params.bookingId}`, req.user.id);
     return res.json(updated);
   }
@@ -62,6 +63,7 @@ router.post('/:bookingId/slip', authenticate, (req, res) => {
     'payment_submitted',
     'ได้รับสลิปของคุณแล้ว การจองอยู่ระหว่างรออนุมัติ'
   );
+  notifyStaff('slip_pending', `มีสลิปใหม่รอตรวจ — เลขจอง ${req.params.bookingId.slice(0, 8)}…`);
   logActivity('upload_slip', `อัปโหลดสลิป การจอง ${req.params.bookingId}`, req.user.id);
   res.status(201).json(payment);
 });

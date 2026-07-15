@@ -6,9 +6,7 @@ const router = Router();
 
 router.get('/', authenticate, (req, res) => {
   let notifications = readJSON('notifications.json');
-  if (req.user.role === 'customer') {
-    notifications = notifications.filter((n) => n.userId === req.user.id);
-  }
+  notifications = notifications.filter((n) => n.userId === req.user.id);
   notifications.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   res.json(notifications);
 });

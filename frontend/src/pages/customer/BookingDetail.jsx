@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { CalendarDays, Ruler, GraduationCap, Image as ImageIcon } from 'lucide-react';
+import { CalendarDays, Ruler, GraduationCap, Image as ImageIcon, Truck } from 'lucide-react';
 import { bookingAPI, paymentAPI, uploadAPI } from '../../services/api';
 import CustomerLayout from '../../components/CustomerLayout';
 import StatusTimeline from '../../components/StatusTimeline';
@@ -18,7 +18,9 @@ export default function BookingDetail() {
   const [booking, setBooking] = useState(null);
   const [payment, setPayment] = useState(null);
   const [returnImages, setReturnImages] = useState([]);
+  const [returnNote, setReturnNote] = useState('');
   const [loading, setLoading] = useState(true);
+  const [acting, setActing] = useState(false);
 
   const load = async () => {
     const [b, p] = await Promise.all([
@@ -27,6 +29,7 @@ export default function BookingDetail() {
     ]);
     setBooking(b.data);
     setPayment(p.data);
+    setReturnImages(b.data?.returnImages || []);
   };
 
   useEffect(() => {
@@ -39,9 +42,15 @@ export default function BookingDetail() {
     await load();
   };
 
-  const handlePickup = async () => {
-    const { data } = await bookingAPI.pickup(id);
-    setBooking(data);
+  const handleConfirmDelivered = async () => {
+    setActing(true);
+    try {
+      // ลูกค้ายืนยันได้รับของจากแมสฯ
+      await bookingAPI.pickup(id);
+      await load();
+    } finally {
+      setActing(false);
+    }
   };
 
   const handleReturnUpload = async (files) => {
@@ -50,9 +59,17 @@ export default function BookingDetail() {
     setReturnImages((prev) => [...prev, ...data.urls]);
   };
 
-  const handleReturn = async () => {
-    const { data } = await bookingAPI.return(id, { returnImages });
-    setBooking(data);
+  const handleSubmitReturn = async () => {
+    if (!confirm('ยืนยันว่าคุณส่งคืนชุดแล้ว? พนักงานจะตรวจรับเข้าคลังต่อไป')) return;
+    setActing(true);
+    try {
+      await bookingAPI.submitReturn(id, { returnImages, note: returnNote });
+      await load();
+    } catch {
+      alert('แจ้งส่งคืนไม่สำเร็จ');
+    } finally {
+      setActing(false);
+    }
   };
 
   if (loading) return <CustomerLayout><div className="loading">กำลังโหลด...</div></CustomerLayout>;
@@ -60,6 +77,8 @@ export default function BookingDetail() {
 
   const canCancel = ['pending', 'payment_pending'].includes(booking.status);
   const slipImage = payment?.slipImage;
+  const inUse = ['delivered', 'picked_up'].includes(booking.status);
+  const awaitingShipConfirm = ['out_for_delivery', 'ready_to_ship', 'ready_for_pickup'].includes(booking.status);
 
   return (
     <CustomerLayout>
@@ -90,6 +109,11 @@ export default function BookingDetail() {
             <p style={{ fontWeight: 800, color: 'var(--primary)' }}>
               รวม ฿{booking.totalPrice?.toLocaleString()}
             </p>
+            {(booking.deliveryAddressText || booking.user?.addressText) && (
+              <p style={{ marginTop: '0.5rem' }}>
+                ที่อยู่จัดส่ง: {booking.deliveryAddressText || booking.user?.addressText}
+              </p>
+            )}
           </div>
           {booking.refundAmount != null && (
             <p style={{ color: '#00B894', fontWeight: 600, marginTop: '0.75rem' }}>
@@ -106,6 +130,19 @@ export default function BookingDetail() {
           )}
         </div>
 
+        {booking.messenger && (booking.messenger.name || booking.messenger.eta) && (
+          <div className="card" style={{ padding: '1.5rem', marginBottom: '1.5rem' }}>
+            <h3 style={{ fontWeight: 700, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Truck size={18} color="var(--primary)" />
+              ข้อมูลแมสเซนเจอร์ (ส่งภายในวันนี้)
+            </h3>
+            <p>แมสฯ: {booking.messenger.name || '-'}</p>
+            {booking.messenger.phone && <p>โทร: {booking.messenger.phone}</p>}
+            {booking.messenger.eta && <p>ช่วงเวลา: {booking.messenger.eta}</p>}
+            {booking.messenger.note && <p>หมายเหตุ: {booking.messenger.note}</p>}
+          </div>
+        )}
+
         {slipImage && (
           <div className="card" style={{ padding: '1.5rem', marginBottom: '1.5rem' }}>
             <h3 style={{ fontWeight: 700, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -121,21 +158,6 @@ export default function BookingDetail() {
             <a href={slipImage} target="_blank" rel="noreferrer" className="booking-slip-preview">
               <img src={slipImage} alt="สลิปการชำระเงิน" />
             </a>
-            {payment?.status === 'pending' && (
-              <p style={{ marginTop: '0.75rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                สถานะสลิป: รอพนักงานตรวจสอบ
-              </p>
-            )}
-            {payment?.status === 'verified' && (
-              <p style={{ marginTop: '0.75rem', fontSize: '0.85rem', color: 'var(--success)' }}>
-                สถานะสลิป: ยืนยันแล้ว
-              </p>
-            )}
-            {payment?.status === 'rejected' && (
-              <p style={{ marginTop: '0.75rem', fontSize: '0.85rem', color: 'var(--danger)' }}>
-                สถานะสลิป: ไม่ผ่านการตรวจสอบ
-              </p>
-            )}
           </div>
         )}
 
@@ -145,22 +167,55 @@ export default function BookingDetail() {
           </button>
         )}
 
-        {booking.status === 'ready_for_pickup' && (
-          <button type="button" className="btn btn-success" onClick={handlePickup}>ยืนยันรับชุด</button>
+        {booking.status === 'out_for_delivery' && (
+          <div className="alert alert-info" style={{ marginTop: '1rem' }}>
+            แมสเซนเจอร์กำลังนำส่งชุดให้คุณภายในวันนี้
+            {booking.messenger?.name ? ` (${booking.messenger.name})` : ''}
+          </div>
         )}
 
-        {booking.status === 'picked_up' && (
+        {awaitingShipConfirm && booking.status !== 'out_for_delivery' && (
+          <div className="alert alert-info" style={{ marginTop: '1rem' }}>
+            ชุดของคุณอยู่ในคิวจัดส่งแมสเซนเจอร์ภายในวันนี้
+          </div>
+        )}
+
+        {booking.status === 'out_for_delivery' && (
+          <button type="button" className="btn btn-success" style={{ marginTop: '0.75rem' }} disabled={acting} onClick={handleConfirmDelivered}>
+            ยืนยันว่าได้รับชุดแล้ว
+          </button>
+        )}
+
+        {booking.status === 'return_submitted' && (
+          <div className="alert alert-success" style={{ marginTop: '1rem' }}>
+            แจ้งส่งคืนแล้ว — รอพนักงานตรวจรับเข้าคลังและคืนมัดจำ
+          </div>
+        )}
+
+        {inUse && (
           <div className="card" style={{ padding: '1.5rem', marginTop: '1rem' }}>
-            <h3 style={{ fontWeight: 700, marginBottom: '1rem' }}>คืนชุด</h3>
+            <h3 style={{ fontWeight: 700, marginBottom: '0.5rem' }}>ส่งคืนชุดด้วยตนเอง</h3>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+              เมื่อส่งคืนแล้ว กดแจ้งสถานะด้านล่าง พนักงานจะอัปเดตเมื่อตรวจรับเข้าคลัง
+            </p>
             <UploadBox
-              label="อัปโหลดรูปสภาพชุดตอนคืน"
+              label="อัปโหลดรูปหลักฐานการส่งคืน / สภาพชุด (ถ้ามี)"
               preview={returnImages}
               onUpload={handleReturnUpload}
               multiple
               onRemove={(i) => setReturnImages((prev) => prev.filter((_, idx) => idx !== i))}
             />
-            <button type="button" className="btn btn-primary" style={{ marginTop: '1rem' }} onClick={handleReturn}>
-              ยืนยันคืนชุด
+            <div className="form-group" style={{ marginTop: '1rem' }}>
+              <label>หมายเหตุ (เช่น เลขพัสดุ / เวลาที่ส่ง)</label>
+              <input
+                className="form-input"
+                value={returnNote}
+                onChange={(e) => setReturnNote(e.target.value)}
+                placeholder="รายละเอียดการส่งคืน"
+              />
+            </div>
+            <button type="button" className="btn btn-primary" style={{ marginTop: '1rem' }} disabled={acting} onClick={handleSubmitReturn}>
+              {acting ? 'กำลังบันทึก...' : 'แจ้งว่าส่งคืนแล้ว'}
             </button>
           </div>
         )}

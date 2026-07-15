@@ -56,7 +56,7 @@ export default function Profile() {
     <CustomerLayout>
       <div className="container" style={{ maxWidth: 600, padding: '2rem 20px' }}>
         <h1 className="page-title">โปรไฟล์</h1>
-        <p className="page-subtitle">จัดการข้อมูลส่วนตัวของคุณ</p>
+        <p className="page-subtitle">จัดการข้อมูลส่วนตัวของคุณ · ที่อยู่จัดส่งกรอกตอนจอง</p>
         {message && <div className="alert alert-success">{message}</div>}
         {error && <div className="alert alert-error">{error}</div>}
 

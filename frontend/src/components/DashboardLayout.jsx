@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import NotificationBell from './NotificationBell';
 import {
-  LayoutDashboard, Package, Users, BarChart3, Settings,
-  ClipboardList, LogOut, Bell, Shirt, ChevronDown, Wallet,
+  LayoutDashboard, Users, BarChart3, Settings,
+  ClipboardList, LogOut, Bell, Shirt, ChevronDown, Wallet, Truck,
 } from 'lucide-react';
 
 const staffLinks = [
   { to: '/staff', icon: LayoutDashboard, label: 'แดชบอร์ด' },
   { to: '/staff/bookings', icon: ClipboardList, label: 'จัดการคำสั่งเช่า' },
-  { to: '/staff/pickup-return', icon: Package, label: 'รับ-คืนชุด' },
+  { to: '/staff/dispatch', icon: Truck, label: 'คิวส่งแมสฯ / รับคืน' },
   { to: '/staff/refund', icon: BarChart3, label: 'คืนเงินมัดจำ' },
 ];
 
@@ -29,7 +30,7 @@ const adminRestLinks = [
   { to: '/admin/costumes', icon: Shirt, label: 'จัดการชุดครุย' },
   { to: '/admin/master-data', icon: Settings, label: 'ข้อมูลพื้นฐาน' },
   { to: '/admin/users', icon: Users, label: 'จัดการผู้ใช้' },
-  { to: '/admin/pickup-return', icon: Package, label: 'รับ-คืนชุด' },
+  { to: '/staff/dispatch', icon: Truck, label: 'คิวส่งแมสฯ / รับคืน' },
   { to: '/admin/refund', icon: Wallet, label: 'คืนเงินมัดจำ' },
   { to: '/admin/reports', icon: BarChart3, label: 'รายงาน' },
   { to: '/admin/activity', icon: ClipboardList, label: 'ประวัติการทำรายการ' },
@@ -60,7 +61,10 @@ export default function DashboardLayout({ children, role = 'staff' }) {
     return (
       <div className="dashboard-layout">
         <aside className="sidebar">
-          <div className="sidebar-logo">🎓 KruyMo Staff</div>
+          <div className="sidebar-logo" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingRight: '1.25rem' }}>
+            <span>🎓 KruyMo Staff</span>
+            <NotificationBell variant="light" />
+          </div>
           <p style={{ padding: '0 1.5rem', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', marginBottom: '1rem' }}>
             {user?.name}
           </p>
@@ -81,7 +85,10 @@ export default function DashboardLayout({ children, role = 'staff' }) {
   return (
     <div className="dashboard-layout">
       <aside className="sidebar">
-        <div className="sidebar-logo">🎓 KruyMo Admin</div>
+        <div className="sidebar-logo" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingRight: '1.25rem' }}>
+          <span>🎓 KruyMo Admin</span>
+          <NotificationBell variant="light" />
+        </div>
         <p style={{ padding: '0 1.5rem', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', marginBottom: '1rem' }}>
           {user?.name}
         </p>

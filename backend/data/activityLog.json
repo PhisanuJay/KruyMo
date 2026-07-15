@@ -187,5 +187,12 @@
     "details": "อัปเดตสถานะ 153ffbec-752e-453c-8209-4f4a9e50c9d3 เป็น rejected",
     "userId": "c8b11912-4978-4724-9b58-c7a31191378d",
     "createdAt": "2026-07-14T21:42:52.470Z"
+  },
+  {
+    "id": "991a7f18-0572-4ce6-ba55-7b185854426d",
+    "action": "return",
+    "details": "รับคืนชุดเข้าคลัง การจอง sim-return-waiting",
+    "userId": "f3f3b1a1-0dbb-4b69-b651-06e67495436c",
+    "createdAt": "2026-07-15T00:14:30.825Z"
   }
 ]

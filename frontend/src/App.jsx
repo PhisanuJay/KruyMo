@@ -18,6 +18,7 @@ import ForgotPassword from './pages/auth/ForgotPassword';
 
 import StaffDashboard from './pages/staff/StaffDashboard';
 import StaffBookings from './pages/staff/StaffBookings';
+import StaffDispatch from './pages/staff/StaffDispatch';
 import PickupReturn from './pages/staff/PickupReturn';
 import DepositRefund from './pages/staff/DepositRefund';
 
@@ -36,8 +37,12 @@ import NotificationTemplates from './pages/admin/system/NotificationTemplates';
 function ProtectedRoute({ children, roles }) {
   const { user, loading } = useAuth();
   if (loading) return <div className="loading">กำลังโหลด...</div>;
-  if (!user) return <Navigate to="/login" />;
-  if (roles && !roles.includes(user.role)) return <Navigate to="/" />;
+  if (!user) return <Navigate to="/login" replace />;
+  if (roles && !roles.includes(user.role)) {
+    if (user.role === 'staff') return <Navigate to="/staff" replace />;
+    if (user.role === 'admin') return <Navigate to="/admin" replace />;
+    return <Navigate to="/" replace />;
+  }
   return children;
 }
 
@@ -64,7 +69,7 @@ export default function App() {
       {/* Staff */}
       <Route path="/staff" element={<ProtectedRoute roles={['staff', 'admin']}><StaffDashboard /></ProtectedRoute>} />
       <Route path="/staff/bookings" element={<ProtectedRoute roles={['staff', 'admin']}><StaffBookings /></ProtectedRoute>} />
-      <Route path="/staff/pickup-return" element={<ProtectedRoute roles={['staff', 'admin']}><PickupReturn /></ProtectedRoute>} />
+      <Route path="/staff/dispatch" element={<ProtectedRoute roles={['staff', 'admin']}><StaffDispatch /></ProtectedRoute>} />
       <Route path="/staff/refund" element={<ProtectedRoute roles={['staff', 'admin']}><DepositRefund /></ProtectedRoute>} />
 
       {/* Admin */}

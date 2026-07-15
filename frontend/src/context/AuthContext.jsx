@@ -2,14 +2,22 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext(null);
 
+function readStoredUser() {
+  try {
+    const saved = localStorage.getItem('kruymo_user');
+    return saved ? JSON.parse(saved) : null;
+  } catch {
+    return null;
+  }
+}
+
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // อ่านจาก localStorage ตั้งแต่เฟรมแรก — กันรีเresh แล้ว user หายชั่วคราวแล้วเด้งหน้า
+  const [user, setUser] = useState(readStoredUser);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem('kruymo_user');
-    if (saved) setUser(JSON.parse(saved));
-    setLoading(false);
+    setUser(readStoredUser());
   }, []);
 
   const login = (userData, token) => {

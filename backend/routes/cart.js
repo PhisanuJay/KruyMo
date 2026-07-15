@@ -7,6 +7,7 @@ import {
   countBookedUnits,
   logActivity,
   createNotification,
+  notifyStaff,
 } from '../utils/helpers.js';
 
 const router = Router();
@@ -155,7 +156,10 @@ const createBookingFromCartItem = (item, userId, bookings) => {
     pickupConfirmedAt: null,
     returnImages: [],
     penaltyAmount: 0,
+    penaltyReason: null,
     refundAmount: null,
+    deliveryAddress: item.deliveryAddress || null,
+    messenger: null,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
@@ -238,13 +242,31 @@ router.post('/checkout', authenticate, authorize('customer'), (req, res) => {
     return res.status(400).json({ error: 'ตะกร้าว่าง กรุณาเพิ่มชุดครุยก่อน' });
   }
 
+  const rawAddress = req.body.deliveryAddress;
+  const deliveryAddress = rawAddress && typeof rawAddress === 'object'
+    ? {
+      line1: String(rawAddress.line1 || '').trim(),
+      district: String(rawAddress.district || '').trim(),
+      province: String(rawAddress.province || '').trim(),
+      postalCode: String(rawAddress.postalCode || '').trim(),
+    }
+    : null;
+
+  if (!deliveryAddress?.line1 || !deliveryAddress?.district || !deliveryAddress?.province || !deliveryAddress?.postalCode) {
+    return res.status(400).json({ error: 'กรุณากรอกที่อยู่จัดส่งให้ครบก่อนจอง' });
+  }
+
   const bookings = readJSON('bookings.json', []);
   const created = [];
   const errors = [];
 
   for (const item of myItems) {
     try {
-      const booking = createBookingFromCartItem(item, req.user.id, [...bookings, ...created]);
+      const booking = createBookingFromCartItem(
+        { ...item, deliveryAddress },
+        req.user.id,
+        [...bookings, ...created]
+      );
       created.push(booking);
     } catch (err) {
       errors.push({
@@ -285,6 +307,9 @@ router.post('/checkout', authenticate, authorize('customer'), (req, res) => {
       'การจองของคุณสำเร็จแล้ว กรุณาชำระเงินภายใน 24 ชั่วโมง'
     );
     logActivity('booking_created_from_cart', `จองจากตะกร้า ${booking.id}`, req.user.id);
+  }
+  if (created.length > 0) {
+    notifyStaff('new_booking', `มีจองใหม่จากตะกร้า ${created.length} รายการ — รอชำระเงิน`);
   }
 
   res.status(201).json({

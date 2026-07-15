@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { readJSON, findById, addItem, updateById, deleteById } from '../utils/db.js';
 import { authenticate, authorize } from '../middleware/auth.js';
-import { generateId, calculateRentalPrice, logActivity, countBookedUnits, createNotification } from '../utils/helpers.js';
+import { generateId, calculateRentalPrice, logActivity, countBookedUnits, createNotification, notifyStaff, canTransitionStatus, formatAddress } from '../utils/helpers.js';
 
 const router = Router();
 
@@ -27,7 +27,17 @@ const enrichBooking = (booking) => {
     costume: costume ? { ...costume, university, faculty } : null,
     size,
     degreeLabel: DEGREE_LABELS[booking.degreeLevel] || booking.degreeLevel,
-    user: user ? { id: user.id, name: user.name, email: user.email, phone: user.phone } : null,
+    user: user
+      ? {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        address: user.address || null,
+        addressText: formatAddress(user.address) || formatAddress(booking.deliveryAddress),
+      }
+      : null,
+    deliveryAddressText: formatAddress(booking.deliveryAddress) || formatAddress(user?.address),
   };
 };
 
@@ -91,6 +101,20 @@ router.post('/', authenticate, (req, res) => {
   }
 
   const pricing = calculateRentalPrice(costume, startDate, endDate);
+  const rawAddress = req.body.deliveryAddress;
+  const deliveryAddress = rawAddress && typeof rawAddress === 'object'
+    ? {
+      line1: String(rawAddress.line1 || '').trim(),
+      district: String(rawAddress.district || '').trim(),
+      province: String(rawAddress.province || '').trim(),
+      postalCode: String(rawAddress.postalCode || '').trim(),
+    }
+    : null;
+
+  if (!deliveryAddress?.line1 || !deliveryAddress?.district || !deliveryAddress?.province || !deliveryAddress?.postalCode) {
+    return res.status(400).json({ error: 'กรุณากรอกที่อยู่จัดส่งให้ครบก่อนจอง' });
+  }
+
   const booking = {
     id: generateId(),
     userId: req.user.id,
@@ -109,34 +133,88 @@ router.post('/', authenticate, (req, res) => {
     pickupConfirmedAt: null,
     returnImages: [],
     penaltyAmount: 0,
+    penaltyReason: null,
     refundAmount: null,
+    deliveryAddress,
+    messenger: null,
     createdAt: new Date().toISOString(),
   };
 
   addItem('bookings.json', booking);
   createNotification(req.user.id, 'booking_success', 'การจองของคุณสำเร็จแล้ว กรุณาชำระเงินภายใน 24 ชั่วโมง');
+  const customer = findById('users.json', req.user.id);
+  notifyStaff('new_booking', `มีการจองใหม่จาก ${customer?.name || 'ลูกค้า'} — รอชำระเงิน`);
   logActivity('create_booking', `สร้างการจอง ${booking.id}`, req.user.id);
   res.status(201).json(enrichBooking(booking));
 });
 
 router.patch('/:id/status', authenticate, authorize('staff', 'admin'), (req, res) => {
-  const { status, rejectReason } = req.body;
+  const { status, rejectReason, messenger } = req.body;
   const booking = findById('bookings.json', req.params.id);
   if (!booking) return res.status(404).json({ error: 'ไม่พบการจอง' });
+  if (!canTransitionStatus(booking.status, status)) {
+    return res.status(400).json({
+      error: `ไม่สามารถเปลี่ยนจาก "${booking.status}" เป็น "${status}" ได้`,
+    });
+  }
 
   const updates = { status };
   if (rejectReason) updates.rejectReason = rejectReason;
+  if (messenger && typeof messenger === 'object') {
+    updates.messenger = {
+      ...(booking.messenger || {}),
+      ...messenger,
+    };
+  }
 
   if (status === 'approved') {
     createNotification(booking.userId, 'booking_approved', 'การจองของคุณได้รับการอนุมัติแล้ว');
   } else if (status === 'rejected') {
     createNotification(booking.userId, 'booking_rejected', `การจองของคุณถูกปฏิเสธ: ${rejectReason || ''}`);
-  } else if (status === 'ready_for_pickup') {
-    createNotification(booking.userId, 'ready_for_pickup', 'ชุดครุยของคุณพร้อมรับแล้ว');
+  } else if (status === 'ready_to_ship' || status === 'ready_for_pickup') {
+    createNotification(booking.userId, 'ready_to_ship', 'ชุดครุยของคุณพร้อมจัดส่งแมสเซนเจอร์ภายในวันนี้');
+  } else if (status === 'out_for_delivery') {
+    const who = updates.messenger?.name || booking.messenger?.name || 'แมสเซนเจอร์';
+    createNotification(booking.userId, 'out_for_delivery', `${who} กำลังนำส่งชุดครุยให้คุณภายในวันนี้`);
+  } else if (status === 'delivered') {
+    updates.messenger = {
+      ...(booking.messenger || {}),
+      ...(updates.messenger || {}),
+      deliveredAt: new Date().toISOString(),
+    };
+    createNotification(booking.userId, 'delivered', 'ชุดครุยถูกส่งถึงแล้ว เมื่อใช้งานเสร็จกรุณาส่งคืนด้วยตนเอง');
   }
 
   const updated = updateById('bookings.json', req.params.id, updates);
   logActivity('update_booking_status', `อัปเดตสถานะ ${booking.id} เป็น ${status}`, req.user.id);
+  res.json(enrichBooking(updated));
+});
+
+/** ลูกค้าแจ้งว่าส่งคืนชุดเองแล้ว — รอ staff รับเข้าคลัง */
+router.post('/:id/submit-return', authenticate, (req, res) => {
+  const booking = findById('bookings.json', req.params.id);
+  if (!booking) return res.status(404).json({ error: 'ไม่พบการจอง' });
+  if (req.user.role === 'customer' && booking.userId !== req.user.id) {
+    return res.status(403).json({ error: 'ไม่มีสิทธิ์' });
+  }
+  if (!['delivered', 'picked_up'].includes(booking.status)) {
+    return res.status(400).json({ error: 'สถานะนี้ยังไม่สามารถแจ้งส่งคืนได้' });
+  }
+
+  const { returnImages, note } = req.body;
+  const updated = updateById('bookings.json', req.params.id, {
+    status: 'return_submitted',
+    returnImages: returnImages || booking.returnImages || [],
+    returnNote: note || null,
+    returnSubmittedAt: new Date().toISOString(),
+  });
+  createNotification(
+    booking.userId,
+    'return_submitted',
+    'เราได้รับการแจ้งส่งคืนชุดแล้ว รอพนักงานตรวจรับเข้าคลัง'
+  );
+  notifyStaff('return_submitted', `ลูกค้าแจ้งส่งคืนแล้ว — เลขจอง ${booking.id.slice(0, 8)}…`);
+  logActivity('submit_return', `ลูกค้าแจ้งส่งคืน การจอง ${booking.id}`, req.user.id);
   res.json(enrichBooking(updated));
 });
 
@@ -150,35 +228,79 @@ router.patch('/:id/prep', authenticate, authorize('staff', 'admin'), (req, res) 
 router.post('/:id/pickup', authenticate, (req, res) => {
   const booking = findById('bookings.json', req.params.id);
   if (!booking) return res.status(404).json({ error: 'ไม่พบการจอง' });
+  if (!canTransitionStatus(booking.status, 'picked_up') && !canTransitionStatus(booking.status, 'delivered')) {
+    return res.status(400).json({ error: 'สถานะนี้ยังยืนยันรับของไม่ได้' });
+  }
+  const nextStatus = booking.status === 'out_for_delivery' ? 'delivered' : 'picked_up';
+  if (!canTransitionStatus(booking.status, nextStatus)) {
+    return res.status(400).json({ error: 'สถานะนี้ยังยืนยันรับของไม่ได้' });
+  }
   const updated = updateById('bookings.json', req.params.id, {
-    status: 'picked_up',
+    status: nextStatus,
     pickupConfirmedAt: new Date().toISOString(),
+    messenger: {
+      ...(booking.messenger || {}),
+      deliveredAt: new Date().toISOString(),
+    },
   });
-  logActivity('pickup', `รับชุด การจอง ${booking.id}`, req.user.id);
+  logActivity('pickup', `ยืนยันได้รับชุด การจอง ${booking.id}`, req.user.id);
   res.json(enrichBooking(updated));
 });
 
 router.post('/:id/return', authenticate, authorize('staff', 'admin', 'customer'), (req, res) => {
-  const { returnImages, penaltyAmount } = req.body;
+  const { returnImages, penaltyAmount, penaltyReason } = req.body;
   const booking = findById('bookings.json', req.params.id);
   if (!booking) return res.status(404).json({ error: 'ไม่พบการจอง' });
 
+  if (req.user.role === 'customer') {
+    if (!['delivered', 'picked_up'].includes(booking.status)) {
+      return res.status(400).json({ error: 'กรุณาใช้การแจ้งส่งคืน' });
+    }
+    const submitted = updateById('bookings.json', req.params.id, {
+      status: 'return_submitted',
+      returnImages: returnImages || booking.returnImages || [],
+      returnSubmittedAt: new Date().toISOString(),
+    });
+    createNotification(booking.userId, 'return_submitted', 'เราได้รับการแจ้งส่งคืนชุดแล้ว รอพนักงานตรวจรับ');
+    notifyStaff('return_submitted', `ลูกค้าแจ้งส่งคืนแล้ว — เลขจอง ${booking.id.slice(0, 8)}…`);
+    return res.json(enrichBooking(submitted));
+  }
+
+  if (!canTransitionStatus(booking.status, 'returned')) {
+    return res.status(400).json({ error: 'สถานะนี้ยังรับคืนเข้าคลังไม่ได้' });
+  }
+
   const updated = updateById('bookings.json', req.params.id, {
     status: 'returned',
-    returnImages: returnImages || [],
-    penaltyAmount: penaltyAmount || 0,
+    returnImages: returnImages || booking.returnImages || [],
+    penaltyAmount: Number(penaltyAmount) || 0,
+    penaltyReason: penaltyReason || booking.penaltyReason || null,
     returnedAt: new Date().toISOString(),
   });
-  logActivity('return', `คืนชุด การจอง ${booking.id}`, req.user.id);
+  createNotification(booking.userId, 'returned', 'พนักงานได้รับชุดคืนแล้ว กำลังดำเนินการคืนมัดจำ');
+  logActivity('return', `รับคืนชุดเข้าคลัง การจอง ${booking.id}`, req.user.id);
   res.json(enrichBooking(updated));
 });
 
 router.post('/:id/refund', authenticate, authorize('staff', 'admin'), (req, res) => {
   const booking = findById('bookings.json', req.params.id);
   if (!booking) return res.status(404).json({ error: 'ไม่พบการจอง' });
-  const refundAmount = Math.max(0, booking.deposit - (booking.penaltyAmount || 0));
+  if (!canTransitionStatus(booking.status, 'deposit_refunded')) {
+    return res.status(400).json({ error: 'ต้องรับคืนชุดเข้าคลังก่อนคืนมัดจำ' });
+  }
+
+  const penaltyAmount = req.body.penaltyAmount != null
+    ? Number(req.body.penaltyAmount)
+    : (booking.penaltyAmount || 0);
+  const penaltyReason = req.body.penaltyReason != null
+    ? req.body.penaltyReason
+    : booking.penaltyReason;
+
+  const refundAmount = Math.max(0, booking.deposit - (penaltyAmount || 0));
   const updated = updateById('bookings.json', req.params.id, {
     status: 'deposit_refunded',
+    penaltyAmount: penaltyAmount || 0,
+    penaltyReason: penaltyReason || null,
     refundAmount,
     refundedAt: new Date().toISOString(),
   });

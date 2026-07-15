@@ -27,11 +27,12 @@ router.put('/:id', authenticate, async (req, res) => {
   if (req.user.id !== user.id && req.user.role !== 'admin') {
     return res.status(403).json({ error: 'ไม่มีสิทธิ์' });
   }
-  const { name, phone, email, currentPassword, newPassword, role } = req.body;
+  const { name, phone, email, currentPassword, newPassword, role, address } = req.body;
   const updates = {};
   if (name) updates.name = name;
   if (phone !== undefined) updates.phone = phone;
   if (email) updates.email = email;
+  if (address !== undefined) updates.address = address;
   if (role && req.user.role === 'admin') updates.role = role;
   if (newPassword) {
     if (!currentPassword || !(await bcrypt.compare(currentPassword, user.password))) {
