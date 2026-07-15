@@ -279,7 +279,7 @@ export default function AllBookings() {
                   <th>มหาวิทยาลัย</th>
                   <th>ชุดครุย</th>
                   <th>สถานะ</th>
-                  <th>กำหนดรับ</th>
+                  <th>วันเริ่มเช่า</th>
                   <th>กำหนดคืน</th>
                   <th>ยอดรวม</th>
                   <th>จัดการ</th>

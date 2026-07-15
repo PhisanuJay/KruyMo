@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { bookingAPI } from '../../services/api';
 import DashboardLayout from '../../components/DashboardLayout';
 import StatusBadge from '../../components/StatusBadge';
@@ -14,9 +13,6 @@ const DEDUCT_PRESETS = [
 ];
 
 export default function DepositRefund() {
-  const location = useLocation();
-  const layoutRole = location.pathname.startsWith('/admin') ? 'admin' : 'staff';
-  const isStaff = layoutRole === 'staff';
   const [bookings, setBookings] = useState([]);
   const [penalties, setPenalties] = useState({});
   const [reasons, setReasons] = useState({});
@@ -37,7 +33,6 @@ export default function DepositRefund() {
   }, []);
 
   const setPenalty = (id, value) => {
-    // อนุญาตให้ล้างช่องเพื่อพิมพ์ใหม่ (อย่าบังคับเป็น 0 ทันที)
     if (value === '' || value === null || value === undefined) {
       setPenalties((prev) => ({ ...prev, [id]: '' }));
       return;
@@ -91,29 +86,27 @@ export default function DepositRefund() {
   };
 
   return (
-    <DashboardLayout role={layoutRole}>
-      <div className={isStaff ? 'staff-ops' : undefined}>
-        <div className={isStaff ? 'staff-page-head' : undefined}>
+    <DashboardLayout role="staff">
+      <div className="staff-ops">
+        <div className="staff-page-head">
           <div>
             <h1 className="page-title">คืนเงินมัดจำ</h1>
             <p className="page-subtitle">
-              {isStaff
-                ? 'กำหนดยอดหักกรณีชุดเสียหาย/เปื้อน แล้วยืนยันคืนมัดจำ'
-                : 'ตรวจสอบยอดแล้วยืนยันคืนมัดจำหลังรับชุดคืนแล้ว'}
+              กำหนดยอดหักกรณีชุดเสียหาย/เปื้อน แล้วยืนยันคืนมัดจำ
             </p>
           </div>
-          {isStaff && !loading && (
+          {!loading && (
             <div className="staff-head-meta">{bookings.length} รายการรอคืน</div>
           )}
         </div>
 
         {loading ? (
-          <div className={isStaff ? 'staff-empty' : 'loading'}>กำลังโหลด...</div>
+          <div className="staff-empty">กำลังโหลด...</div>
         ) : bookings.length === 0 ? (
-          <div className={isStaff ? 'staff-panel' : undefined}>
-            <div className={isStaff ? 'staff-empty' : 'empty-state'}>ไม่มีรายการรอคืนเงินมัดจำ</div>
+          <div className="staff-panel">
+            <div className="staff-empty">ไม่มีรายการรอคืนเงินมัดจำ</div>
           </div>
-        ) : isStaff ? (
+        ) : (
           <div className="staff-refund-grid">
             {bookings.map((b) => {
               const deposit = Number(b.deposit || 0);
@@ -235,37 +228,6 @@ export default function DepositRefund() {
                     </button>
                   </div>
                 </article>
-              );
-            })}
-          </div>
-        ) : (
-          <div className="grid-2">
-            {bookings.map((b) => {
-              const refund = Math.max(0, b.deposit - (b.penaltyAmount || 0));
-              return (
-                <div key={b.id} className="card" style={{ padding: '1.5rem' }}>
-                  <h3 style={{ fontWeight: 700 }}>{b.user?.name}</h3>
-                  <p style={{ fontSize: '0.9rem', color: '#636E72' }}>{b.costume?.name}</p>
-                  <StatusBadge status={b.status} size="sm" />
-                  <div style={{ margin: '1rem 0', background: '#f8f9fa', borderRadius: '10px', padding: '1rem' }}>
-                    <p>มัดจำเดิม: ฿{b.deposit?.toLocaleString()}</p>
-                    <p>ค่าปรับ: ฿{(b.penaltyAmount || 0).toLocaleString()}</p>
-                    <p style={{ fontWeight: 800, color: '#00B894', fontSize: '1.2rem' }}>
-                      คืน: ฿{refund.toLocaleString()}
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    className="btn btn-success"
-                    onClick={async () => {
-                      if (!confirm('ยืนยันคืนเงินมัดจำ?')) return;
-                      await bookingAPI.refund(b.id);
-                      setBookings((prev) => prev.filter((x) => x.id !== b.id));
-                    }}
-                  >
-                    ยืนยันคืนเงินมัดจำ
-                  </button>
-                </div>
               );
             })}
           </div>

@@ -54,7 +54,7 @@ export default function CostumeDetail() {
     }
     if (new Date(endDate) < new Date(startDate)) {
       setAvailability(null);
-      setAvailError('วันคืนชุดต้องไม่ก่อนวันรับชุด');
+      setAvailError('วันคืนชุดต้องไม่ก่อนวันเริ่มเช่า');
       return;
     }
 
@@ -199,7 +199,7 @@ export default function CostumeDetail() {
             <div className="card" style={{ padding: '1.5rem' }}>
               <h3 style={{ fontWeight: 700, marginBottom: '0.35rem' }}>1) เลือกวันจองก่อน</h3>
               <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
-                เลือกวันรับ-คืนก่อน ระบบจะเช็คว่าไซส์และระดับไหนยังว่างในช่วงนั้น
+                เลือกช่วงวันเช่าก่อน ระบบจะเช็คว่าไซส์และระดับไหนยังว่างในช่วงนั้น
               </p>
 
               <DateRangePicker
@@ -224,7 +224,7 @@ export default function CostumeDetail() {
 
               <h3 style={{ fontWeight: 700, marginBottom: '0.35rem' }}>2) เลือกระดับและไซส์</h3>
               {!datesReady && (
-                <div className="alert alert-info">กรุณาเลือกวันรับชุดและวันคืนชุดก่อน เพื่อดูคงเหลือจริง</div>
+                <div className="alert alert-info">กรุณาเลือกวันเริ่มเช่าและวันคืนชุดก่อน เพื่อดูคงเหลือจริง</div>
               )}
               {availError && <div className="alert alert-error">{availError}</div>}
               {checking && <div className="alert alert-info">กำลังเช็คคงเหลือตามวันที่เลือก...</div>}

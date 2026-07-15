@@ -194,5 +194,12 @@
     "details": "รับคืนชุดเข้าคลัง การจอง sim-return-waiting",
     "userId": "f3f3b1a1-0dbb-4b69-b651-06e67495436c",
     "createdAt": "2026-07-15T00:14:30.825Z"
+  },
+  {
+    "id": "a9ab573e-04bd-4dcc-8580-e0565d030060",
+    "action": "refund",
+    "details": "คืนเงินมัดจำ 1500 บาท การจอง sim-return-waiting",
+    "userId": "f3ce4c6d-0718-4305-ad72-acb4fee46855",
+    "createdAt": "2026-07-15T00:49:09.396Z"
   }
 ]

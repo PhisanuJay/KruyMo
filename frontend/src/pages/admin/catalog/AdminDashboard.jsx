@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { AlertTriangle, Eye, Clock, CheckCircle2, Shirt, Wallet, CalendarDays, Users } from 'lucide-react';
+import { AlertTriangle, Eye, Clock, CheckCircle2, Shirt, Wallet, CalendarDays, Users, Truck } from 'lucide-react';
 import { reportAPI } from '../../../services/api';
 import DashboardLayout from '../../../components/DashboardLayout';
 import StatusBadge from '../../../components/StatusBadge';
@@ -181,6 +181,31 @@ export default function AdminDashboard() {
     <DashboardLayout role="admin">
       <h1 className="page-title">ภาพรวมระบบ</h1>
       <p className="page-subtitle">สถิติและข้อมูลสำคัญของ KruyMo</p>
+
+      {data.opsQueue && (
+        data.opsQueue.readyToShip + data.opsQueue.outForDelivery + data.opsQueue.returnSubmitted + data.opsQueue.awaitingRefund > 0
+      ) && (
+        <div className="alert alert-info" style={{ marginBottom: '1.25rem', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.75rem 1.25rem' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600 }}>
+            <Truck size={16} />
+            คิวงานปฏิบัติการ
+          </span>
+          {data.opsQueue.readyToShip > 0 && <span>พร้อมส่ง {data.opsQueue.readyToShip}</span>}
+          {data.opsQueue.outForDelivery > 0 && <span>กำลังส่ง {data.opsQueue.outForDelivery}</span>}
+          {data.opsQueue.returnSubmitted > 0 && <span>รอรับคืน {data.opsQueue.returnSubmitted}</span>}
+          {data.opsQueue.awaitingRefund > 0 && <span>รอคืนมัดจำ {data.opsQueue.awaitingRefund}</span>}
+          {(data.opsQueue.readyToShip + data.opsQueue.outForDelivery + data.opsQueue.returnSubmitted) > 0 && (
+            <Link to="/admin/dispatch" className="btn btn-secondary btn-sm" style={{ marginLeft: 'auto' }}>
+              ไปคิวส่งแมสฯ / รับคืน
+            </Link>
+          )}
+          {data.opsQueue.awaitingRefund > 0 && (
+            <Link to="/admin/refund" className="btn btn-outline btn-sm" style={data.opsQueue.readyToShip + data.opsQueue.outForDelivery + data.opsQueue.returnSubmitted === 0 ? { marginLeft: 'auto' } : undefined}>
+              ดูคิวคืนมัดจำ
+            </Link>
+          )}
+        </div>
+      )}
 
       <div className="dash-stats-grid" style={{ marginBottom: '1.25rem' }}>
         <MetricCard

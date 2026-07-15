@@ -9,7 +9,11 @@ const TEMPLATE_LABELS = {
   payment_rejected: 'สลิปไม่ผ่าน',
   booking_approved: 'อนุมัติการจอง',
   booking_rejected: 'ปฏิเสธการจอง',
-  ready_for_pickup: 'พร้อมรับชุด',
+  ready_for_pickup: 'พร้อมส่งแมสฯ (legacy)',
+  ready_to_ship: 'พร้อมส่งแมสฯ',
+  out_for_delivery: 'แมสฯ กำลังนำส่ง',
+  delivered: 'ส่งถึงแล้ว',
+  return_submitted: 'ลูกค้าแจ้งส่งคืน',
   return_reminder: 'แจ้งเตือนใกล้ครบกำหนดคืน',
   deposit_refunded: 'คืนเงินมัดจำ',
 };
@@ -49,7 +53,7 @@ export default function NotificationTemplates() {
             </p>
           </div>
         ))}
-        <button className="btn btn-primary" onClick={handleSave}>บันทึกเทมเพลต</button>
+        <button type="button" className="btn btn-primary" onClick={handleSave}>บันทึก</button>
       </div>
     </DashboardLayout>
   );

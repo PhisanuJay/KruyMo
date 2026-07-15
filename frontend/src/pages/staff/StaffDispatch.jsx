@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { bookingAPI } from '../../services/api';
 import DashboardLayout from '../../components/DashboardLayout';
 import StatusBadge from '../../components/StatusBadge';
@@ -36,6 +36,9 @@ const emptyMessenger = () => ({ name: '', phone: '', eta: '', note: '' });
 
 export default function StaffDispatch() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const layoutRole = location.pathname.startsWith('/admin') ? 'admin' : 'staff';
+  const refundPath = layoutRole === 'admin' ? '/admin/refund' : '/staff/refund';
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeQueue, setActiveQueue] = useState('ready');
@@ -106,7 +109,7 @@ export default function StaffDispatch() {
         penaltyAmount: booking.penaltyAmount || 0,
       });
       load();
-      navigate('/staff/refund');
+      navigate(refundPath);
     } catch {
       alert('รับคืนไม่สำเร็จ');
     } finally {
@@ -115,7 +118,7 @@ export default function StaffDispatch() {
   };
 
   return (
-    <DashboardLayout role="staff">
+    <DashboardLayout role={layoutRole}>
       <div className="staff-ops">
         <div className="staff-page-head">
           <div>
@@ -217,8 +220,8 @@ export default function StaffDispatch() {
                         <button type="button" className="btn btn-primary btn-sm" disabled={acting} onClick={() => acceptReturn(b)}>
                           รับคืนเข้าคลัง
                         </button>
-                        <button type="button" className="btn btn-ghost btn-sm" onClick={() => navigate('/staff/refund')}>
-                          ไปคืนมัดจำ
+                        <button type="button" className="btn btn-ghost btn-sm" onClick={() => navigate(refundPath)}>
+                          ดูคิวคืนมัดจำ
                         </button>
                       </>
                     )}

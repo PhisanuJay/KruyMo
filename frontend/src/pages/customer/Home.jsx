@@ -121,7 +121,7 @@ export default function Home() {
         <section className="promo-banner">
           <div>
             <h2>Sripatum<br />Graduation</h2>
-            <p>จองชุดครุยศรีปทุมล่วงหน้า เลือกคณะ ไซส์ และวันรับชุดได้ทันที</p>
+            <p>จองชุดครุยศรีปทุมล่วงหน้า เลือกคณะ ไซส์ และช่วงวันเช่าได้ทันที — ส่งถึงบ้านด้วยแมสฯ</p>
           </div>
           <img src="/images/gown-orange.png" alt="ชุดครุยศรีปทุม" />
           <Link to="/catalog" className="btn">Shop Now</Link>

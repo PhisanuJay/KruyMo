@@ -1,4 +1,6 @@
 export const emptyDeliveryAddress = () => ({
+  recipientName: '',
+  recipientPhone: '',
   line1: '',
   district: '',
   province: '',
@@ -6,6 +8,8 @@ export const emptyDeliveryAddress = () => ({
 });
 
 export function validateDeliveryAddress(address) {
+  if (!address?.recipientName?.trim()) return 'กรุณากรอกชื่อผู้รับ';
+  if (!address?.recipientPhone?.trim()) return 'กรุณากรอกเบอร์ผู้รับ';
   if (!address?.line1?.trim()) return 'กรุณากรอกที่อยู่จัดส่ง';
   if (!address?.district?.trim()) return 'กรุณากรอกแขวง/ตำบล';
   if (!address?.province?.trim()) return 'กรุณากรอกเขต/จังหวัด';
@@ -15,6 +19,8 @@ export function validateDeliveryAddress(address) {
 
 export function normalizeDeliveryAddress(address) {
   return {
+    recipientName: (address?.recipientName || '').trim(),
+    recipientPhone: (address?.recipientPhone || '').trim(),
     line1: (address?.line1 || '').trim(),
     district: (address?.district || '').trim(),
     province: (address?.province || '').trim(),
@@ -22,15 +28,43 @@ export function normalizeDeliveryAddress(address) {
   };
 }
 
-export default function DeliveryAddressFields({ value, onChange }) {
+export default function DeliveryAddressFields({ value, onChange, compact = false }) {
   const set = (key, v) => onChange({ ...value, [key]: v });
 
   return (
-    <div className="card" style={{ padding: '1.25rem 1.35rem', marginBottom: '1.25rem' }}>
-      <h3 style={{ fontWeight: 700, marginBottom: '0.35rem' }}>ที่อยู่จัดส่งแมสฯ</h3>
-      <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
-        กรอกที่อยู่สำหรับให้แมสเซนเจอร์นำส่งชุดภายในวันนี้
-      </p>
+    <div className="card" style={{ padding: compact ? '1rem 1.15rem' : '1.25rem 1.35rem', marginBottom: compact ? 0 : '1.25rem' }}>
+      {!compact && (
+        <>
+          <h3 style={{ fontWeight: 700, marginBottom: '0.35rem' }}>ที่อยู่จัดส่งแมสฯ</h3>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+            กรอกชื่อผู้รับและที่อยู่สำหรับให้แมสเซนเจอร์นำส่งชุดในวันเริ่มเช่า
+          </p>
+        </>
+      )}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0.75rem' }}>
+        <div className="form-group" style={{ marginBottom: compact ? '0.75rem' : undefined }}>
+          <label htmlFor="delivery-recipient">ชื่อผู้รับ *</label>
+          <input
+            id="delivery-recipient"
+            className="form-input"
+            value={value.recipientName}
+            onChange={(e) => set('recipientName', e.target.value)}
+            placeholder="ชื่อ-นามสกุล"
+            required
+          />
+        </div>
+        <div className="form-group" style={{ marginBottom: compact ? '0.75rem' : undefined }}>
+          <label htmlFor="delivery-phone">เบอร์ผู้รับ *</label>
+          <input
+            id="delivery-phone"
+            className="form-input"
+            value={value.recipientPhone}
+            onChange={(e) => set('recipientPhone', e.target.value)}
+            placeholder="08x-xxx-xxxx"
+            required
+          />
+        </div>
+      </div>
       <div className="form-group">
         <label htmlFor="delivery-line1">ที่อยู่ *</label>
         <textarea

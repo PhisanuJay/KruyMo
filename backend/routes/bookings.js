@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { readJSON, findById, addItem, updateById, deleteById } from '../utils/db.js';
 import { authenticate, authorize } from '../middleware/auth.js';
-import { generateId, calculateRentalPrice, logActivity, countBookedUnits, createNotification, notifyStaff, canTransitionStatus, formatAddress } from '../utils/helpers.js';
+import { generateId, calculateRentalPrice, logActivity, countBookedUnits, createNotification, notifyStaff, canTransitionStatus, formatAddress, normalizeDeliveryAddress, validateDeliveryAddress, EDITABLE_DELIVERY_STATUSES } from '../utils/helpers.js';
 
 const router = Router();
 
@@ -67,7 +67,7 @@ router.post('/', authenticate, (req, res) => {
   if (!costume) return res.status(404).json({ error: 'ไม่พบชุดครุย' });
   if (!startDate || !endDate) return res.status(400).json({ error: 'กรุณาเลือกวันจอง' });
   if (new Date(endDate) < new Date(startDate)) {
-    return res.status(400).json({ error: 'วันคืนชุดต้องไม่ก่อนวันรับชุด' });
+    return res.status(400).json({ error: 'วันคืนชุดต้องไม่ก่อนวันเริ่มเช่า' });
   }
   if (!sizeId) return res.status(400).json({ error: 'กรุณาเลือกไซส์' });
   if (!degreeLevel) return res.status(400).json({ error: 'กรุณาเลือกระดับปริญญา' });
@@ -101,18 +101,10 @@ router.post('/', authenticate, (req, res) => {
   }
 
   const pricing = calculateRentalPrice(costume, startDate, endDate);
-  const rawAddress = req.body.deliveryAddress;
-  const deliveryAddress = rawAddress && typeof rawAddress === 'object'
-    ? {
-      line1: String(rawAddress.line1 || '').trim(),
-      district: String(rawAddress.district || '').trim(),
-      province: String(rawAddress.province || '').trim(),
-      postalCode: String(rawAddress.postalCode || '').trim(),
-    }
-    : null;
-
-  if (!deliveryAddress?.line1 || !deliveryAddress?.district || !deliveryAddress?.province || !deliveryAddress?.postalCode) {
-    return res.status(400).json({ error: 'กรุณากรอกที่อยู่จัดส่งให้ครบก่อนจอง' });
+  const deliveryAddress = normalizeDeliveryAddress(req.body.deliveryAddress);
+  const addrError = validateDeliveryAddress(deliveryAddress);
+  if (addrError) {
+    return res.status(400).json({ error: addrError });
   }
 
   const booking = {
@@ -146,6 +138,27 @@ router.post('/', authenticate, (req, res) => {
   notifyStaff('new_booking', `มีการจองใหม่จาก ${customer?.name || 'ลูกค้า'} — รอชำระเงิน`);
   logActivity('create_booking', `สร้างการจอง ${booking.id}`, req.user.id);
   res.status(201).json(enrichBooking(booking));
+});
+
+router.patch('/:id/delivery-address', authenticate, (req, res) => {
+  const booking = findById('bookings.json', req.params.id);
+  if (!booking) return res.status(404).json({ error: 'ไม่พบการจอง' });
+  if (req.user.role === 'customer' && booking.userId !== req.user.id) {
+    return res.status(403).json({ error: 'ไม่มีสิทธิ์' });
+  }
+  if (!EDITABLE_DELIVERY_STATUSES.includes(booking.status)) {
+    return res.status(400).json({ error: 'ไม่สามารถแก้ที่อยู่จัดส่งในสถานะนี้ได้ (ชุดออกแมสฯ แล้ว)' });
+  }
+
+  const deliveryAddress = normalizeDeliveryAddress(req.body.deliveryAddress);
+  const addrError = validateDeliveryAddress(deliveryAddress);
+  if (addrError) {
+    return res.status(400).json({ error: addrError });
+  }
+
+  const updated = updateById('bookings.json', req.params.id, { deliveryAddress });
+  logActivity('update_delivery_address', `แก้ที่อยู่จัดส่ง การจอง ${booking.id}`, req.user.id);
+  res.json(enrichBooking(updated));
 });
 
 router.patch('/:id/status', authenticate, authorize('staff', 'admin'), (req, res) => {

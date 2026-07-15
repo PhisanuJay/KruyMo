@@ -32,10 +32,10 @@ router.get('/:id/availability', (req, res) => {
   const costume = findById('costumes.json', req.params.id);
   if (!costume) return res.status(404).json({ error: 'ไม่พบชุดครุย' });
   if (!startDate || !endDate) {
-    return res.status(400).json({ error: 'กรุณาเลือกวันรับชุดและวันคืนชุด' });
+    return res.status(400).json({ error: 'กรุณาเลือกวันเริ่มเช่าและวันคืนชุด' });
   }
   if (new Date(endDate) < new Date(startDate)) {
-    return res.status(400).json({ error: 'วันคืนชุดต้องไม่ก่อนวันรับชุด' });
+    return res.status(400).json({ error: 'วันคืนชุดต้องไม่ก่อนวันเริ่มเช่า' });
   }
 
   const degree = degreeLevel || 'bachelor';

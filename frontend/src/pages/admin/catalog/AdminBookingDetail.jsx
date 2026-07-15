@@ -9,6 +9,9 @@ import {
   Phone,
   Mail,
   Image as ImageIcon,
+  MapPin,
+  Truck,
+  PackageCheck,
 } from 'lucide-react';
 import { bookingAPI, paymentAPI } from '../../../services/api';
 import DashboardLayout from '../../../components/DashboardLayout';
@@ -27,6 +30,34 @@ function formatOrderId(booking) {
   const md = `${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
   const seq = booking.id.replace(/-/g, '').slice(-3).toUpperCase();
   return `#ORD-${y}${md}-${seq}`;
+}
+
+function DeliveryAddressBlock({ address, fallbackText }) {
+  if (address?.line1) {
+    return (
+      <div style={{ fontSize: '0.95rem', lineHeight: 1.7 }}>
+        {(address.recipientName || address.recipientPhone) && (
+          <p style={{ margin: '0 0 0.35rem', fontWeight: 600 }}>
+            {address.recipientName || '—'}
+            {address.recipientPhone && (
+              <>
+                {' · '}
+                <a href={`tel:${address.recipientPhone.replace(/\D/g, '')}`}>{address.recipientPhone}</a>
+              </>
+            )}
+          </p>
+        )}
+        <p style={{ margin: 0 }}>{address.line1}</p>
+        <p style={{ margin: '0.15rem 0 0' }}>
+          {[address.district, address.province, address.postalCode].filter(Boolean).join(' ')}
+        </p>
+      </div>
+    );
+  }
+  if (fallbackText) {
+    return <p style={{ margin: 0, fontSize: '0.95rem' }}>{fallbackText}</p>;
+  }
+  return <p style={{ margin: 0, color: 'var(--text-muted)' }}>ยังไม่ระบุ</p>;
 }
 
 export default function AdminBookingDetail() {
@@ -126,6 +157,10 @@ export default function AdminBookingDetail() {
   }
 
   const slipImage = payment?.slipImage;
+  const addr = booking.deliveryAddress;
+  const messenger = booking.messenger;
+  const returnImages = booking.returnImages || [];
+  const needsDispatch = ['ready_to_ship', 'ready_for_pickup', 'out_for_delivery', 'delivered', 'picked_up', 'return_submitted'].includes(booking.status);
 
   return (
     <DashboardLayout role="admin">
@@ -166,6 +201,17 @@ export default function AdminBookingDetail() {
             <p style={{ fontWeight: 800, color: 'var(--primary)' }}>
               รวม ฿{booking.totalPrice?.toLocaleString()}
             </p>
+            {booking.refundAmount != null && (
+              <p style={{ color: '#00B894', fontWeight: 600 }}>
+                คืนมัดจำ ฿{booking.refundAmount?.toLocaleString()}
+              </p>
+            )}
+            {booking.penaltyAmount > 0 && (
+              <p style={{ color: '#E17055' }}>
+                ค่าปรับ ฿{booking.penaltyAmount?.toLocaleString()}
+                {booking.penaltyReason ? ` (${booking.penaltyReason})` : ''}
+              </p>
+            )}
           </div>
         </section>
 
@@ -175,9 +221,6 @@ export default function AdminBookingDetail() {
             <p><User size={16} /> {booking.user?.name || '—'}</p>
             <p><Mail size={16} /> {booking.user?.email || '—'}</p>
             <p><Phone size={16} /> {booking.user?.phone || '—'}</p>
-            <p style={{ alignItems: 'flex-start' }}>
-              ที่อยู่จัดส่ง: {booking.deliveryAddressText || booking.user?.addressText || 'ยังไม่ระบุ'}
-            </p>
           </div>
           {booking.rejectReason && (
             <div className="alert alert-error" style={{ marginTop: '1rem', marginBottom: 0 }}>
@@ -186,6 +229,63 @@ export default function AdminBookingDetail() {
           )}
         </section>
       </div>
+
+      <section className="card" style={{ padding: '1.5rem', marginTop: '1.25rem' }}>
+        <h3 style={{ fontWeight: 700, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <MapPin size={18} color="var(--primary)" />
+          ที่อยู่จัดส่ง
+        </h3>
+        <DeliveryAddressBlock address={addr} fallbackText={booking.deliveryAddressText} />
+      </section>
+
+      {messenger && (messenger.name || messenger.phone || messenger.eta) && (
+        <section className="card" style={{ padding: '1.5rem', marginTop: '1.25rem' }}>
+          <h3 style={{ fontWeight: 700, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Truck size={18} color="var(--primary)" />
+            ข้อมูลแมสเซนเจอร์
+          </h3>
+          <div className="admin-booking-meta">
+            <p>แมสฯ: {messenger.name || '—'}</p>
+            {messenger.phone && (
+              <p>
+                โทร:{' '}
+                <a href={`tel:${messenger.phone.replace(/\D/g, '')}`}>{messenger.phone}</a>
+              </p>
+            )}
+            {messenger.eta && <p>ช่วงเวลา: {messenger.eta}</p>}
+            {messenger.note && <p>หมายเหตุ: {messenger.note}</p>}
+            {messenger.deliveredAt && (
+              <p>ส่งถึงเมื่อ: {new Date(messenger.deliveredAt).toLocaleString('th-TH')}</p>
+            )}
+          </div>
+        </section>
+      )}
+
+      {(returnImages.length > 0 || booking.returnNote || booking.returnSubmittedAt) && (
+        <section className="card" style={{ padding: '1.5rem', marginTop: '1.25rem' }}>
+          <h3 style={{ fontWeight: 700, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <PackageCheck size={18} color="var(--primary)" />
+            การส่งคืน
+          </h3>
+          {booking.returnSubmittedAt && (
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
+              ลูกค้าแจ้งเมื่อ {new Date(booking.returnSubmittedAt).toLocaleString('th-TH')}
+            </p>
+          )}
+          {booking.returnNote && (
+            <p style={{ marginBottom: '0.75rem' }}>หมายเหตุ: {booking.returnNote}</p>
+          )}
+          {returnImages.length > 0 && (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+              {returnImages.map((url) => (
+                <a key={url} href={url} target="_blank" rel="noreferrer" className="booking-slip-preview" style={{ width: 120, height: 120 }}>
+                  <img src={url} alt="รูปส่งคืน" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </a>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
 
       {slipImage && (
         <section className="card" style={{ padding: '1.5rem', marginTop: '1.25rem' }}>
@@ -238,28 +338,38 @@ export default function AdminBookingDetail() {
               พร้อมส่งแมสฯ
             </button>
           )}
-          {['ready_to_ship', 'ready_for_pickup', 'out_for_delivery', 'return_submitted'].includes(booking.status) && (
-            <Link to="/staff/dispatch" className="btn btn-secondary btn-sm">
+          {needsDispatch && (
+            <Link to="/admin/dispatch" className="btn btn-secondary btn-sm">
               ไปคิวส่งแมสฯ / รับคืน
             </Link>
           )}
           {booking.status === 'returned' && (
-            <Link to="/admin/refund" className="btn btn-success btn-sm">
-              ไปคืนมัดจำ
+            <Link to="/admin/refund" className="btn btn-secondary btn-sm">
+              ดูคิวคืนมัดจำ
+            </Link>
+          )}
+          {booking.status === 'deposit_refunded' && (
+            <Link to="/admin/refund?tab=done" className="btn btn-ghost btn-sm">
+              ดูประวัติคืนมัดจำ
             </Link>
           )}
           {booking.status === 'payment_pending' && (
             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>รอลูกค้าชำระเงิน / ส่งสลิป</p>
           )}
-          {(booking.deliveryAddressText || booking.user?.addressText) && (
-            <p style={{ width: '100%', fontSize: '0.9rem', color: 'var(--text-muted)', marginTop: 8 }}>
-              ที่อยู่จัดส่ง: {booking.deliveryAddressText || booking.user?.addressText}
+          {['delivered', 'picked_up', 'deposit_refunded', 'cancelled', 'rejected'].includes(booking.status) && (
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', width: '100%' }}>
+              {booking.status === 'delivered' || booking.status === 'picked_up'
+                ? 'ลูกค้ากำลังใช้ชุด — รอแจ้งส่งคืน'
+                : 'ไม่มีปุ่มจัดการเพิ่มเติมในสถานะนี้'}
             </p>
           )}
-          {!['pending', 'payment_verified', 'approved', 'preparing', 'payment_pending', 'ready_to_ship', 'ready_for_pickup', 'out_for_delivery', 'return_submitted', 'returned'].includes(booking.status) && (
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>ไม่มีปุ่มจัดการเพิ่มเติมในสถานะนี้ — ดู timeline ด้านบน</p>
-          )}
         </div>
+
+        {needsDispatch && (
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.85rem', marginBottom: 0 }}>
+            งานส่งแมสฯ / รับคืนเข้าคลัง / ยืนยันส่งถึง — จัดการที่คิวปฏิบัติการ
+          </p>
+        )}
 
         {showReject && (
           <div style={{ marginTop: '1.25rem' }}>

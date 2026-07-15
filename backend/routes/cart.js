@@ -8,6 +8,8 @@ import {
   logActivity,
   createNotification,
   notifyStaff,
+  normalizeDeliveryAddress,
+  validateDeliveryAddress,
 } from '../utils/helpers.js';
 
 const router = Router();
@@ -51,7 +53,7 @@ const validateCartPayload = ({ costumeId, startDate, endDate, sizeId, degreeLeve
   if (!costume) return { error: 'ไม่พบชุดครุย', status: 404 };
   if (!startDate || !endDate) return { error: 'กรุณาเลือกวันจอง', status: 400 };
   if (new Date(endDate) < new Date(startDate)) {
-    return { error: 'วันคืนชุดต้องไม่ก่อนวันรับชุด', status: 400 };
+    return { error: 'วันคืนชุดต้องไม่ก่อนวันเริ่มเช่า', status: 400 };
   }
   if (!sizeId) return { error: 'กรุณาเลือกไซส์', status: 400 };
   if (!degreeLevel || !['bachelor', 'master', 'doctoral'].includes(degreeLevel)) {
@@ -242,18 +244,10 @@ router.post('/checkout', authenticate, authorize('customer'), (req, res) => {
     return res.status(400).json({ error: 'ตะกร้าว่าง กรุณาเพิ่มชุดครุยก่อน' });
   }
 
-  const rawAddress = req.body.deliveryAddress;
-  const deliveryAddress = rawAddress && typeof rawAddress === 'object'
-    ? {
-      line1: String(rawAddress.line1 || '').trim(),
-      district: String(rawAddress.district || '').trim(),
-      province: String(rawAddress.province || '').trim(),
-      postalCode: String(rawAddress.postalCode || '').trim(),
-    }
-    : null;
-
-  if (!deliveryAddress?.line1 || !deliveryAddress?.district || !deliveryAddress?.province || !deliveryAddress?.postalCode) {
-    return res.status(400).json({ error: 'กรุณากรอกที่อยู่จัดส่งให้ครบก่อนจอง' });
+  const deliveryAddress = normalizeDeliveryAddress(req.body.deliveryAddress);
+  const addrError = validateDeliveryAddress(deliveryAddress);
+  if (addrError) {
+    return res.status(400).json({ error: addrError });
   }
 
   const bookings = readJSON('bookings.json', []);

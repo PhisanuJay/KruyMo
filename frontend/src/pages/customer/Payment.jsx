@@ -10,6 +10,7 @@ import {
   Shirt,
   ShieldCheck,
   AlertTriangle,
+  MapPin,
 } from 'lucide-react';
 import { bookingAPI, paymentAPI, uploadAPI } from '../../services/api';
 import CustomerLayout from '../../components/CustomerLayout';
@@ -212,6 +213,18 @@ export default function Payment() {
                 </div>
               </div>
             </div>
+
+            {booking.deliveryAddressText && (
+              <div className="payment-amount-card" style={{ marginTop: '1rem' }}>
+                <span className="payment-amount-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <MapPin size={14} />
+                  ที่อยู่จัดส่ง
+                </span>
+                <p style={{ fontSize: '0.9rem', margin: '0.5rem 0 0', lineHeight: 1.6 }}>
+                  {booking.deliveryAddressText}
+                </p>
+              </div>
+            )}
           </aside>
 
           <section className="payment-main card">

@@ -135,7 +135,7 @@ export default function DateRangePicker({
           className={`date-pill ${picking === 'start' || !startDate ? 'is-active' : ''} ${startDate ? 'has-value' : ''}`}
           onClick={() => setPicking('start')}
         >
-          <span className="date-pill-label">วันรับชุด</span>
+          <span className="date-pill-label">วันเริ่มเช่า</span>
           <span className="date-pill-value">{formatThai(startDate)}</span>
         </button>
         <div className="date-range-arrow" aria-hidden>→</div>
@@ -228,7 +228,7 @@ export default function DateRangePicker({
         <CalendarDays size={14} />
         {picking === 'end' && startDate && !endDate
           ? 'ขั้นตอนถัดไป: เลือกวันคืนชุด'
-          : 'แตะวันรับชุดก่อน แล้วเลือกวันคืนชุด หรือใช้ปุ่มลัดด้านบน'}
+          : 'แตะวันเริ่มเช่าก่อน แล้วเลือกวันคืนชุด หรือใช้ปุ่มลัดด้านบน'}
       </p>
     </div>
   );

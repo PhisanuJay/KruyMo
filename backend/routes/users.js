@@ -1,14 +1,43 @@
 import { Router } from 'express';
 import bcrypt from 'bcryptjs';
-import { readJSON, updateById, findById } from '../utils/db.js';
+import { readJSON, updateById, findById, addItem } from '../utils/db.js';
 import { authenticate, authorize } from '../middleware/auth.js';
-import { logActivity } from '../utils/helpers.js';
+import { logActivity, generateId } from '../utils/helpers.js';
 
 const router = Router();
 
 router.get('/', authenticate, authorize('admin'), (req, res) => {
   const users = readJSON('users.json').map(({ password, ...u }) => u);
   res.json(users);
+});
+
+router.post('/', authenticate, authorize('admin'), async (req, res) => {
+  const { name, email, password, phone, role } = req.body;
+  if (!name?.trim() || !email?.trim() || !password) {
+    return res.status(400).json({ error: 'กรุณากรอกชื่อ อีเมล และรหัสผ่าน' });
+  }
+  if (!['customer', 'staff', 'admin'].includes(role || 'customer')) {
+    return res.status(400).json({ error: 'สิทธิ์ไม่ถูกต้อง' });
+  }
+  const users = readJSON('users.json');
+  if (users.find((u) => u.email === email.trim())) {
+    return res.status(400).json({ error: 'อีเมลนี้ถูกใช้งานแล้ว' });
+  }
+  const hashed = await bcrypt.hash(password, 10);
+  const user = {
+    id: generateId(),
+    name: name.trim(),
+    email: email.trim(),
+    password: hashed,
+    phone: (phone || '').trim(),
+    role: role || 'customer',
+    avatar: null,
+    createdAt: new Date().toISOString(),
+  };
+  addItem('users.json', user);
+  logActivity('create_user', `สร้างผู้ใช้ ${user.email} (${user.role})`, req.user.id);
+  const { password: _, ...safeUser } = user;
+  res.status(201).json(safeUser);
 });
 
 router.get('/:id', authenticate, (req, res) => {

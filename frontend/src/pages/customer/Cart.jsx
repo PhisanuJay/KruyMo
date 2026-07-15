@@ -173,7 +173,7 @@ export default function Cart() {
                       {item.size?.description ? ` (${item.size.description})` : ''}
                     </p>
                     <p style={{ fontSize: '0.9rem', marginTop: 4 }}>
-                      รับ {new Date(item.startDate).toLocaleDateString('th-TH')}
+                      เริ่ม {new Date(item.startDate).toLocaleDateString('th-TH')}
                       {' – '}
                       คืน {new Date(item.endDate).toLocaleDateString('th-TH')}
                       {item.pricing ? ` · ${item.pricing.days} วัน` : ''}

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import NotificationBell from './NotificationBell';
 import {
   LayoutDashboard, Users, BarChart3, Settings,
   ClipboardList, LogOut, Bell, Shirt, ChevronDown, Wallet, Truck,
@@ -30,8 +29,8 @@ const adminRestLinks = [
   { to: '/admin/costumes', icon: Shirt, label: 'จัดการชุดครุย' },
   { to: '/admin/master-data', icon: Settings, label: 'ข้อมูลพื้นฐาน' },
   { to: '/admin/users', icon: Users, label: 'จัดการผู้ใช้' },
-  { to: '/staff/dispatch', icon: Truck, label: 'คิวส่งแมสฯ / รับคืน' },
-  { to: '/admin/refund', icon: Wallet, label: 'คืนเงินมัดจำ' },
+  { to: '/admin/dispatch', icon: Truck, label: 'คิวส่งแมสฯ / รับคืน' },
+  { to: '/admin/refund', icon: Wallet, label: 'ติดตามคืนมัดจำ' },
   { to: '/admin/reports', icon: BarChart3, label: 'รายงาน' },
   { to: '/admin/activity', icon: ClipboardList, label: 'ประวัติการทำรายการ' },
   { to: '/admin/notifications', icon: Bell, label: 'การแจ้งเตือน' },
@@ -61,9 +60,8 @@ export default function DashboardLayout({ children, role = 'staff' }) {
     return (
       <div className="dashboard-layout">
         <aside className="sidebar">
-          <div className="sidebar-logo" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingRight: '1.25rem' }}>
+          <div className="sidebar-logo">
             <span>🎓 KruyMo Staff</span>
-            <NotificationBell variant="light" />
           </div>
           <p style={{ padding: '0 1.5rem', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', marginBottom: '1rem' }}>
             {user?.name}
@@ -85,9 +83,8 @@ export default function DashboardLayout({ children, role = 'staff' }) {
   return (
     <div className="dashboard-layout">
       <aside className="sidebar">
-        <div className="sidebar-logo" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingRight: '1.25rem' }}>
+        <div className="sidebar-logo">
           <span>🎓 KruyMo Admin</span>
-          <NotificationBell variant="light" />
         </div>
         <p style={{ padding: '0 1.5rem', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', marginBottom: '1rem' }}>
           {user?.name}

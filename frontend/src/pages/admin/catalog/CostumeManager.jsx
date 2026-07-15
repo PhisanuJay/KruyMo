@@ -21,11 +21,11 @@ function formatCostumeCode(id) {
 
 function occupancyForCostume(bookings, costumeId) {
   const list = bookings.filter((b) => b.costumeId === costumeId);
-  const rented = list.filter((b) => b.status === 'picked_up').length;
+  const rented = list.filter((b) => ['delivered', 'picked_up', 'out_for_delivery'].includes(b.status)).length;
   const cleaning = list.filter((b) => b.status === 'returned' && !(b.penaltyAmount > 0)).length;
   const repair = list.filter((b) => b.status === 'returned' && (b.penaltyAmount || 0) > 0).length;
   const reserved = list.filter((b) => (
-    ['approved', 'preparing', 'ready_for_pickup'].includes(b.status)
+    ['approved', 'preparing', 'ready_to_ship', 'ready_for_pickup'].includes(b.status)
   )).length;
   return { rented, cleaning, repair, reserved };
 }

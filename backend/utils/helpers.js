@@ -107,13 +107,53 @@ export const canTransitionStatus = (from, to) => {
   return Array.isArray(allowed) && allowed.includes(to);
 };
 
+export const normalizeDeliveryAddress = (raw) => {
+  if (!raw || typeof raw !== 'object') return null;
+  return {
+    recipientName: String(raw.recipientName || '').trim(),
+    recipientPhone: String(raw.recipientPhone || '').trim(),
+    line1: String(raw.line1 || '').trim(),
+    district: String(raw.district || '').trim(),
+    province: String(raw.province || '').trim(),
+    postalCode: String(raw.postalCode || '').trim(),
+  };
+};
+
+export const validateDeliveryAddress = (address) => {
+  const a = normalizeDeliveryAddress(address);
+  if (!a?.recipientName) return 'กรุณากรอกชื่อผู้รับ';
+  if (!a?.recipientPhone) return 'กรุณากรอกเบอร์ผู้รับ';
+  if (!a?.line1) return 'กรุณากรอกที่อยู่จัดส่ง';
+  if (!a?.district) return 'กรุณากรอกแขวง/ตำบล';
+  if (!a?.province) return 'กรุณากรอกเขต/จังหวัด';
+  if (!a?.postalCode) return 'กรุณากรอกรหัสไปรษณีย์';
+  return '';
+};
+
 export const formatAddress = (address) => {
   if (!address) return '';
   if (typeof address === 'string') return address;
-  return [address.line1, address.district, address.province, address.postalCode]
-    .filter(Boolean)
-    .join(' ');
+  const parts = [];
+  if (address.recipientName) {
+    const contact = address.recipientPhone
+      ? `${address.recipientName} (${address.recipientPhone})`
+      : address.recipientName;
+    parts.push(contact);
+  }
+  parts.push(
+    ...[address.line1, address.district, address.province, address.postalCode].filter(Boolean),
+  );
+  return parts.join(' ');
 };
+
+/** สถานะที่ลูกค้ายังแก้ที่อยู่จัดส่งได้ (ก่อนออกแมสฯ) */
+export const EDITABLE_DELIVERY_STATUSES = [
+  'payment_pending',
+  'pending',
+  'payment_verified',
+  'approved',
+  'preparing',
+];
 
 export const ACTIVE_BOOKING_STATUSES = [
   'pending',

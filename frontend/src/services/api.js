@@ -16,6 +16,8 @@ export const authAPI = {
 
 export const userAPI = {
   get: (id) => api.get(`/users/${id}`),
+  getAll: () => api.get('/users'),
+  create: (data) => api.post('/users', data),
   update: (id, data) => api.put(`/users/${id}`, data),
   updateAvatar: (id, avatar) => api.post(`/users/${id}/avatar`, { avatar }),
   getAll: () => api.get('/users'),
@@ -35,7 +37,7 @@ export const bookingAPI = {
   get: (id) => api.get(`/bookings/${id}`),
   create: (data) => api.post('/bookings', data),
   updateStatus: (id, data) => api.patch(`/bookings/${id}/status`, data),
-  updatePrep: (id, data) => api.patch(`/bookings/${id}/prep`, data),
+  updateDeliveryAddress: (id, data) => api.patch(`/bookings/${id}/delivery-address`, data),
   pickup: (id) => api.post(`/bookings/${id}/pickup`),
   return: (id, data) => api.post(`/bookings/${id}/return`, data),
   submitReturn: (id, data) => api.post(`/bookings/${id}/submit-return`, data),

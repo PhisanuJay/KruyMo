@@ -73,7 +73,7 @@ export default function BookingForm() {
     },
     {
       icon: CalendarDays,
-      label: 'วันรับชุด',
+      label: 'วันเริ่มเช่า',
       value: formatThaiDate(startDate),
     },
     {

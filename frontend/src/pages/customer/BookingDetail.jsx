@@ -1,17 +1,25 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { CalendarDays, Ruler, GraduationCap, Image as ImageIcon, Truck } from 'lucide-react';
+import { CalendarDays, Ruler, GraduationCap, Image as ImageIcon, Truck, MapPin, Phone, Clock, Pencil } from 'lucide-react';
 import { bookingAPI, paymentAPI, uploadAPI } from '../../services/api';
 import CustomerLayout from '../../components/CustomerLayout';
 import StatusTimeline from '../../components/StatusTimeline';
 import StatusBadge from '../../components/StatusBadge';
 import UploadBox from '../../components/UploadBox';
+import DeliveryAddressFields, {
+  emptyDeliveryAddress,
+  validateDeliveryAddress,
+  normalizeDeliveryAddress,
+} from '../../components/DeliveryAddressFields';
+import { STORE_INFO } from '../../constants/store';
 
 const DEGREE_LABELS = {
   bachelor: 'ปริญญาตรี',
   master: 'ปริญญาโท',
   doctoral: 'ปริญญาเอก',
 };
+
+const EDITABLE_ADDRESS_STATUSES = ['payment_pending', 'pending', 'payment_verified', 'approved', 'preparing'];
 
 export default function BookingDetail() {
   const { id } = useParams();
@@ -21,6 +29,9 @@ export default function BookingDetail() {
   const [returnNote, setReturnNote] = useState('');
   const [loading, setLoading] = useState(true);
   const [acting, setActing] = useState(false);
+  const [editingAddress, setEditingAddress] = useState(false);
+  const [addressDraft, setAddressDraft] = useState(emptyDeliveryAddress());
+  const [addressError, setAddressError] = useState('');
 
   const load = async () => {
     const [b, p] = await Promise.all([
@@ -30,6 +41,16 @@ export default function BookingDetail() {
     setBooking(b.data);
     setPayment(p.data);
     setReturnImages(b.data?.returnImages || []);
+    if (b.data?.deliveryAddress) {
+      setAddressDraft({
+        recipientName: b.data.deliveryAddress.recipientName || '',
+        recipientPhone: b.data.deliveryAddress.recipientPhone || '',
+        line1: b.data.deliveryAddress.line1 || '',
+        district: b.data.deliveryAddress.district || '',
+        province: b.data.deliveryAddress.province || '',
+        postalCode: b.data.deliveryAddress.postalCode || '',
+      });
+    }
   };
 
   useEffect(() => {
@@ -45,7 +66,6 @@ export default function BookingDetail() {
   const handleConfirmDelivered = async () => {
     setActing(true);
     try {
-      // ลูกค้ายืนยันได้รับของจากแมสฯ
       await bookingAPI.pickup(id);
       await load();
     } finally {
@@ -72,13 +92,42 @@ export default function BookingDetail() {
     }
   };
 
+  const handleSaveAddress = async () => {
+    const err = validateDeliveryAddress(addressDraft);
+    if (err) {
+      setAddressError(err);
+      return;
+    }
+    setActing(true);
+    setAddressError('');
+    try {
+      const { data } = await bookingAPI.updateDeliveryAddress(id, {
+        deliveryAddress: normalizeDeliveryAddress(addressDraft),
+      });
+      setBooking(data);
+      setEditingAddress(false);
+    } catch (e) {
+      setAddressError(e.response?.data?.error || 'บันทึกที่อยู่ไม่สำเร็จ');
+    } finally {
+      setActing(false);
+    }
+  };
+
   if (loading) return <CustomerLayout><div className="loading">กำลังโหลด...</div></CustomerLayout>;
   if (!booking) return <CustomerLayout><div className="empty-state">ไม่พบการจอง</div></CustomerLayout>;
 
   const canCancel = ['pending', 'payment_pending'].includes(booking.status);
+  const canEditAddress = EDITABLE_ADDRESS_STATUSES.includes(booking.status);
   const slipImage = payment?.slipImage;
   const inUse = ['delivered', 'picked_up'].includes(booking.status);
   const awaitingShipConfirm = ['out_for_delivery', 'ready_to_ship', 'ready_for_pickup'].includes(booking.status);
+  const addressText = booking.deliveryAddressText;
+  const returnDeadline = new Date(booking.endDate).toLocaleDateString('th-TH', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
 
   return (
     <CustomerLayout>
@@ -109,11 +158,6 @@ export default function BookingDetail() {
             <p style={{ fontWeight: 800, color: 'var(--primary)' }}>
               รวม ฿{booking.totalPrice?.toLocaleString()}
             </p>
-            {(booking.deliveryAddressText || booking.user?.addressText) && (
-              <p style={{ marginTop: '0.5rem' }}>
-                ที่อยู่จัดส่ง: {booking.deliveryAddressText || booking.user?.addressText}
-              </p>
-            )}
           </div>
           {booking.refundAmount != null && (
             <p style={{ color: '#00B894', fontWeight: 600, marginTop: '0.75rem' }}>
@@ -130,14 +174,81 @@ export default function BookingDetail() {
           )}
         </div>
 
+        {(addressText || canEditAddress) && (
+          <div className="card" style={{ padding: '1.5rem', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+              <h3 style={{ fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <MapPin size={18} color="var(--primary)" />
+                ที่อยู่จัดส่ง
+              </h3>
+              {canEditAddress && !editingAddress && (
+                <button
+                  type="button"
+                  className="btn btn-ghost btn-sm"
+                  onClick={() => setEditingAddress(true)}
+                  style={{ display: 'flex', alignItems: 'center', gap: 4 }}
+                >
+                  <Pencil size={14} />
+                  แก้ไข
+                </button>
+              )}
+            </div>
+
+            {editingAddress ? (
+              <>
+                {addressError && <div className="alert alert-error" style={{ marginBottom: '0.75rem' }}>{addressError}</div>}
+                <DeliveryAddressFields value={addressDraft} onChange={setAddressDraft} compact />
+                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem' }}>
+                  <button type="button" className="btn btn-primary btn-sm" disabled={acting} onClick={handleSaveAddress}>
+                    {acting ? 'กำลังบันทึก...' : 'บันทึกที่อยู่'}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-outline btn-sm"
+                    disabled={acting}
+                    onClick={() => {
+                      setEditingAddress(false);
+                      setAddressError('');
+                      if (booking.deliveryAddress) {
+                        setAddressDraft({
+                          recipientName: booking.deliveryAddress.recipientName || '',
+                          recipientPhone: booking.deliveryAddress.recipientPhone || '',
+                          line1: booking.deliveryAddress.line1 || '',
+                          district: booking.deliveryAddress.district || '',
+                          province: booking.deliveryAddress.province || '',
+                          postalCode: booking.deliveryAddress.postalCode || '',
+                        });
+                      }
+                    }}
+                  >
+                    ยกเลิก
+                  </button>
+                </div>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.75rem', marginBottom: 0 }}>
+                  แก้ได้ก่อนชุดออกแมสเซนเจอร์เท่านั้น
+                </p>
+              </>
+            ) : (
+              <p style={{ fontSize: '0.95rem', margin: 0, lineHeight: 1.6 }}>
+                {addressText || 'ยังไม่ระบุที่อยู่จัดส่ง'}
+              </p>
+            )}
+          </div>
+        )}
+
         {booking.messenger && (booking.messenger.name || booking.messenger.eta) && (
           <div className="card" style={{ padding: '1.5rem', marginBottom: '1.5rem' }}>
             <h3 style={{ fontWeight: 700, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: 8 }}>
               <Truck size={18} color="var(--primary)" />
-              ข้อมูลแมสเซนเจอร์ (ส่งภายในวันนี้)
+              ข้อมูลแมสเซนเจอร์
             </h3>
             <p>แมสฯ: {booking.messenger.name || '-'}</p>
-            {booking.messenger.phone && <p>โทร: {booking.messenger.phone}</p>}
+            {booking.messenger.phone && (
+              <p>
+                โทร:{' '}
+                <a href={`tel:${booking.messenger.phone.replace(/\D/g, '')}`}>{booking.messenger.phone}</a>
+              </p>
+            )}
             {booking.messenger.eta && <p>ช่วงเวลา: {booking.messenger.eta}</p>}
             {booking.messenger.note && <p>หมายเหตุ: {booking.messenger.note}</p>}
           </div>
@@ -169,14 +280,14 @@ export default function BookingDetail() {
 
         {booking.status === 'out_for_delivery' && (
           <div className="alert alert-info" style={{ marginTop: '1rem' }}>
-            แมสเซนเจอร์กำลังนำส่งชุดให้คุณภายในวันนี้
+            แมสเซนเจอร์กำลังนำส่งชุดให้คุณ
             {booking.messenger?.name ? ` (${booking.messenger.name})` : ''}
           </div>
         )}
 
         {awaitingShipConfirm && booking.status !== 'out_for_delivery' && (
           <div className="alert alert-info" style={{ marginTop: '1rem' }}>
-            ชุดของคุณอยู่ในคิวจัดส่งแมสเซนเจอร์ภายในวันนี้
+            ชุดของคุณอยู่ในคิวจัดส่งแมสเซนเจอร์
           </div>
         )}
 
@@ -192,11 +303,45 @@ export default function BookingDetail() {
           </div>
         )}
 
+        {(inUse || ['return_submitted', 'delivered', 'picked_up'].includes(booking.status)) && (
+          <div className="card" style={{ padding: '1.5rem', marginTop: '1rem', marginBottom: inUse ? 0 : '1rem' }}>
+            <h3 style={{ fontWeight: 700, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <MapPin size={18} color="var(--primary)" />
+              วิธีส่งคืนชุด
+            </h3>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
+              กำหนดคืนชุด: <strong>{returnDeadline}</strong>
+            </p>
+            <div style={{ fontSize: '0.95rem', lineHeight: 1.7 }}>
+              <p style={{ display: 'flex', gap: 8, margin: '0.35rem 0' }}>
+                <MapPin size={16} color="var(--primary)" style={{ flexShrink: 0, marginTop: 3 }} />
+                <span>{STORE_INFO.returnAddress}</span>
+              </p>
+              <p style={{ display: 'flex', gap: 8, margin: '0.35rem 0' }}>
+                <Clock size={16} color="var(--primary)" style={{ flexShrink: 0, marginTop: 3 }} />
+                <span>{STORE_INFO.returnHours}</span>
+              </p>
+              <p style={{ display: 'flex', gap: 8, margin: '0.35rem 0' }}>
+                <Phone size={16} color="var(--primary)" style={{ flexShrink: 0, marginTop: 3 }} />
+                <span>
+                  โทร{' '}
+                  <a href={`tel:${STORE_INFO.returnPhone.replace(/\D/g, '')}`}>{STORE_INFO.returnPhone}</a>
+                </span>
+              </p>
+            </div>
+            <ul style={{ margin: '0.75rem 0 0', paddingLeft: '1.25rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+              {STORE_INFO.returnNotes.map((note) => (
+                <li key={note} style={{ marginBottom: '0.35rem' }}>{note}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         {inUse && (
           <div className="card" style={{ padding: '1.5rem', marginTop: '1rem' }}>
-            <h3 style={{ fontWeight: 700, marginBottom: '0.5rem' }}>ส่งคืนชุดด้วยตนเอง</h3>
+            <h3 style={{ fontWeight: 700, marginBottom: '0.5rem' }}>แจ้งว่าส่งคืนแล้ว</h3>
             <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
-              เมื่อส่งคืนแล้ว กดแจ้งสถานะด้านล่าง พนักงานจะอัปเดตเมื่อตรวจรับเข้าคลัง
+              หลังนำชุดมาส่งคืนที่ร้านแล้ว กดแจ้งสถานะด้านล่าง พนักงานจะตรวจรับเข้าคลังและดำเนินการคืนมัดจำ
             </p>
             <UploadBox
               label="อัปโหลดรูปหลักฐานการส่งคืน / สภาพชุด (ถ้ามี)"
@@ -206,7 +351,7 @@ export default function BookingDetail() {
               onRemove={(i) => setReturnImages((prev) => prev.filter((_, idx) => idx !== i))}
             />
             <div className="form-group" style={{ marginTop: '1rem' }}>
-              <label>หมายเหตุ (เช่น เลขพัสดุ / เวลาที่ส่ง)</label>
+              <label>หมายเหตุ (เช่น เวลาที่ส่งคืน)</label>
               <input
                 className="form-input"
                 value={returnNote}

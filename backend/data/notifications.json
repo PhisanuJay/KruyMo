@@ -4,7 +4,7 @@
     "userId": "74ef22ea-cbea-4ad0-b377-223262d9e001",
     "type": "booking_success",
     "message": "การจองของคุณสำเร็จแล้ว กรุณาชำระเงินภายใน 24 ชั่วโมง",
-    "isRead": false,
+    "isRead": true,
     "createdAt": "2026-07-09T07:11:37.463Z"
   },
   {
@@ -189,7 +189,16 @@
     "userId": "74ef22ea-cbea-4ad0-b377-223262d9e001",
     "type": "returned",
     "message": "พนักงานได้รับชุดคืนแล้ว กำลังดำเนินการคืนมัดจำ",
+    "isRead": true,
+    "createdAt": "2026-07-15T00:14:30.825Z",
+    "updatedAt": "2026-07-15T00:38:47.373Z"
+  },
+  {
+    "id": "819a6f62-7e42-425f-9713-aa8b404b686c",
+    "userId": "74ef22ea-cbea-4ad0-b377-223262d9e001",
+    "type": "deposit_refunded",
+    "message": "เงินมัดจำของคุณได้รับการคืนแล้ว จำนวน 1500 บาท",
     "isRead": false,
-    "createdAt": "2026-07-15T00:14:30.825Z"
+    "createdAt": "2026-07-15T00:49:09.396Z"
   }
 ]

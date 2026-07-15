@@ -4,12 +4,24 @@ import { authenticate, authorize } from '../middleware/auth.js';
 
 const router = Router();
 
+const PAID_REVENUE_STATUSES = [
+  'approved', 'preparing', 'ready_to_ship', 'ready_for_pickup',
+  'out_for_delivery', 'delivered', 'picked_up', 'return_submitted',
+  'returned', 'deposit_refunded',
+];
+
+const RENTED_STATUSES = ['delivered', 'picked_up'];
+
+const RESERVED_STATUSES = [
+  'approved', 'preparing', 'ready_to_ship', 'ready_for_pickup', 'out_for_delivery',
+];
+
+const NEAR_RETURN_STATUSES = ['delivered', 'picked_up', 'out_for_delivery'];
+
 router.get('/revenue', authenticate, authorize('admin', 'staff'), (req, res) => {
   const bookings = readJSON('bookings.json');
   const { from, to } = req.query;
-  let filtered = bookings.filter((b) =>
-    ['approved', 'picked_up', 'returned', 'deposit_refunded'].includes(b.status)
-  );
+  let filtered = bookings.filter((b) => PAID_REVENUE_STATUSES.includes(b.status));
   if (from) filtered = filtered.filter((b) => b.createdAt >= from);
   if (to) filtered = filtered.filter((b) => b.createdAt <= to);
 
@@ -81,35 +93,39 @@ router.get('/dashboard', authenticate, authorize('admin'), (req, res) => {
 
   const todayBookings = bookings.filter((b) => b.createdAt.startsWith(today));
   const pendingApproval = bookings.filter((b) => b.status === 'payment_verified');
-  const paidStatuses = ['approved', 'picked_up', 'returned', 'deposit_refunded'];
-  const todayPaidBookings = todayBookings.filter((b) => paidStatuses.includes(b.status));
+  const todayPaidBookings = todayBookings.filter((b) => PAID_REVENUE_STATUSES.includes(b.status));
   const todayRevenue = todayPaidBookings.reduce((s, b) => s + (b.rentalPrice || 0), 0);
   const totalRevenue = bookings
-    .filter((b) => paidStatuses.includes(b.status))
+    .filter((b) => PAID_REVENUE_STATUSES.includes(b.status))
     .reduce((s, b) => s + (b.rentalPrice || 0), 0);
   const totalMembers = users.filter((u) => u.role === 'customer').length || users.length;
   const nearReturnBookings = bookings.filter((b) => {
-    if (!['picked_up', 'approved', 'preparing', 'ready_for_pickup'].includes(b.status)) return false;
+    if (!NEAR_RETURN_STATUSES.includes(b.status)) return false;
     const days = daysUntil(b.endDate);
     return days >= 0 && days <= 3;
   });
 
+  const opsQueue = {
+    readyToShip: bookings.filter((b) => ['ready_to_ship', 'ready_for_pickup'].includes(b.status)).length,
+    outForDelivery: bookings.filter((b) => b.status === 'out_for_delivery').length,
+    returnSubmitted: bookings.filter((b) => b.status === 'return_submitted').length,
+    awaitingRefund: bookings.filter((b) => b.status === 'returned').length,
+  };
+
   const monthlyRevenue = THAI_MONTHS.map((label, i) => {
     const key = `${year}-${String(i + 1).padStart(2, '0')}`;
     const amount = bookings
-      .filter((b) => paidStatuses.includes(b.status) && b.createdAt.startsWith(key))
+      .filter((b) => PAID_REVENUE_STATUSES.includes(b.status) && b.createdAt.startsWith(key))
       .reduce((s, b) => s + (b.rentalPrice || 0), 0);
     return { month: i + 1, label, key, amount, buddhistYear: year + 543 };
   }).filter((_, i) => i <= new Date().getMonth());
 
   // สถานะชุดครุย — ใช้ stock จากจัดการชุด เป็นฐาน รวมกับสถานะการจองจริง
   const totalPool = costumes.reduce((s, c) => s + (c.stock || 0), 0);
-  const rented = bookings.filter((b) => b.status === 'picked_up').length;
+  const rented = bookings.filter((b) => RENTED_STATUSES.includes(b.status)).length;
   const cleaning = bookings.filter((b) => b.status === 'returned' && !(b.penaltyAmount > 0)).length;
   const repair = bookings.filter((b) => b.status === 'returned' && (b.penaltyAmount || 0) > 0).length;
-  const reserved = bookings.filter((b) => (
-    ['approved', 'preparing', 'ready_for_pickup'].includes(b.status)
-  )).length;
+  const reserved = bookings.filter((b) => RESERVED_STATUSES.includes(b.status)).length;
   const available = Math.max(0, totalPool - rented - cleaning - repair - reserved);
   const gownTotal = available + rented + cleaning + repair || 1;
   const gownStatus = [
@@ -166,6 +182,7 @@ router.get('/dashboard', authenticate, authorize('admin'), (req, res) => {
     pendingApproval: pendingApproval.length,
     totalMembers,
     nearReturnDeadline: nearReturnBookings.length,
+    opsQueue,
     monthlyRevenue,
     gownStatus,
     gownTotal: available + rented + cleaning + repair,

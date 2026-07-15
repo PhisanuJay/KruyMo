@@ -491,12 +491,14 @@
     "pickupConfirmedAt": null,
     "returnImages": [],
     "penaltyAmount": 0,
-    "refundAmount": null,
+    "refundAmount": 1500,
     "createdAt": "2026-07-15T00:12:52.936Z",
-    "updatedAt": "2026-07-15T00:14:30.824Z",
-    "status": "returned",
+    "updatedAt": "2026-07-15T00:49:09.395Z",
+    "status": "deposit_refunded",
     "returnNote": "ส่ง Kerry แล้ว เลข KE123",
     "returnSubmittedAt": "2026-07-15T00:12:52.936Z",
-    "returnedAt": "2026-07-15T00:14:30.824Z"
+    "returnedAt": "2026-07-15T00:14:30.824Z",
+    "penaltyReason": null,
+    "refundedAt": "2026-07-15T00:49:09.395Z"
   }
 ]
