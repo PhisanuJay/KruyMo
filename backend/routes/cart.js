@@ -154,7 +154,6 @@ const createBookingFromCartItem = (item, userId, bookings) => {
     totalPrice: pricing.total,
     days: pricing.days,
     rejectReason: null,
-    prepChecklist: { gown: false, cap: false, sash: false, accessories: false },
     pickupConfirmedAt: null,
     returnImages: [],
     penaltyAmount: 0,
@@ -162,6 +161,8 @@ const createBookingFromCartItem = (item, userId, bookings) => {
     refundAmount: null,
     deliveryAddress: item.deliveryAddress || null,
     messenger: null,
+    source: 'cart',
+    checkoutBatchId: item.checkoutBatchId || null,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
@@ -239,9 +240,21 @@ router.delete('/', authenticate, authorize('customer'), (req, res) => {
 
 router.post('/checkout', authenticate, authorize('customer'), (req, res) => {
   const cart = readJSON('cart.json', []);
-  const myItems = cart.filter((c) => c.userId === req.user.id);
+  let myItems = cart.filter((c) => c.userId === req.user.id);
   if (myItems.length === 0) {
     return res.status(400).json({ error: 'ตะกร้าว่าง กรุณาเพิ่มชุดครุยก่อน' });
+  }
+
+  const cartIds = Array.isArray(req.body.cartIds) ? req.body.cartIds.filter(Boolean) : null;
+  if (cartIds) {
+    if (cartIds.length === 0) {
+      return res.status(400).json({ error: 'กรุณาเลือกรายการในตะกร้าอย่างน้อย 1 รายการ' });
+    }
+    const idSet = new Set(cartIds);
+    myItems = myItems.filter((c) => idSet.has(c.id));
+    if (myItems.length === 0) {
+      return res.status(400).json({ error: 'ไม่พบรายการที่เลือกในตะกร้า' });
+    }
   }
 
   const deliveryAddress = normalizeDeliveryAddress(req.body.deliveryAddress);
@@ -252,16 +265,19 @@ router.post('/checkout', authenticate, authorize('customer'), (req, res) => {
 
   const bookings = readJSON('bookings.json', []);
   const created = [];
+  const bookedCartIds = [];
   const errors = [];
+  const checkoutBatchId = generateId();
 
   for (const item of myItems) {
     try {
       const booking = createBookingFromCartItem(
-        { ...item, deliveryAddress },
+        { ...item, deliveryAddress, checkoutBatchId },
         req.user.id,
         [...bookings, ...created]
       );
       created.push(booking);
+      bookedCartIds.push(item.id);
     } catch (err) {
       errors.push({
         cartId: item.id,
@@ -280,18 +296,13 @@ router.post('/checkout', authenticate, authorize('customer'), (req, res) => {
 
   writeJSON('bookings.json', [...bookings, ...created]);
 
-  // Remove cart items that were successfully booked
-  const remaining = cart.filter((c) => {
-    if (c.userId !== req.user.id) return true;
-    const wasBooked = created.some((b) => (
-      b.costumeId === c.costumeId
-      && b.sizeId === c.sizeId
-      && b.startDate === c.startDate
-      && b.endDate === c.endDate
-      && b.degreeLevel === c.degreeLevel
-    ));
-    return !wasBooked;
-  });
+  const profileUpdates = { address: deliveryAddress };
+  if (deliveryAddress.recipientPhone) profileUpdates.phone = deliveryAddress.recipientPhone;
+  updateById('users.json', req.user.id, profileUpdates);
+
+  // ลบเฉพาะรายการที่จองสำเร็จ — รายการที่ไม่ได้เลือกยังอยู่ในตะกร้า
+  const bookedSet = new Set(bookedCartIds);
+  const remaining = cart.filter((c) => !bookedSet.has(c.id));
   writeJSON('cart.json', remaining);
 
   for (const booking of created) {

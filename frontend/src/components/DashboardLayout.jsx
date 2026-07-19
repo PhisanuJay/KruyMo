@@ -9,7 +9,7 @@ import {
 const staffLinks = [
   { to: '/staff', icon: LayoutDashboard, label: 'แดชบอร์ด' },
   { to: '/staff/bookings', icon: ClipboardList, label: 'จัดการคำสั่งเช่า' },
-  { to: '/staff/dispatch', icon: Truck, label: 'คิวส่งแมสฯ / รับคืน' },
+  { to: '/staff/dispatch', icon: Truck, label: 'จัดส่งและรับคืน' },
   { to: '/staff/refund', icon: BarChart3, label: 'คืนเงินมัดจำ' },
 ];
 
@@ -29,7 +29,7 @@ const adminRestLinks = [
   { to: '/admin/costumes', icon: Shirt, label: 'จัดการชุดครุย' },
   { to: '/admin/master-data', icon: Settings, label: 'ข้อมูลพื้นฐาน' },
   { to: '/admin/users', icon: Users, label: 'จัดการผู้ใช้' },
-  { to: '/admin/dispatch', icon: Truck, label: 'คิวส่งแมสฯ / รับคืน' },
+  { to: '/admin/dispatch', icon: Truck, label: 'จัดส่งและรับคืน' },
   { to: '/admin/refund', icon: Wallet, label: 'ติดตามคืนมัดจำ' },
   { to: '/admin/reports', icon: BarChart3, label: 'รายงาน' },
   { to: '/admin/activity', icon: ClipboardList, label: 'ประวัติการทำรายการ' },

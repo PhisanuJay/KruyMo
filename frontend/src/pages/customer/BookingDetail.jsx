@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation, useNavigate } from 'react-router-dom';
 import { CalendarDays, Ruler, GraduationCap, Image as ImageIcon, Truck, MapPin, Phone, Clock, Pencil } from 'lucide-react';
 import { bookingAPI, paymentAPI, uploadAPI } from '../../services/api';
 import CustomerLayout from '../../components/CustomerLayout';
@@ -23,23 +23,31 @@ const EDITABLE_ADDRESS_STATUSES = ['payment_pending', 'pending', 'payment_verifi
 
 export default function BookingDetail() {
   const { id } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [booking, setBooking] = useState(null);
   const [payment, setPayment] = useState(null);
   const [returnImages, setReturnImages] = useState([]);
   const [returnNote, setReturnNote] = useState('');
-  const [refundAccount, setRefundAccount] = useState({
-    method: 'promptpay',
-    promptpay: '',
-    bankName: '',
-    accountNumber: '',
-    accountName: '',
-  });
   const [returnError, setReturnError] = useState('');
   const [loading, setLoading] = useState(true);
   const [acting, setActing] = useState(false);
-  const [editingAddress, setEditingAddress] = useState(false);
+  const [editingAddress, setEditingAddress] = useState(() => Boolean(location.state?.editAddress));
+  const [returnToPayment, setReturnToPayment] = useState(() => Boolean(location.state?.editAddress));
   const [addressDraft, setAddressDraft] = useState(emptyDeliveryAddress());
   const [addressError, setAddressError] = useState('');
+
+  useEffect(() => {
+    if (location.state?.editAddress) {
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (editingAddress) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [editingAddress]);
 
   const load = async () => {
     const [b, p] = await Promise.all([
@@ -49,22 +57,12 @@ export default function BookingDetail() {
     setBooking(b.data);
     setPayment(p.data);
     setReturnImages(b.data?.returnImages || []);
-    if (b.data?.refundAccount) {
-      setRefundAccount({
-        method: b.data.refundAccount.method || 'promptpay',
-        promptpay: b.data.refundAccount.promptpay || '',
-        bankName: b.data.refundAccount.bankName || '',
-        accountNumber: b.data.refundAccount.accountNumber || '',
-        accountName: b.data.refundAccount.accountName || '',
-      });
-    } else if (b.data?.user?.name) {
-      setRefundAccount((prev) => (prev.accountName ? prev : { ...prev, accountName: b.data.user.name }));
-    }
     if (b.data?.deliveryAddress) {
       setAddressDraft({
         recipientName: b.data.deliveryAddress.recipientName || '',
         recipientPhone: b.data.deliveryAddress.recipientPhone || '',
         line1: b.data.deliveryAddress.line1 || '',
+        amphoe: b.data.deliveryAddress.amphoe || '',
         district: b.data.deliveryAddress.district || '',
         province: b.data.deliveryAddress.province || '',
         postalCode: b.data.deliveryAddress.postalCode || '',
@@ -75,6 +73,13 @@ export default function BookingDetail() {
   useEffect(() => {
     load().finally(() => setLoading(false));
   }, [id]);
+
+  // ยังไม่ส่งสลิป → บังคับไปหน้าชำระเงินก่อน ไม่ให้ดูสถานะ
+  useEffect(() => {
+    if (!loading && booking?.status === 'payment_pending') {
+      navigate(`/payment/${id}`, { replace: true });
+    }
+  }, [loading, booking?.status, id, navigate]);
 
   const handleCancel = async () => {
     if (!confirm('ยืนยันยกเลิกการจอง?')) return;
@@ -98,28 +103,12 @@ export default function BookingDetail() {
     setReturnImages((prev) => [...prev, ...data.urls]);
   };
 
-  const validateRefund = () => {
-    if (!refundAccount.accountName.trim()) return 'กรุณากรอกชื่อบัญชีสำหรับรับเงินคืน';
-    if (refundAccount.method === 'promptpay') {
-      if (!refundAccount.promptpay.trim()) return 'กรุณากรอกเบอร์พร้อมเพย์สำหรับรับเงินคืน';
-    } else {
-      if (!refundAccount.bankName.trim()) return 'กรุณากรอกชื่อธนาคาร';
-      if (!refundAccount.accountNumber.trim()) return 'กรุณากรอกเลขบัญชี';
-    }
-    return '';
-  };
-
   const handleSubmitReturn = async () => {
-    const err = validateRefund();
-    if (err) {
-      setReturnError(err);
-      return;
-    }
-    if (!confirm('ยืนยันว่าคุณส่งคืนชุดแล้ว? พนักงานจะตรวจรับเข้าคลังและคืนมัดจำตามบัญชีที่กรอก')) return;
+    if (!confirm('ยืนยันว่าคุณส่งคืนชุดแล้ว? พนักงานจะตรวจรับเข้าคลังและคืนมัดจำตามบัญชีที่บันทึกตอนส่งสลิป')) return;
     setReturnError('');
     setActing(true);
     try {
-      await bookingAPI.submitReturn(id, { returnImages, note: returnNote, refundAccount });
+      await bookingAPI.submitReturn(id, { returnImages, note: returnNote });
       await load();
     } catch (e) {
       setReturnError(e.response?.data?.error || 'แจ้งส่งคืนไม่สำเร็จ');
@@ -142,6 +131,7 @@ export default function BookingDetail() {
       });
       setBooking(data);
       setEditingAddress(false);
+      setReturnToPayment(false);
     } catch (e) {
       setAddressError(e.response?.data?.error || 'บันทึกที่อยู่ไม่สำเร็จ');
     } finally {
@@ -151,6 +141,10 @@ export default function BookingDetail() {
 
   if (loading) return <CustomerLayout><div className="loading">กำลังโหลด...</div></CustomerLayout>;
   if (!booking) return <CustomerLayout><div className="empty-state">ไม่พบการจอง</div></CustomerLayout>;
+  // ยังไม่ส่งสลิป — ไม่แสดงสถานะ บังคับไปชำระเงิน
+  if (booking.status === 'payment_pending') {
+    return <CustomerLayout><div className="loading">กำลังไปหน้าชำระเงิน...</div></CustomerLayout>;
+  }
 
   const canCancel = ['pending', 'payment_pending'].includes(booking.status);
   const canEditAddress = EDITABLE_ADDRESS_STATUSES.includes(booking.status);
@@ -203,9 +197,14 @@ export default function BookingDetail() {
           {booking.penaltyAmount > 0 && (
             <p style={{ color: '#E17055', marginTop: '0.5rem' }}>ค่าปรับ ฿{booking.penaltyAmount?.toLocaleString()}</p>
           )}
-          {booking.status === 'payment_pending' && (
-            <div className="alert alert-info" style={{ marginTop: '1rem', marginBottom: 0 }}>
-              คำสั่งนี้ยังไม่ได้ชำระเงิน หากออกจากหน้าชำระเงินโดยไม่ส่งสลิป ระบบจะให้ยืนยันยกเลิกคำสั่งซื้อ
+          {booking.refundSlipImage && (
+            <div style={{ marginTop: '1rem' }}>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
+                สลิปโอนคืนมัดจำ
+              </p>
+              <a href={booking.refundSlipImage} target="_blank" rel="noreferrer" className="booking-slip-preview">
+                <img src={booking.refundSlipImage} alt="สลิปโอนคืนมัดจำ" />
+              </a>
             </div>
           )}
         </div>
@@ -250,6 +249,7 @@ export default function BookingDetail() {
                           recipientName: booking.deliveryAddress.recipientName || '',
                           recipientPhone: booking.deliveryAddress.recipientPhone || '',
                           line1: booking.deliveryAddress.line1 || '',
+                          amphoe: booking.deliveryAddress.amphoe || '',
                           district: booking.deliveryAddress.district || '',
                           province: booking.deliveryAddress.province || '',
                           postalCode: booking.deliveryAddress.postalCode || '',
@@ -305,6 +305,16 @@ export default function BookingDetail() {
             <a href={slipImage} target="_blank" rel="noreferrer" className="booking-slip-preview">
               <img src={slipImage} alt="สลิปการชำระเงิน" />
             </a>
+            {booking.refundAccount && (
+              <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--border)', fontSize: '0.9rem' }}>
+                <strong>บัญชีรับเงินคืนมัดจำ</strong>
+                <p style={{ margin: '0.35rem 0 0', color: 'var(--text-muted)' }}>
+                  {booking.refundAccount.method === 'bank'
+                    ? `${booking.refundAccount.bankName} · ${booking.refundAccount.accountNumber} · ${booking.refundAccount.accountName}`
+                    : `พร้อมเพย์ ${booking.refundAccount.promptpay} · ${booking.refundAccount.accountName}`}
+                </p>
+              </div>
+            )}
           </div>
         )}
 
@@ -401,69 +411,6 @@ export default function BookingDetail() {
                 onChange={(e) => setReturnNote(e.target.value)}
                 placeholder="รายละเอียดการส่งคืน"
               />
-            </div>
-
-            <div style={{ marginTop: '1.25rem', paddingTop: '1.25rem', borderTop: '1px solid var(--border)' }}>
-              <h4 style={{ fontWeight: 700, marginBottom: '0.35rem' }}>บัญชีรับเงินคืนมัดจำ</h4>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.85rem' }}>
-                กรอกบัญชีที่ต้องการให้พนักงานโอนเงินมัดจำ (฿{(booking.deposit || 0).toLocaleString()}) คืน
-              </p>
-              <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.85rem', flexWrap: 'wrap' }}>
-                {[{ v: 'promptpay', l: 'พร้อมเพย์' }, { v: 'bank', l: 'บัญชีธนาคาร' }].map((opt) => (
-                  <button
-                    key={opt.v}
-                    type="button"
-                    className={`btn ${refundAccount.method === opt.v ? 'btn-primary' : 'btn-outline'}`}
-                    style={{ flex: 1, minWidth: 120 }}
-                    onClick={() => setRefundAccount((prev) => ({ ...prev, method: opt.v }))}
-                  >
-                    {opt.l}
-                  </button>
-                ))}
-              </div>
-
-              {refundAccount.method === 'promptpay' ? (
-                <div className="form-group">
-                  <label>เบอร์พร้อมเพย์ / เลขบัตรประชาชน</label>
-                  <input
-                    className="form-input"
-                    value={refundAccount.promptpay}
-                    onChange={(e) => setRefundAccount((prev) => ({ ...prev, promptpay: e.target.value }))}
-                    placeholder="เช่น 0812345678"
-                  />
-                </div>
-              ) : (
-                <>
-                  <div className="form-group">
-                    <label>ธนาคาร</label>
-                    <input
-                      className="form-input"
-                      value={refundAccount.bankName}
-                      onChange={(e) => setRefundAccount((prev) => ({ ...prev, bankName: e.target.value }))}
-                      placeholder="เช่น กสิกรไทย"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>เลขบัญชี</label>
-                    <input
-                      className="form-input"
-                      value={refundAccount.accountNumber}
-                      onChange={(e) => setRefundAccount((prev) => ({ ...prev, accountNumber: e.target.value }))}
-                      placeholder="เช่น 123-4-56789-0"
-                    />
-                  </div>
-                </>
-              )}
-
-              <div className="form-group">
-                <label>ชื่อบัญชี</label>
-                <input
-                  className="form-input"
-                  value={refundAccount.accountName}
-                  onChange={(e) => setRefundAccount((prev) => ({ ...prev, accountName: e.target.value }))}
-                  placeholder="ชื่อ-นามสกุลเจ้าของบัญชี"
-                />
-              </div>
             </div>
 
             {returnError && <div className="alert alert-error" style={{ marginTop: '0.5rem' }}>{returnError}</div>}

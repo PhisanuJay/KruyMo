@@ -4,8 +4,6 @@ import UniversityTag from './UniversityTag';
 import { useAuth } from '../context/AuthContext';
 import { useShop } from '../context/ShopContext';
 
-const DEGREE_LABELS = { bachelor: 'ปริญญาตรี', master: 'ปริญญาโท', doctoral: 'ปริญญาเอก' };
-
 export default function CostumeCard({ costume }) {
   const facultyColor = costume.faculty?.color || costume.university?.color || '#6B7280';
   const mainImage = costume.images?.[0];
@@ -72,7 +70,7 @@ export default function CostumeCard({ costume }) {
         </div>
         <h3>{costume.name}</h3>
         <p className="product-meta">
-          {DEGREE_LABELS[costume.degreeLevel] || costume.degreeLevel} · เลือกไซส์ตอนจอง
+          เลือกระดับปริญญาและไซส์ตอนจอง
         </p>
         <div className="product-price-row">
           <span className="product-price">

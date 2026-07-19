@@ -38,9 +38,9 @@ router.get('/:id/availability', (req, res) => {
     return res.status(400).json({ error: 'วันคืนชุดต้องไม่ก่อนวันเริ่มเช่า' });
   }
 
-  const degree = degreeLevel || 'bachelor';
-  if (!['bachelor', 'master', 'doctoral'].includes(degree)) {
-    return res.status(400).json({ error: 'ระดับปริญญาไม่ถูกต้อง' });
+  const degree = degreeLevel;
+  if (!degree || !['bachelor', 'master', 'doctoral'].includes(degree)) {
+    return res.status(400).json({ error: 'กรุณาเลือกระดับปริญญา' });
   }
 
   const inventory = readJSON('inventory.json', []);

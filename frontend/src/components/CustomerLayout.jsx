@@ -22,6 +22,7 @@ export default function CustomerLayout({ children }) {
           <div className="nav-links">
             <Link to="/">หน้าแรก</Link>
             <Link to="/catalog">ชุดครุย</Link>
+            <Link to="/how-to-rent">ขั้นตอนการเช่า</Link>
             {user && <Link to="/bookings">ประวัติการจอง</Link>}
             {user && <Link to="/profile">โปรไฟล์</Link>}
           </div>
@@ -60,6 +61,15 @@ export default function CustomerLayout({ children }) {
         <div className="container">
           <div className="brand"><span>K</span>ruyMo</div>
           <p>ระบบเช่าชุดครุยบัณฑิตออนไลน์ · จองง่าย ชำระสะดวก ติดตามสถานะได้ตลอด</p>
+          <p style={{ marginTop: 8 }}>
+            <Link to="/how-to-rent" style={{ color: 'inherit', textDecoration: 'underline', opacity: 0.9 }}>
+              ขั้นตอนการเช่า
+            </Link>
+            {' · '}
+            <Link to="/catalog" style={{ color: 'inherit', textDecoration: 'underline', opacity: 0.9 }}>
+              ชุดครุย
+            </Link>
+          </p>
         </div>
       </footer>
     </div>

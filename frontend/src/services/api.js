@@ -10,8 +10,11 @@ api.interceptors.request.use((config) => {
 
 export const authAPI = {
   register: (data) => api.post('/auth/register', data),
+  verifyEmail: (data) => api.post('/auth/verify-email', data),
+  resendVerification: (email) => api.post('/auth/resend-verification', { email }),
   login: (data) => api.post('/auth/login', data),
   forgotPassword: (email) => api.post('/auth/forgot-password', { email }),
+  resetPassword: (data) => api.post('/auth/reset-password', data),
 };
 
 export const userAPI = {
@@ -48,8 +51,9 @@ export const bookingAPI = {
 export const paymentAPI = {
   getAll: () => api.get('/payments'),
   getByBooking: (bookingId) => api.get(`/payments/booking/${bookingId}`),
-  uploadSlip: (bookingId, slipImage) => api.post(`/payments/${bookingId}/slip`, { slipImage }),
-  verify: (id, status) => api.patch(`/payments/${id}/verify`, { status }),
+  uploadSlip: (bookingId, slipImage, refundAccount) =>
+    api.post(`/payments/${bookingId}/slip`, { slipImage, refundAccount }),
+  verify: (id, status, reason) => api.patch(`/payments/${id}/verify`, { status, reason }),
 };
 
 export const masterDataAPI = {

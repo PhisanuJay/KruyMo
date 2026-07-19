@@ -12,7 +12,7 @@ const DEGREE_SHORT = { bachelor: 'ป.ตรี', master: 'ป.โท', doctoral
 
 const GROUP_STATUSES = {
   all: null,
-  pending: ['payment_pending', 'pending', 'payment_verified', 'approved', 'preparing', 'ready_to_ship', 'ready_for_pickup'],
+  pending: ['pending', 'payment_verified', 'approved', 'preparing', 'ready_to_ship', 'ready_for_pickup'],
   renting: ['out_for_delivery', 'delivered', 'picked_up', 'return_submitted'],
   returned: ['returned', 'deposit_refunded'],
   canceled: ['cancelled', 'rejected'],
@@ -99,7 +99,7 @@ export default function AllBookings() {
   }, [bookings]);
 
   const filtered = useMemo(() => {
-    let list = [...bookings];
+    let list = [...bookings].filter((b) => b.status !== 'payment_pending');
     const groupStatuses = GROUP_STATUSES[group];
     if (groupStatuses) list = list.filter((b) => groupStatuses.includes(b.status));
     if (statusFilter) list = list.filter((b) => b.status === statusFilter);
@@ -218,13 +218,12 @@ export default function AllBookings() {
             สถานะ
             <select className="form-input" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
               <option value="">ทั้งหมด</option>
-              <option value="payment_pending">รอชำระเงิน</option>
-              <option value="pending">รออนุมัติ / ตรวจสลิป</option>
+              <option value="pending">รออนุมัติ</option>
               <option value="payment_verified">ตรวจสอบการชำระแล้ว</option>
               <option value="approved">อนุมัติแล้ว</option>
-              <option value="preparing">กำลังเตรียมชุด</option>
-              <option value="ready_to_ship">พร้อมส่งแมสฯ</option>
-              <option value="out_for_delivery">แมสฯ กำลังนำส่ง</option>
+              <option value="preparing">จัดเตรียมชุด</option>
+              <option value="ready_to_ship">พร้อมจัดส่ง</option>
+              <option value="out_for_delivery">กำลังจัดส่ง</option>
               <option value="delivered">ส่งถึงแล้ว</option>
               <option value="return_submitted">ลูกค้าส่งคืนแล้ว</option>
               <option value="returned">รับคืนแล้ว</option>

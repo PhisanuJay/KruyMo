@@ -77,9 +77,7 @@ export default function CostumeManager() {
 
   const [search, setSearch] = useState('');
   const [universityFilter, setUniversityFilter] = useState('');
-  const [degreeFilter, setDegreeFilter] = useState('');
   const [facultyFilter, setFacultyFilter] = useState('');
-  const [sizeFilter, setSizeFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
@@ -147,9 +145,7 @@ export default function CostumeManager() {
   const filtered = useMemo(() => {
     let list = [...enriched];
     if (universityFilter) list = list.filter((c) => c.universityId === universityFilter);
-    if (degreeFilter) list = list.filter((c) => c.degreeLevel === degreeFilter);
     if (facultyFilter) list = list.filter((c) => c.facultyId === facultyFilter);
-    if (sizeFilter) list = list.filter((c) => c.sizeId === sizeFilter);
     if (statusFilter) list = list.filter((c) => c.rowStatus.key === statusFilter);
     const q = search.trim().toLowerCase();
     if (q) {
@@ -160,10 +156,10 @@ export default function CostumeManager() {
       });
     }
     return list;
-  }, [enriched, universityFilter, degreeFilter, facultyFilter, sizeFilter, statusFilter, search]);
+  }, [enriched, universityFilter, facultyFilter, statusFilter, search]);
 
   useEffect(() => { setPage(1); }, [
-    search, universityFilter, degreeFilter, facultyFilter, sizeFilter, statusFilter, perPage,
+    search, universityFilter, facultyFilter, statusFilter, perPage,
   ]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
@@ -178,8 +174,8 @@ export default function CostumeManager() {
       setImages(costume.images || []);
     } else {
       setForm({
-        name: '', universityId: '', facultyId: '', sizeId: '',
-        degreeLevel: 'bachelor', pricePerDay: 300, deposit: 1000, stock: 1, description: '',
+        name: '', universityId: '', facultyId: '',
+        pricePerDay: 300, deposit: 1000, stock: 1, description: '',
       });
       setImages([]);
     }
@@ -254,15 +250,6 @@ export default function CostumeManager() {
             </select>
           </label>
           <label>
-            ประเภทชุด
-            <select className="form-input" value={degreeFilter} onChange={(e) => setDegreeFilter(e.target.value)}>
-              <option value="">ทั้งหมด</option>
-              <option value="bachelor">ป.ตรี</option>
-              <option value="master">ป.โท</option>
-              <option value="doctoral">ป.เอก</option>
-            </select>
-          </label>
-          <label>
             คณะ
             <select
               className="form-input"
@@ -271,13 +258,6 @@ export default function CostumeManager() {
             >
               <option value="">ทั้งหมด</option>
               {facultyOptions.map((f) => <option key={f.id} value={f.id}>{f.name}</option>)}
-            </select>
-          </label>
-          <label>
-            ไซส์
-            <select className="form-input" value={sizeFilter} onChange={(e) => setSizeFilter(e.target.value)}>
-              <option value="">ทั้งหมด</option>
-              {sizes.map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}
             </select>
           </label>
           <label>
@@ -322,15 +302,13 @@ export default function CostumeManager() {
                   <th>รูปภาพ</th>
                   <th>ชื่อชุดครุย</th>
                   <th>มหาวิทยาลัย</th>
-                  <th>ประเภทชุด</th>
                   <th>คณะ</th>
-                  <th>ไซส์</th>
                   <th colSpan={5} className="qty-group-head">จำนวนชุด</th>
                   <th>สถานะ</th>
                   <th>จัดการ</th>
                 </tr>
                 <tr className="qty-subhead">
-                  <th colSpan={7} />
+                  <th colSpan={5} />
                   <th>ทั้งหมด</th>
                   <th>พร้อมใช้</th>
                   <th>กำลังเช่า</th>
@@ -345,9 +323,7 @@ export default function CostumeManager() {
                     <td colSpan={14} style={{ textAlign: 'center', color: '#6B7280' }}>ไม่พบชุดครุย</td>
                   </tr>
                 )}
-                {pageItems.map((c) => {
-                  const degree = DEGREE_BADGE[c.degreeLevel] || DEGREE_BADGE.bachelor;
-                  return (
+                {pageItems.map((c) => (
                     <tr key={c.id}>
                       <td className="dash-order-id">{c.code}</td>
                       <td>
@@ -363,13 +339,7 @@ export default function CostumeManager() {
                         <div className="costume-name">{c.name}</div>
                       </td>
                       <td>{c.university?.shortName || c.university?.name || '—'}</td>
-                      <td>
-                        <span className="degree-chip" style={{ background: degree.bg, color: degree.color }}>
-                          {DEGREE_SHORT[c.degreeLevel] || c.degreeLevel}
-                        </span>
-                      </td>
                       <td>{c.faculty?.name || '—'}</td>
-                      <td>{c.size?.label || '—'}</td>
                       <td className="qty-cell">{c.qty.total}</td>
                       <td className="qty-cell">{c.qty.available}</td>
                       <td className="qty-cell">{c.qty.rented}</td>
@@ -397,8 +367,7 @@ export default function CostumeManager() {
                         </div>
                       </td>
                     </tr>
-                  );
-                })}
+                ))}
               </tbody>
             </table>
           </div>
@@ -438,8 +407,6 @@ export default function CostumeManager() {
             <p><strong>รหัส:</strong> {viewing.code}</p>
             <p><strong>มหาวิทยาลัย:</strong> {viewing.university?.name}</p>
             <p><strong>คณะ:</strong> {viewing.faculty?.name}</p>
-            <p><strong>ประเภท:</strong> {DEGREE_SHORT[viewing.degreeLevel]}</p>
-            <p><strong>ไซส์:</strong> {viewing.size?.label}</p>
             <p><strong>คงเหลือ:</strong> {viewing.qty.available} / {viewing.qty.total}</p>
             <p style={{ color: '#666', marginTop: 8 }}>{viewing.description}</p>
             <div className="modal-actions">
@@ -471,23 +438,6 @@ export default function CostumeManager() {
                 <select className="form-input" value={form.facultyId || ''} onChange={(e) => setForm({ ...form, facultyId: e.target.value })}>
                   <option value="">เลือก</option>
                   {filteredFaculties.map((f) => <option key={f.id} value={f.id}>{f.name}</option>)}
-                </select>
-              </div>
-            </div>
-            <div className="grid-2">
-              <div className="form-group">
-                <label>ไซส์</label>
-                <select className="form-input" value={form.sizeId || ''} onChange={(e) => setForm({ ...form, sizeId: e.target.value })}>
-                  <option value="">เลือก</option>
-                  {sizes.map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}
-                </select>
-              </div>
-              <div className="form-group">
-                <label>ระดับปริญญา</label>
-                <select className="form-input" value={form.degreeLevel || 'bachelor'} onChange={(e) => setForm({ ...form, degreeLevel: e.target.value })}>
-                  <option value="bachelor">ปริญญาตรี</option>
-                  <option value="master">ปริญญาโท</option>
-                  <option value="doctoral">ปริญญาเอก</option>
                 </select>
               </div>
             </div>

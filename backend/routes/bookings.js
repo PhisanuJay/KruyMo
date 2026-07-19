@@ -35,6 +35,7 @@ const enrichBooking = (booking) => {
         phone: user.phone,
         address: user.address || null,
         addressText: formatAddress(user.address) || formatAddress(booking.deliveryAddress),
+        refundAccount: user.refundAccount || null,
       }
       : null,
     deliveryAddressText: formatAddress(booking.deliveryAddress) || formatAddress(user?.address),
@@ -122,19 +123,33 @@ router.post('/', authenticate, (req, res) => {
     totalPrice: pricing.total,
     days: pricing.days,
     rejectReason: null,
-    prepChecklist: { gown: false, cap: false, sash: false, accessories: false },
     pickupConfirmedAt: null,
     returnImages: [],
     penaltyAmount: 0,
     penaltyReason: null,
     refundAmount: null,
     refundAccount: null,
+    refundSlipImage: null,
     deliveryAddress,
     messenger: null,
     createdAt: new Date().toISOString(),
   };
 
   addItem('bookings.json', booking);
+  // บันทึกที่อยู่ล่าสุดไว้ในโปรไฟล์ สำหรับครั้งถัดไป
+  const profileUpdates = {
+    address: {
+      recipientName: deliveryAddress.recipientName,
+      recipientPhone: deliveryAddress.recipientPhone,
+      line1: deliveryAddress.line1,
+      amphoe: deliveryAddress.amphoe,
+      district: deliveryAddress.district,
+      province: deliveryAddress.province,
+      postalCode: deliveryAddress.postalCode,
+    },
+  };
+  if (deliveryAddress.recipientPhone) profileUpdates.phone = deliveryAddress.recipientPhone;
+  updateById('users.json', req.user.id, profileUpdates);
   createNotification(req.user.id, 'booking_success', 'การจองของคุณสำเร็จแล้ว กรุณาชำระเงินภายใน 24 ชั่วโมง');
   const customer = findById('users.json', req.user.id);
   notifyStaff('new_booking', `มีการจองใหม่จาก ${customer?.name || 'ลูกค้า'} — รอชำระเงิน`);
@@ -159,6 +174,9 @@ router.patch('/:id/delivery-address', authenticate, (req, res) => {
   }
 
   const updated = updateById('bookings.json', req.params.id, { deliveryAddress });
+  const profileUpdates = { address: deliveryAddress };
+  if (deliveryAddress.recipientPhone) profileUpdates.phone = deliveryAddress.recipientPhone;
+  updateById('users.json', req.user.id, profileUpdates);
   logActivity('update_delivery_address', `แก้ที่อยู่จัดส่ง การจอง ${booking.id}`, req.user.id);
   res.json(enrichBooking(updated));
 });
@@ -173,6 +191,24 @@ router.patch('/:id/status', authenticate, authorize('staff', 'admin'), (req, res
     });
   }
 
+  // อนุมัติ / จัดเตรียม ได้เฉพาะหลังยืนยันสลิปแล้ว
+  if (status === 'approved' || status === 'preparing') {
+    const payment = readJSON('payments.json').find((p) => p.bookingId === booking.id);
+    if (!payment?.slipImage || payment.status !== 'verified') {
+      return res.status(400).json({ error: 'ต้องมีสลิปและยืนยันการชำระเงินก่อนจัดเตรียมชุด' });
+    }
+  }
+
+  // ยืนยันชำระเงินผ่านสถานะจองโดยตรงไม่อนุญาต — ต้องผ่าน /payments verify
+  if (status === 'payment_verified') {
+    const payment = readJSON('payments.json').find((p) => p.bookingId === booking.id);
+    if (!payment?.slipImage || payment.status !== 'verified') {
+      return res.status(400).json({
+        error: 'กรุณายืนยันสลิปผ่านระบบตรวจสอบการชำระเงินก่อน',
+      });
+    }
+  }
+
   const updates = { status };
   if (rejectReason) updates.rejectReason = rejectReason;
   if (messenger && typeof messenger === 'object') {
@@ -182,15 +218,25 @@ router.patch('/:id/status', authenticate, authorize('staff', 'admin'), (req, res
     };
   }
 
-  if (status === 'approved') {
-    createNotification(booking.userId, 'booking_approved', 'การจองของคุณได้รับการอนุมัติแล้ว');
+  if (status === 'approved' || status === 'preparing') {
+    createNotification(booking.userId, 'booking_approved', 'การชำระเงินได้รับการยืนยันแล้ว ร้านกำลังจัดเตรียมชุดของคุณ');
   } else if (status === 'rejected') {
-    createNotification(booking.userId, 'booking_rejected', `การจองของคุณถูกปฏิเสธ: ${rejectReason || ''}`);
+    createNotification(
+      booking.userId,
+      'booking_rejected',
+      `การจองของคุณถูกปฏิเสธ: ${rejectReason || ''}`,
+      { reason: rejectReason || '-' },
+    );
   } else if (status === 'ready_to_ship' || status === 'ready_for_pickup') {
     createNotification(booking.userId, 'ready_to_ship', 'ชุดครุยของคุณพร้อมจัดส่งแมสเซนเจอร์ภายในวันนี้');
   } else if (status === 'out_for_delivery') {
     const who = updates.messenger?.name || booking.messenger?.name || 'แมสเซนเจอร์';
-    createNotification(booking.userId, 'out_for_delivery', `${who} กำลังนำส่งชุดครุยให้คุณภายในวันนี้`);
+    createNotification(
+      booking.userId,
+      'out_for_delivery',
+      `${who} กำลังนำส่งชุดครุยให้คุณภายในวันนี้`,
+      { messenger: who },
+    );
   } else if (status === 'delivered') {
     updates.messenger = {
       ...(booking.messenger || {}),
@@ -217,16 +263,22 @@ router.post('/:id/submit-return', authenticate, (req, res) => {
   }
 
   const { returnImages, note, refundAccount } = req.body;
-  const accountError = validateRefundAccount(refundAccount);
+  const refundSource = refundAccount || booking.refundAccount;
+  const accountError = validateRefundAccount(refundSource);
   if (accountError) return res.status(400).json({ error: accountError });
 
+  const normalizedRefund = normalizeRefundAccount(refundSource);
   const updated = updateById('bookings.json', req.params.id, {
     status: 'return_submitted',
     returnImages: returnImages || booking.returnImages || [],
     returnNote: note || null,
-    refundAccount: normalizeRefundAccount(refundAccount),
+    refundAccount: normalizedRefund,
     returnSubmittedAt: new Date().toISOString(),
   });
+  // บันทึกบัญชีรับเงินคืนไว้ในโปรไฟล์ลูกค้าด้วย เพื่อใช้ครั้งถัดไป
+  if (booking.userId && normalizedRefund) {
+    updateById('users.json', booking.userId, { refundAccount: normalizedRefund });
+  }
   createNotification(
     booking.userId,
     'return_submitted',
@@ -234,13 +286,6 @@ router.post('/:id/submit-return', authenticate, (req, res) => {
   );
   notifyStaff('return_submitted', `ลูกค้าแจ้งส่งคืนแล้ว — เลขจอง ${booking.id.slice(0, 8)}…`);
   logActivity('submit_return', `ลูกค้าแจ้งส่งคืน การจอง ${booking.id}`, req.user.id);
-  res.json(enrichBooking(updated));
-});
-
-router.patch('/:id/prep', authenticate, authorize('staff', 'admin'), (req, res) => {
-  const { prepChecklist } = req.body;
-  const updated = updateById('bookings.json', req.params.id, { prepChecklist });
-  if (!updated) return res.status(404).json({ error: 'ไม่พบการจอง' });
   res.json(enrichBooking(updated));
 });
 
@@ -308,6 +353,11 @@ router.post('/:id/refund', authenticate, authorize('staff', 'admin'), (req, res)
     return res.status(400).json({ error: 'ต้องรับคืนชุดเข้าคลังก่อนคืนมัดจำ' });
   }
 
+  const { refundSlipImage } = req.body;
+  if (!refundSlipImage || typeof refundSlipImage !== 'string' || !refundSlipImage.trim()) {
+    return res.status(400).json({ error: 'กรุณาแนบสลิปการโอนคืนมัดจำ' });
+  }
+
   const penaltyAmount = req.body.penaltyAmount != null
     ? Number(req.body.penaltyAmount)
     : (booking.penaltyAmount || 0);
@@ -321,9 +371,12 @@ router.post('/:id/refund', authenticate, authorize('staff', 'admin'), (req, res)
     penaltyAmount: penaltyAmount || 0,
     penaltyReason: penaltyReason || null,
     refundAmount,
+    refundSlipImage: refundSlipImage.trim(),
     refundedAt: new Date().toISOString(),
   });
-  createNotification(booking.userId, 'deposit_refunded', `เงินมัดจำของคุณได้รับการคืนแล้ว จำนวน ${refundAmount} บาท`);
+  createNotification(booking.userId, 'deposit_refunded', `เงินมัดจำของคุณได้รับการคืนแล้ว จำนวน ${refundAmount} บาท`, {
+    amount: refundAmount.toLocaleString(),
+  });
   logActivity('refund', `คืนเงินมัดจำ ${refundAmount} บาท การจอง ${booking.id}`, req.user.id);
   res.json(enrichBooking(updated));
 });
@@ -337,9 +390,65 @@ router.delete('/:id', authenticate, (req, res) => {
   if (!['pending', 'payment_pending'].includes(booking.status)) {
     return res.status(400).json({ error: 'ไม่สามารถยกเลิกการจองในสถานะนี้ได้' });
   }
-  updateById('bookings.json', req.params.id, { status: 'cancelled' });
-  logActivity('cancel_booking', `ยกเลิกการจอง ${booking.id}`, req.user.id);
-  res.json({ message: 'ยกเลิกการจองสำเร็จ' });
+
+  /** คืนรายการกลับตะกร้า (ยกเลิกก่อนชำระจากตะกร้า) */
+  const restoreCartItem = (b) => {
+    if (b.source !== 'cart') return;
+    const cart = readJSON('cart.json', []);
+    const duplicate = cart.find((c) => (
+      c.userId === b.userId
+      && c.costumeId === b.costumeId
+      && c.sizeId === b.sizeId
+      && c.degreeLevel === b.degreeLevel
+      && c.startDate === b.startDate
+      && c.endDate === b.endDate
+    ));
+    if (duplicate) return;
+    addItem('cart.json', {
+      id: generateId(),
+      userId: b.userId,
+      costumeId: b.costumeId,
+      sizeId: b.sizeId,
+      degreeLevel: b.degreeLevel,
+      startDate: b.startDate,
+      endDate: b.endDate,
+      addedAt: new Date().toISOString(),
+    });
+  };
+
+  let restoredToCart = false;
+  const unpaidFromCart = booking.status === 'payment_pending' && booking.source === 'cart';
+
+  if (unpaidFromCart && booking.checkoutBatchId) {
+    // ยกเลิกทั้งชุดที่จองจากตะกร้าพร้อมกัน แล้วคืนทุกรายการกลับตะกร้า
+    const all = readJSON('bookings.json', []);
+    const siblings = all.filter((b) => (
+      b.checkoutBatchId === booking.checkoutBatchId
+      && b.userId === booking.userId
+      && b.status === 'payment_pending'
+      && b.source === 'cart'
+    ));
+    for (const sibling of siblings) {
+      updateById('bookings.json', sibling.id, { status: 'cancelled' });
+      restoreCartItem(sibling);
+      logActivity('cancel_booking', `ยกเลิกการจอง ${sibling.id} (คืนตะกร้า)`, req.user.id);
+    }
+    restoredToCart = siblings.length > 0;
+  } else {
+    updateById('bookings.json', req.params.id, { status: 'cancelled' });
+    if (unpaidFromCart) {
+      restoreCartItem(booking);
+      restoredToCart = true;
+    }
+    logActivity('cancel_booking', `ยกเลิกการจอง ${booking.id}${restoredToCart ? ' (คืนตะกร้า)' : ''}`, req.user.id);
+  }
+
+  res.json({
+    message: restoredToCart
+      ? 'ยกเลิกการจองแล้ว และคืนรายการกลับตะกร้าแล้ว'
+      : 'ยกเลิกการจองสำเร็จ',
+    restoredToCart,
+  });
 });
 
 export default router;

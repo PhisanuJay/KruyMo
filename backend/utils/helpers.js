@@ -3,7 +3,12 @@ import { addItem, readJSON } from './db.js';
 
 export const generateId = () => uuidv4();
 
-export const createNotification = (userId, type, message) => {
+export const createNotification = (userId, type, fallbackMessage = '', vars = {}) => {
+  const templates = readJSON('notificationTemplates.json', {});
+  let message = (templates && templates[type]) || fallbackMessage || type;
+  Object.entries(vars || {}).forEach(([key, value]) => {
+    message = String(message).split(`{${key}}`).join(String(value ?? ''));
+  });
   addItem('notifications.json', {
     id: generateId(),
     userId,
@@ -69,7 +74,7 @@ export const STATUS_LABELS = {
   payment_verified: 'ตรวจสอบการชำระแล้ว',
   approved: 'อนุมัติแล้ว',
   rejected: 'ปฏิเสธ',
-  preparing: 'กำลังเตรียมชุด',
+  preparing: 'จัดเตรียมชุด',
   ready_to_ship: 'พร้อมส่งแมสฯ',
   out_for_delivery: 'แมสฯ กำลังนำส่ง',
   delivered: 'ส่งถึงแล้ว',
@@ -83,10 +88,10 @@ export const STATUS_LABELS = {
 
 /** ลำดับสถานะที่อนุญาต (รวม legacy) */
 export const STATUS_TRANSITIONS = {
-  payment_pending: ['pending', 'cancelled'],
-  pending: ['payment_verified', 'approved', 'rejected', 'payment_pending', 'cancelled'],
-  payment_verified: ['approved', 'rejected'],
-  approved: ['preparing', 'rejected'],
+  payment_pending: ['cancelled'], // ไป pending ได้เฉพาะผ่านอัปโหลดสลิป
+  pending: ['payment_verified', 'preparing', 'approved', 'rejected', 'payment_pending', 'cancelled'],
+  payment_verified: ['approved', 'preparing', 'rejected'],
+  approved: ['preparing', 'ready_to_ship', 'rejected'],
   preparing: ['ready_to_ship', 'ready_for_pickup'],
   ready_to_ship: ['out_for_delivery'],
   ready_for_pickup: ['out_for_delivery', 'picked_up'],
@@ -113,8 +118,9 @@ export const normalizeDeliveryAddress = (raw) => {
     recipientName: String(raw.recipientName || '').trim(),
     recipientPhone: String(raw.recipientPhone || '').trim(),
     line1: String(raw.line1 || '').trim(),
+    amphoe: String(raw.amphoe || '').trim(),
     district: String(raw.district || '').trim(),
-    province: String(raw.province || '').trim(),
+    province: 'กรุงเทพมหานคร',
     postalCode: String(raw.postalCode || '').trim(),
   };
 };
@@ -124,9 +130,10 @@ export const validateDeliveryAddress = (address) => {
   if (!a?.recipientName) return 'กรุณากรอกชื่อผู้รับ';
   if (!a?.recipientPhone) return 'กรุณากรอกเบอร์ผู้รับ';
   if (!a?.line1) return 'กรุณากรอกที่อยู่จัดส่ง';
-  if (!a?.district) return 'กรุณากรอกแขวง/ตำบล';
-  if (!a?.province) return 'กรุณากรอกเขต/จังหวัด';
-  if (!a?.postalCode) return 'กรุณากรอกรหัสไปรษณีย์';
+  if (a.province !== 'กรุงเทพมหานคร') return 'จัดส่งเฉพาะกรุงเทพมหานครเท่านั้น';
+  if (!a?.amphoe) return 'กรุณาเลือกเขต';
+  if (!a?.district) return 'กรุณาเลือกแขวง';
+  if (!a?.postalCode) return 'กรุณาเลือกรหัสไปรษณีย์';
   return '';
 };
 
@@ -141,7 +148,13 @@ export const formatAddress = (address) => {
     parts.push(contact);
   }
   parts.push(
-    ...[address.line1, address.district, address.province, address.postalCode].filter(Boolean),
+    ...[
+      address.line1,
+      address.district,
+      address.amphoe,
+      address.province,
+      address.postalCode,
+    ].filter(Boolean),
   );
   return parts.join(' ');
 };

@@ -7,13 +7,12 @@ import StatusBadge from '../../components/StatusBadge';
 
 const STATUS_FILTERS = [
   { value: '', label: 'ทุกสถานะ' },
-  { value: 'payment_pending', label: 'รอชำระเงิน' },
   { value: 'pending', label: 'รออนุมัติ' },
   { value: 'payment_verified', label: 'ตรวจสอบการชำระแล้ว' },
   { value: 'approved', label: 'อนุมัติแล้ว' },
-  { value: 'preparing', label: 'กำลังเตรียมชุด' },
-  { value: 'ready_to_ship', label: 'พร้อมส่งแมสฯ' },
-  { value: 'out_for_delivery', label: 'แมสฯ กำลังนำส่ง' },
+  { value: 'preparing', label: 'จัดเตรียมชุด' },
+  { value: 'ready_to_ship', label: 'พร้อมจัดส่ง' },
+  { value: 'out_for_delivery', label: 'กำลังจัดส่ง' },
   { value: 'delivered', label: 'ส่งถึงแล้ว' },
   { value: 'return_submitted', label: 'ส่งคืนแล้ว (รอรับ)' },
   { value: 'returned', label: 'รับคืนแล้ว' },
@@ -24,7 +23,6 @@ const STATUS_FILTERS = [
 
 const QUICK_FILTERS = [
   { value: '', label: 'ทั้งหมด' },
-  { value: 'payment_pending', label: 'รอชำระเงิน' },
   { value: 'pending', label: 'รออนุมัติ' },
   { value: 'out_for_delivery', label: 'กำลังส่ง' },
   { value: 'delivered', label: 'ส่งถึงแล้ว' },
@@ -52,6 +50,8 @@ export default function BookingHistory() {
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     return bookings.filter((b) => {
+      // ไม่โชว์รายการที่ยังไม่ส่งสลิป — บังคับชำระก่อนดูประวัติ
+      if (b.status === 'payment_pending') return false;
       if (statusFilter && b.status !== statusFilter) return false;
       if (!q) return true;
       const name = (b.costume?.name || '').toLowerCase();
@@ -122,12 +122,12 @@ export default function BookingHistory() {
             </p>
             <div style={{ display: 'grid', gap: '1rem' }}>
               {filtered.map((b) => (
-                <Link
-                  key={b.id}
-                  to={`/bookings/${b.id}`}
-                  className="card booking-history-item"
-                >
-                  <div className="booking-history-item-main">
+                <div key={b.id} className="card booking-history-item" style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <Link
+                    to={`/bookings/${b.id}`}
+                    className="booking-history-item-main"
+                    style={{ textDecoration: 'none', color: 'inherit', flex: 1 }}
+                  >
                     {b.costume?.images?.[0] && (
                       <img
                         src={b.costume.images[0]}
@@ -147,9 +147,11 @@ export default function BookingHistory() {
                       </p>
                       <p className="booking-history-price">฿{b.totalPrice?.toLocaleString()}</p>
                     </div>
+                  </Link>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
+                    <StatusBadge status={b.status} />
                   </div>
-                  <StatusBadge status={b.status} />
-                </Link>
+                </div>
               ))}
             </div>
           </>

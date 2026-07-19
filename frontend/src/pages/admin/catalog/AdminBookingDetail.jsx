@@ -49,7 +49,7 @@ function DeliveryAddressBlock({ address, fallbackText }) {
         )}
         <p style={{ margin: 0 }}>{address.line1}</p>
         <p style={{ margin: '0.15rem 0 0' }}>
-          {[address.district, address.province, address.postalCode].filter(Boolean).join(' ')}
+          {[address.district, address.amphoe, address.province, address.postalCode].filter(Boolean).join(' ')}
         </p>
       </div>
     );
@@ -83,12 +83,13 @@ export default function AdminBookingDetail() {
   }, [id]);
 
   const handleVerifyAndApprove = async () => {
+    if (!payment?.id || !payment?.slipImage) {
+      alert('ยังไม่มีสลิปการโอน — ไม่สามารถยืนยันได้');
+      return;
+    }
     setActing(true);
     try {
-      if (payment?.id) {
-        await paymentAPI.verify(payment.id, 'verified');
-      }
-      await bookingAPI.updateStatus(id, { status: 'approved' });
+      await paymentAPI.verify(payment.id, 'verified');
       await load();
     } catch (err) {
       alert(err.response?.data?.error || 'ดำเนินการไม่สำเร็จ');
@@ -212,6 +213,16 @@ export default function AdminBookingDetail() {
                 {booking.penaltyReason ? ` (${booking.penaltyReason})` : ''}
               </p>
             )}
+            {booking.refundSlipImage && (
+              <div style={{ marginTop: '0.85rem' }}>
+                <strong style={{ display: 'block', marginBottom: '0.35rem', fontSize: '0.9rem' }}>
+                  สลิปโอนคืนมัดจำ
+                </strong>
+                <a href={booking.refundSlipImage} target="_blank" rel="noreferrer" className="booking-slip-preview">
+                  <img src={booking.refundSlipImage} alt="สลิปโอนคืนมัดจำ" />
+                </a>
+              </div>
+            )}
           </div>
         </section>
 
@@ -325,9 +336,17 @@ export default function AdminBookingDetail() {
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem' }}>
           {booking.status === 'pending' && (
             <>
-              <button type="button" className="btn btn-success btn-sm" disabled={acting} onClick={handleVerifyAndApprove}>
-                ยืนยันชำระเงินและอนุมัติ
+              <button
+                type="button"
+                className="btn btn-success btn-sm"
+                disabled={acting || !payment?.slipImage}
+                onClick={handleVerifyAndApprove}
+              >
+                ยืนยันสลิป — เข้าคิวจัดเตรียม
               </button>
+              <Link to="/admin/dispatch?queue=approve" className="btn btn-secondary btn-sm">
+                ดูคิวรออนุมัติ
+              </Link>
               <button type="button" className="btn btn-danger btn-sm" disabled={acting} onClick={() => setShowReject(true)}>
                 ปฏิเสธ
               </button>
@@ -344,18 +363,23 @@ export default function AdminBookingDetail() {
             </>
           )}
           {booking.status === 'approved' && (
-            <button type="button" className="btn btn-primary btn-sm" disabled={acting} onClick={() => handleStatus('preparing')}>
-              เริ่มเตรียมชุด
-            </button>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+              อยู่ในคิวจัดเตรียม — ให้พนักงานกดพร้อมจัดส่งที่หน้าจัดส่งและรับคืน
+            </p>
           )}
           {booking.status === 'preparing' && (
-            <button type="button" className="btn btn-primary btn-sm" disabled={acting} onClick={() => handleStatus('ready_to_ship')}>
-              พร้อมส่งแมสฯ
-            </button>
+            <>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                อยู่ในคิวจัดเตรียมชุดที่หน้าจัดส่งและรับคืน
+              </p>
+              <Link to="/admin/dispatch?queue=prep" className="btn btn-secondary btn-sm">
+                ดูคิวจัดเตรียม
+              </Link>
+            </>
           )}
           {needsDispatch && (
             <Link to="/admin/dispatch" className="btn btn-secondary btn-sm">
-              ไปคิวส่งแมสฯ / รับคืน
+              ไปจัดส่งและรับคืน
             </Link>
           )}
           {booking.status === 'returned' && (
@@ -382,7 +406,7 @@ export default function AdminBookingDetail() {
 
         {needsDispatch && (
           <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.85rem', marginBottom: 0 }}>
-            งานส่งแมสฯ / รับคืนเข้าคลัง / ยืนยันส่งถึง — จัดการที่คิวปฏิบัติการ
+            งานจัดส่ง / รับคืนเข้าคลัง / ยืนยันส่งถึง — จัดการที่หน้าจัดส่งและรับคืน
           </p>
         )}
 

@@ -1,9 +1,8 @@
 const STEPS = [
-  { key: 'payment_pending', label: 'จองแล้ว' },
   { key: 'pending', label: 'รออนุมัติ' },
-  { key: 'approved', label: 'อนุมัติ' },
+  { key: 'approved', label: 'จัดเตรียม' },
   { key: 'ready_to_ship', label: 'พร้อมส่ง' },
-  { key: 'out_for_delivery', label: 'แมสฯ ส่ง' },
+  { key: 'out_for_delivery', label: 'จัดส่ง' },
   { key: 'delivered', label: 'ส่งถึง' },
   { key: 'return_submitted', label: 'ส่งคืน' },
   { key: 'returned', label: 'รับคืน' },
@@ -13,6 +12,7 @@ const STEPS = [
 const STATUS_ORDER = STEPS.map((s) => s.key);
 
 const normalizeStatus = (status) => {
+  if (status === 'payment_pending') return 'pending';
   if (status === 'payment_verified') return 'pending';
   if (status === 'preparing') return 'approved';
   if (status === 'ready_for_pickup') return 'ready_to_ship';

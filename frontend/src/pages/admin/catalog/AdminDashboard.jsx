@@ -196,7 +196,7 @@ export default function AdminDashboard() {
           {data.opsQueue.awaitingRefund > 0 && <span>รอคืนมัดจำ {data.opsQueue.awaitingRefund}</span>}
           {(data.opsQueue.readyToShip + data.opsQueue.outForDelivery + data.opsQueue.returnSubmitted) > 0 && (
             <Link to="/admin/dispatch" className="btn btn-secondary btn-sm" style={{ marginLeft: 'auto' }}>
-              ไปคิวส่งแมสฯ / รับคืน
+              ไปจัดส่งและรับคืน
             </Link>
           )}
           {data.opsQueue.awaitingRefund > 0 && (

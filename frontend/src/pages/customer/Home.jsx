@@ -5,6 +5,7 @@ import CostumeCard from '../../components/CostumeCard';
 import { costumeAPI } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 
+/** คณะละรูป — ระดับปริญญาเลือกตอนจอง */
 const CATEGORIES = [
   {
     name: 'นิเทศศาสตร์',
@@ -44,6 +45,13 @@ const CATEGORIES = [
     text: '#111',
     img: '/images/gown-cyan.png',
   },
+  {
+    name: 'เทคโนโลยีสารสนเทศ',
+    desc: 'สายสีม่วง',
+    to: '/catalog?facultyId=fac-it',
+    bg: '#9B59B6',
+    img: '/images/gown-purple.png',
+  },
 ];
 
 export default function Home() {
@@ -51,7 +59,9 @@ export default function Home() {
   const { user } = useAuth();
 
   useEffect(() => {
-    costumeAPI.getAll().then((r) => setFeatured(r.data.slice(0, 4))).catch(() => {});
+    costumeAPI.getAll({ universityId: 'uni-spu' })
+      .then((r) => setFeatured(r.data))
+      .catch(() => {});
   }, []);
 
   return (
@@ -80,7 +90,9 @@ export default function Home() {
         <div className="section-head">
           <div>
             <h2>คณะศรีปทุม</h2>
-            <p style={{ color: 'var(--text-muted)', marginTop: 4 }}>ทุกชุดใช้ตรา มหาวิทยาลัยศรีปทุม</p>
+            <p style={{ color: 'var(--text-muted)', marginTop: 4 }}>
+              คณะละรูป — เลือกระดับตรี / โท / เอก ตอนจอง
+            </p>
           </div>
           <Link to="/catalog" className="section-link">ดูทั้งหมด →</Link>
         </div>
@@ -113,7 +125,7 @@ export default function Home() {
         </section>
 
         <div className="section-head">
-          <h2>ชุดครุยยอดนิยม</h2>
+          <h2>ชุดครุยตามคณะ</h2>
           <Link to="/catalog" className="section-link">ดูแคตตาล็อก →</Link>
         </div>
 

@@ -55,7 +55,7 @@ export default function AdminRefund() {
   }, []);
 
   const pending = useMemo(
-    () => bookings.filter((b) => b.status === 'returned'),
+    () => bookings.filter((b) => ['return_submitted', 'returned'].includes(b.status)),
     [bookings],
   );
   const done = useMemo(
@@ -230,6 +230,13 @@ export default function AdminRefund() {
                     {tab === 'done'
                       ? formatThaiDate(b.refundedAt)
                       : formatThaiDate(b.returnedAt)}
+                    {tab === 'done' && b.refundSlipImage && (
+                      <div style={{ marginTop: 6 }}>
+                        <a href={b.refundSlipImage} target="_blank" rel="noreferrer" style={{ fontSize: '0.8rem' }}>
+                          ดูสลิปโอนคืน
+                        </a>
+                      </div>
+                    )}
                   </td>
                   <td>
                     <Link to={`/admin/bookings/${b.id}`} className="dash-view-btn" title="ดูรายละเอียด">

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
 import { authAPI } from '../../services/api';
 import CustomerLayout from '../../components/CustomerLayout';
 
@@ -8,7 +7,6 @@ export default function Register() {
   const [form, setForm] = useState({ name: '', email: '', password: '', phone: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -17,8 +15,13 @@ export default function Register() {
     setLoading(true);
     try {
       const { data } = await authAPI.register(form);
-      login(data.user, data.token);
-      navigate('/catalog');
+      navigate(`/verify-email?email=${encodeURIComponent(data.email)}`, {
+        state: {
+          email: data.email,
+          message: data.message,
+          cooldown: data.resendAfter || 60,
+        },
+      });
     } catch (err) {
       setError(err.response?.data?.error || 'สมัครสมาชิกไม่สำเร็จ');
     } finally {

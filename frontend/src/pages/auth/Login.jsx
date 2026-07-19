@@ -23,6 +23,13 @@ export default function Login() {
       else if (data.user.role === 'staff') navigate('/staff');
       else navigate('/catalog');
     } catch (err) {
+      if (err.response?.data?.code === 'EMAIL_NOT_VERIFIED') {
+        const pendingEmail = err.response.data.email || email;
+        navigate(`/verify-email?email=${encodeURIComponent(pendingEmail)}`, {
+          state: { email: pendingEmail, message: 'บัญชีนี้ยังไม่ได้ยืนยันอีเมล กรุณากรอกรหัสหรือขอรหัสใหม่' },
+        });
+        return;
+      }
       setError(err.response?.data?.error || 'เข้าสู่ระบบไม่สำเร็จ');
     } finally {
       setLoading(false);

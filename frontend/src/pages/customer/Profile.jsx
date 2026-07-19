@@ -4,10 +4,21 @@ import { useAuth } from '../../context/AuthContext';
 import { userAPI, uploadAPI } from '../../services/api';
 import CustomerLayout from '../../components/CustomerLayout';
 import UploadBox from '../../components/UploadBox';
+import DeliveryAddressFields, {
+  deliveryAddressFromUser,
+  normalizeDeliveryAddress,
+} from '../../components/DeliveryAddressFields';
+import RefundAccountFields, {
+  refundAccountFromUser,
+  validateRefundAccount,
+  normalizeRefundAccount,
+} from '../../components/RefundAccountFields';
 
 export default function Profile() {
   const { user, updateUser } = useAuth();
   const [form, setForm] = useState({ name: '', phone: '', email: '' });
+  const [address, setAddress] = useState(deliveryAddressFromUser(null));
+  const [refundAccount, setRefundAccount] = useState(refundAccountFromUser(null));
   const [passwords, setPasswords] = useState({ currentPassword: '', newPassword: '' });
   const [avatar, setAvatar] = useState(null);
   const [message, setMessage] = useState('');
@@ -17,9 +28,20 @@ export default function Profile() {
   useEffect(() => {
     if (user) {
       setForm({ name: user.name, phone: user.phone || '', email: user.email });
+      setAddress(deliveryAddressFromUser(user));
+      setRefundAccount(refundAccountFromUser(user));
       setAvatar(user.avatar);
+      userAPI.get(user.id)
+        .then(({ data }) => {
+          updateUser(data);
+          setForm({ name: data.name, phone: data.phone || '', email: data.email });
+          setAddress(deliveryAddressFromUser(data));
+          setRefundAccount(refundAccountFromUser(data));
+          setAvatar(data.avatar);
+        })
+        .catch(() => {});
     }
-  }, [user]);
+  }, [user?.id]);
 
   const handleAvatarUpload = async (file) => {
     const { data } = await uploadAPI.single(file);
@@ -34,13 +56,31 @@ export default function Profile() {
     setError('');
     setMessage('');
     try {
-      const payload = { ...form };
+      const refundErr = validateRefundAccount(refundAccount);
+      if (refundErr) {
+        setError(refundErr);
+        setSaving(false);
+        return;
+      }
+      const normalized = normalizeDeliveryAddress({
+        ...address,
+        recipientName: address.recipientName || form.name,
+        recipientPhone: address.recipientPhone || form.phone,
+      });
+      const payload = {
+        name: form.name,
+        phone: form.phone,
+        address: normalized,
+        refundAccount: normalizeRefundAccount(refundAccount),
+      };
       if (passwords.newPassword) {
         payload.currentPassword = passwords.currentPassword;
         payload.newPassword = passwords.newPassword;
       }
       const { data } = await userAPI.update(user.id, payload);
       updateUser(data);
+      setAddress(deliveryAddressFromUser(data));
+      setRefundAccount(refundAccountFromUser(data));
       setMessage('บันทึกสำเร็จ');
       setPasswords({ currentPassword: '', newPassword: '' });
     } catch (err) {
@@ -56,7 +96,7 @@ export default function Profile() {
     <CustomerLayout>
       <div className="container" style={{ maxWidth: 600, padding: '2rem 20px' }}>
         <h1 className="page-title">โปรไฟล์</h1>
-        <p className="page-subtitle">จัดการข้อมูลส่วนตัวของคุณ · ที่อยู่จัดส่งกรอกตอนจอง</p>
+        <p className="page-subtitle">จัดการข้อมูลส่วนตัว ที่อยู่จัดส่ง และบัญชีรับเงินคืนมัดจำ</p>
         {message && <div className="alert alert-success">{message}</div>}
         {error && <div className="alert alert-error">{error}</div>}
 
@@ -86,12 +126,40 @@ export default function Profile() {
             </div>
             <div className="form-group">
               <label>อีเมล</label>
-              <input className="form-input" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+              <input className="form-input" type="email" value={form.email} disabled readOnly />
+              <small style={{ color: 'var(--text-muted)' }}>อีเมลที่ยืนยันแล้วไม่สามารถเปลี่ยนเองได้</small>
             </div>
             <div className="form-group">
               <label>เบอร์โทร</label>
               <input className="form-input" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
             </div>
+
+            <hr style={{ border: 'none', borderTop: '1px solid #eee', margin: '1.5rem 0' }} />
+            <h3 style={{ fontWeight: 700, marginBottom: '0.75rem' }}>ที่อยู่จัดส่งเริ่มต้น</h3>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+              ใช้เติมฟอร์มตอนจองอัตโนมัติ — ตอนจองยังแก้เองได้
+            </p>
+            <DeliveryAddressFields
+              value={{
+                ...address,
+                recipientName: address.recipientName || form.name,
+                recipientPhone: address.recipientPhone || form.phone,
+              }}
+              onChange={setAddress}
+              compact
+            />
+
+            <hr style={{ border: 'none', borderTop: '1px solid #eee', margin: '1.5rem 0' }} />
+            <RefundAccountFields
+              value={{
+                ...refundAccount,
+                promptpay: refundAccount.promptpay || form.phone,
+                accountName: refundAccount.accountName || form.name,
+              }}
+              onChange={setRefundAccount}
+              hint="บันทึกไว้ใช้ตอนแจ้งส่งคืนชุด — ระบบจะเติมให้อัตโนมัติ"
+            />
+
             <hr style={{ border: 'none', borderTop: '1px solid #eee', margin: '1.5rem 0' }} />
             <h3 style={{ fontWeight: 700, marginBottom: '1rem' }}>เปลี่ยนรหัสผ่าน</h3>
             <div className="form-group">

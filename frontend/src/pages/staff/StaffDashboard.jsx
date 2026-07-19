@@ -1,42 +1,51 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  Receipt, Truck, Wallet, ClipboardList, ArrowRight,
+  AlertCircle, Package,
+} from 'lucide-react';
 import { bookingAPI } from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
 import DashboardLayout from '../../components/DashboardLayout';
 import StatusBadge from '../../components/StatusBadge';
 import './staff.css';
 
-const PENDING_STATUSES = ['pending', 'payment_pending', 'payment_verified'];
-const ACTIVE_STATUSES = [
-  'approved', 'preparing', 'ready_to_ship', 'out_for_delivery',
-  'delivered', 'return_submitted', 'ready_for_pickup', 'picked_up',
-];
+const PENDING_STATUSES = ['pending', 'payment_verified'];
 
 function nextPathForBooking(b) {
-  if (['ready_to_ship', 'ready_for_pickup', 'out_for_delivery', 'return_submitted'].includes(b.status)) {
-    return { path: '/staff/dispatch' };
+  if (['pending', 'payment_verified'].includes(b.status)) {
+    return '/staff/dispatch?queue=approve';
+  }
+  if (['preparing', 'approved'].includes(b.status)) {
+    return '/staff/dispatch?queue=prep';
+  }
+  if (['ready_to_ship', 'ready_for_pickup'].includes(b.status)) {
+    return '/staff/dispatch?queue=ready';
+  }
+  if (b.status === 'out_for_delivery') {
+    return '/staff/dispatch?queue=shipping';
   }
   if (['delivered', 'picked_up'].includes(b.status)) {
-    return { path: '/staff/dispatch' };
+    return '/staff/dispatch?queue=with_customer';
+  }
+  if (b.status === 'return_submitted') {
+    return '/staff/dispatch?queue=inbound';
   }
   if (b.status === 'returned') {
-    return { path: '/staff/refund' };
+    return '/staff/refund';
   }
-  if (PENDING_STATUSES.includes(b.status) || ACTIVE_STATUSES.includes(b.status)) {
-    return { path: `/staff/bookings?status=${b.status}&focus=${b.id}` };
-  }
-  return { path: `/staff/bookings?status=${b.status}` };
+  return `/staff/bookings?status=${b.status}&focus=${b.id}`;
 }
 
 function actionHint(status) {
   const map = {
-    payment_pending: 'รอลูกค้าชำระ',
     pending: 'ตรวจสลิป',
-    payment_verified: 'รออนุมัติ',
-    approved: 'เตรียมชุด',
-    preparing: 'เช็ค checklist',
-    ready_to_ship: 'จัดแมสฯ ส่ง',
-    ready_for_pickup: 'จัดแมสฯ ส่ง',
-    out_for_delivery: 'รอส่งถึง',
+    payment_verified: 'ตรวจสลิป',
+    approved: 'จัดเตรียมชุด',
+    preparing: 'จัดเตรียมชุด',
+    ready_to_ship: 'มอบหมายจัดส่ง',
+    ready_for_pickup: 'มอบหมายจัดส่ง',
+    out_for_delivery: 'ยืนยันส่งถึง',
     delivered: 'รอลูกค้าส่งคืน',
     picked_up: 'รอลูกค้าส่งคืน',
     return_submitted: 'รับคืนเข้าคลัง',
@@ -45,29 +54,45 @@ function actionHint(status) {
   return map[status] || 'ดูรายละเอียด';
 }
 
+function shortId(id = '') {
+  return id.replace(/-/g, '').slice(0, 8).toUpperCase();
+}
+
+function initials(name = '') {
+  const parts = String(name).trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return '?';
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+}
+
 export default function StaffDashboard() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     bookingAPI.getAll()
-      .then((r) => setBookings(r.data))
+      .then((r) => setBookings(r.data || []))
       .finally(() => setLoading(false));
   }, []);
 
-  const pending = bookings.filter((b) => PENDING_STATUSES.includes(b.status));
-  const shipQueue = bookings.filter((b) =>
-    ['ready_to_ship', 'ready_for_pickup', 'out_for_delivery', 'return_submitted'].includes(b.status));
-  const needSlip = bookings.filter((b) => b.status === 'pending');
-  const recent = [...bookings]
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .slice(0, 8);
+  const stats = useMemo(() => {
+    const needSlip = bookings.filter((b) => b.status === 'pending');
+    const pending = bookings.filter((b) => PENDING_STATUSES.includes(b.status));
+    const prep = bookings.filter((b) => ['preparing', 'approved'].includes(b.status));
+    const shipQueue = bookings.filter((b) =>
+      ['ready_to_ship', 'ready_for_pickup', 'out_for_delivery', 'return_submitted'].includes(b.status));
+    const awaitRefund = bookings.filter((b) =>
+      ['return_submitted', 'returned'].includes(b.status));
+    const urgent = needSlip.length + prep.length + awaitRefund.length;
+    return { needSlip, pending, prep, shipQueue, awaitRefund, urgent };
+  }, [bookings]);
 
-  const goBooking = (b) => {
-    const { path, state } = nextPathForBooking(b);
-    navigate(path, state ? { state } : undefined);
-  };
+  const recent = useMemo(() => [...bookings]
+    .filter((b) => !['cancelled', 'rejected', 'payment_pending', 'deposit_refunded'].includes(b.status))
+    .sort((a, b) => new Date(b.updatedAt || b.createdAt) - new Date(a.updatedAt || a.createdAt))
+    .slice(0, 8), [bookings]);
 
   const todayLabel = new Date().toLocaleDateString('th-TH', {
     weekday: 'long',
@@ -76,97 +101,166 @@ export default function StaffDashboard() {
     day: 'numeric',
   });
 
+  const firstName = (user?.name || 'พนักงาน').trim().split(/\s+/)[0];
+
+  const queues = [
+    {
+      key: 'slip',
+      label: 'รอตรวจสลิป',
+      value: stats.pending.length,
+      hint: stats.needSlip.length > 0
+        ? `${stats.needSlip.length} รายการเร่งด่วน`
+        : 'ไม่มีคิวรอตรวจ',
+      icon: Receipt,
+      tone: 'red',
+      path: '/staff/dispatch?queue=approve',
+    },
+    {
+      key: 'ship',
+      label: 'จัดส่งและรับคืน',
+      value: stats.shipQueue.length,
+      hint: stats.prep.length > 0
+        ? `${stats.prep.length} รายการกำลังจัดเตรียม`
+        : 'คิวส่ง / รับคืนวันนี้',
+      icon: Truck,
+      tone: 'dark',
+      path: '/staff/dispatch',
+    },
+    {
+      key: 'refund',
+      label: 'รอคืนมัดจำ',
+      value: stats.awaitRefund.length,
+      hint: stats.awaitRefund.length > 0 ? 'มีรายการรอโอนคืน' : 'ยังไม่มีคิวคืนมัดจำ',
+      icon: Wallet,
+      tone: 'green',
+      path: '/staff/refund',
+    },
+    {
+      key: 'all',
+      label: 'คำสั่งเช่าทั้งหมด',
+      value: bookings.length,
+      hint: 'เปิดรายการทั้งหมด',
+      icon: ClipboardList,
+      tone: 'muted',
+      path: '/staff/bookings',
+    },
+  ];
+
   return (
     <DashboardLayout role="staff">
-      <div className="staff-ops">
-        <div className="staff-page-head">
-          <div>
-            <h1 className="page-title">แดชบอร์ดพนักงาน</h1>
-            <p className="page-subtitle">งานวันนี้ — ตรวจสลิป · ส่งแมสฯ · รับคืน · คืนมัดจำ</p>
+      <div className="staff-ops staff-home-desk">
+        <header className="home-hero">
+          <div className="home-hero-copy">
+            <p className="home-hero-kicker">วันนี้ · {todayLabel}</p>
+            <h1>สวัสดี, {firstName}</h1>
+            <p>สรุปงานที่ต้องทำ — ตรวจสลิป · จัดส่ง · รับคืน · คืนมัดจำ</p>
           </div>
-          <div className="staff-head-meta">{todayLabel}</div>
-        </div>
-
-        <div className="staff-stat-grid">
-          <button
-            type="button"
-            className="staff-stat"
-            style={{ '--stat-accent': '#E63946' }}
-            onClick={() => navigate('/staff/bookings?group=pending')}
-          >
-            <span className="staff-stat-kicker">รอดำเนินการ</span>
-            <span className="staff-stat-value">{pending.length}</span>
-            <span className="staff-stat-hint">
-              {needSlip.length > 0 ? `${needSlip.length} รายการรอตรวจสลิป` : 'ไม่มีคิวเร่งด่วน'}
-            </span>
-          </button>
-          <button
-            type="button"
-            className="staff-stat"
-            style={{ '--stat-accent': '#1D3557' }}
-            onClick={() => navigate('/staff/dispatch')}
-          >
-            <span className="staff-stat-kicker">คิวแมสฯ / รับคืน</span>
-            <span className="staff-stat-value">{shipQueue.length}</span>
-            <span className="staff-stat-hint">ส่งวันนี้และของรอรับคืน</span>
-          </button>
-          <button
-            type="button"
-            className="staff-stat"
-            style={{ '--stat-accent': '#4CC9F0' }}
-            onClick={() => navigate('/staff/bookings')}
-          >
-            <span className="staff-stat-kicker">ทั้งหมด</span>
-            <span className="staff-stat-value">{bookings.length}</span>
-            <span className="staff-stat-hint">เปิดรายการคำสั่งเช่า</span>
-          </button>
-        </div>
-
-        <div className="staff-panel">
-          <div className="staff-panel-head">
-            <h3>รายการล่าสุด</h3>
-            <span className="staff-panel-count">{recent.length} รายการ</span>
+          <div className="home-hero-aside">
+            <span>งานที่ต้องโฟกัส</span>
+            <strong>{loading ? '—' : stats.urgent}</strong>
+            <small>สลิป / จัดเตรียม / คืนมัดจำ</small>
           </div>
+        </header>
+
+        {!loading && stats.needSlip.length > 0 && (
+          <button
+            type="button"
+            className="home-alert"
+            onClick={() => navigate('/staff/dispatch?queue=approve')}
+          >
+            <AlertCircle size={18} />
+            <div>
+              <strong>มีสลิปรอตรวจ {stats.needSlip.length} รายการ</strong>
+              <span>ตรวจยืนยันก่อน เพื่อให้เข้าคิวจัดเตรียมชุดได้ทันที</span>
+            </div>
+            <ArrowRight size={18} />
+          </button>
+        )}
+
+        <section className="home-queue-grid" aria-label="คิวงานหลัก">
+          {queues.map((q) => {
+            const Icon = q.icon;
+            return (
+              <button
+                key={q.key}
+                type="button"
+                className={`home-queue-card tone-${q.tone}`}
+                onClick={() => navigate(q.path)}
+              >
+                <div className="home-queue-top">
+                  <span className="home-queue-icon"><Icon size={18} /></span>
+                  <ArrowRight size={16} className="home-queue-arrow" />
+                </div>
+                <span className="home-queue-label">{q.label}</span>
+                <strong className="home-queue-value">{loading ? '—' : q.value}</strong>
+                <span className="home-queue-hint">{q.hint}</span>
+              </button>
+            );
+          })}
+        </section>
+
+        <section className="home-panel">
+          <header className="home-panel-head">
+            <div>
+              <h2>งานที่ต้องทำต่อ</h2>
+              <p>รายการล่าสุดที่ยังอยู่ในกระบวนการ — กดเพื่อไปทำต่อ</p>
+            </div>
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm"
+              onClick={() => navigate('/staff/bookings')}
+            >
+              ดูทั้งหมด
+            </button>
+          </header>
 
           {loading ? (
-            <div className="staff-empty">กำลังโหลด...</div>
+            <div className="home-empty">กำลังโหลดงาน...</div>
           ) : recent.length === 0 ? (
-            <div className="staff-empty">ยังไม่มีรายการจอง</div>
+            <div className="home-empty">
+              <Package size={28} strokeWidth={1.5} />
+              <h3>ยังไม่มีงานค้าง</h3>
+              <p>เมื่อมีคำสั่งเช่าใหม่ จะแสดงที่นี่ให้ดำเนินการต่อ</p>
+            </div>
           ) : (
-            <div className="staff-booking-list">
+            <div className="home-work-list">
               {recent.map((b) => (
-                <div
+                <button
                   key={b.id}
-                  className="staff-booking-row is-clickable"
-                  onClick={() => goBooking(b)}
-                  onKeyDown={(e) => e.key === 'Enter' && goBooking(b)}
-                  role="button"
-                  tabIndex={0}
+                  type="button"
+                  className="home-work-row"
+                  onClick={() => navigate(nextPathForBooking(b))}
                 >
-                  <div className="staff-booking-main">
-                    <div className="staff-booking-title">
-                      <strong>{b.user?.name || 'ลูกค้า'}</strong>
-                      <StatusBadge status={b.status} size="sm" />
-                    </div>
-                    <div className="staff-booking-meta">
-                      <span>{b.costume?.name || '-'}</span>
-                      <span>{new Date(b.createdAt).toLocaleDateString('th-TH')}</span>
+                  <div className="home-work-who">
+                    <div className="home-avatar" aria-hidden>{initials(b.user?.name)}</div>
+                    <div>
+                      <div className="home-work-name">
+                        <strong>{b.user?.name || 'ลูกค้า'}</strong>
+                        <StatusBadge status={b.status} size="sm" />
+                      </div>
+                      <p>
+                        {b.costume?.name || '—'}
+                        {' · '}
+                        <code>#{shortId(b.id)}</code>
+                      </p>
                     </div>
                   </div>
-                  <div className="staff-booking-side">
-                    <span className="amount">฿{(b.totalPrice || 0).toLocaleString()}</span>
-                    ขั้นตอนถัดไป: {actionHint(b.status)}
+                  <div className="home-work-next">
+                    <span>ขั้นตอนถัดไป</span>
+                    <strong>{actionHint(b.status)}</strong>
                   </div>
-                  <div className="staff-actions">
-                    <span className="btn btn-ghost btn-sm" style={{ pointerEvents: 'none' }}>
-                      ไปทำต่อ →
+                  <div className="home-work-amount">
+                    <strong>฿{(b.totalPrice || 0).toLocaleString()}</strong>
+                    <span className="home-work-go">
+                      ไปทำต่อ
+                      <ArrowRight size={14} />
                     </span>
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           )}
-        </div>
+        </section>
       </div>
     </DashboardLayout>
   );

@@ -1,36 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import {
+  Search, Receipt, Truck, Wallet, Eye, ArrowRight, ClipboardList,
+} from 'lucide-react';
 import { bookingAPI, paymentAPI } from '../../services/api';
 import DashboardLayout from '../../components/DashboardLayout';
 import StatusBadge from '../../components/StatusBadge';
 import './staff.css';
 
-const PENDING_STATUSES = ['pending', 'payment_pending', 'payment_verified'];
-const ACTIVE_STATUSES = ['approved', 'preparing', 'ready_to_ship', 'out_for_delivery', 'delivered', 'return_submitted', 'ready_for_pickup', 'picked_up'];
-
-const PREP_ITEMS = [
-  { key: 'gown', label: 'ชุดครุย' },
-  { key: 'cap', label: 'หมวก' },
-  { key: 'sash', label: 'สายสะพาย' },
-  { key: 'accessories', label: 'อุปกรณ์เสริม' },
+const ACTIVE_STATUSES = [
+  'payment_verified', 'approved', 'preparing', 'ready_to_ship',
+  'out_for_delivery', 'delivered', 'return_submitted', 'ready_for_pickup', 'picked_up',
 ];
-
-const emptyPrep = () => ({ gown: false, cap: false, sash: false, accessories: false });
-
-function isPrepComplete(checklist) {
-  const c = checklist || emptyPrep();
-  return PREP_ITEMS.every((item) => c[item.key]);
-}
 
 const STATUS_OPTIONS = [
   { value: '', label: 'ทุกสถานะ' },
-  { value: 'payment_pending', label: 'รอชำระเงิน' },
-  { value: 'pending', label: 'รออนุมัติ / ตรวจสลิป' },
   { value: 'payment_verified', label: 'ตรวจชำระแล้ว' },
   { value: 'approved', label: 'อนุมัติแล้ว' },
-  { value: 'preparing', label: 'กำลังเตรียมชุด' },
-  { value: 'ready_to_ship', label: 'พร้อมส่งแมสฯ' },
-  { value: 'out_for_delivery', label: 'แมสฯ กำลังนำส่ง' },
+  { value: 'preparing', label: 'จัดเตรียมชุด' },
+  { value: 'ready_to_ship', label: 'พร้อมจัดส่ง' },
+  { value: 'out_for_delivery', label: 'กำลังจัดส่ง' },
   { value: 'delivered', label: 'ส่งถึงแล้ว' },
   { value: 'return_submitted', label: 'ลูกค้าส่งคืนแล้ว' },
   { value: 'returned', label: 'รับคืนแล้ว' },
@@ -39,35 +28,75 @@ const STATUS_OPTIONS = [
   { value: 'cancelled', label: 'ยกเลิกแล้ว' },
 ];
 
+const QUICK_FILTERS = [
+  { id: 'all', label: 'ทั้งหมด', status: '', group: '' },
+  { id: 'active', label: 'กำลังดำเนินการ', status: '', group: 'active' },
+  { id: 'shipping', label: 'จัดส่ง', status: '', group: 'shipping' },
+  { id: 'refund', label: 'รอคืนมัดจำ', status: '', group: 'refund' },
+  { id: 'done', label: 'ปิดงานแล้ว', status: 'deposit_refunded', group: '' },
+  { id: 'closed', label: 'ยกเลิก / ปฏิเสธ', status: '', group: 'closed' },
+];
+
+function shortId(id = '') {
+  return id.replace(/-/g, '').slice(0, 8).toUpperCase();
+}
+
+function initials(name = '') {
+  const parts = String(name).trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return '?';
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+}
+
+function degreeLabel(b) {
+  return b.degreeLabel || ({
+    bachelor: 'ปริญญาตรี',
+    master: 'ปริญญาโท',
+    doctoral: 'ปริญญาเอก',
+  }[b.degreeLevel]) || b.degreeLevel || '—';
+}
+
 export default function StaffBookings() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [bookings, setBookings] = useState([]);
+  const [allBookings, setAllBookings] = useState([]);
   const [filter, setFilter] = useState(searchParams.get('status') || '');
   const [group, setGroup] = useState(searchParams.get('group') || '');
+  const [search, setSearch] = useState('');
   const [modal, setModal] = useState(null);
-  const [prepModal, setPrepModal] = useState(null);
-  const [prepChecklist, setPrepChecklist] = useState(emptyPrep());
-  const [savingPrep, setSavingPrep] = useState(false);
   const [slipModal, setSlipModal] = useState(null);
   const [slipLoading, setSlipLoading] = useState(false);
   const [slipActing, setSlipActing] = useState(false);
+  const [rejectSlipReason, setRejectSlipReason] = useState('');
   const [reason, setReason] = useState('');
   const [loading, setLoading] = useState(true);
   const focusId = searchParams.get('focus');
 
+  const applyListFilter = (raw, statusFilter, groupFilter) => {
+    let list = (raw || []).filter((b) => !['payment_pending', 'pending'].includes(b.status));
+    if (statusFilter) {
+      list = list.filter((b) => b.status === statusFilter);
+    } else if (groupFilter === 'active') {
+      list = list.filter((b) => ACTIVE_STATUSES.includes(b.status));
+    } else if (groupFilter === 'shipping') {
+      list = list.filter((b) =>
+        ['ready_to_ship', 'ready_for_pickup', 'out_for_delivery', 'delivered', 'picked_up', 'return_submitted'].includes(b.status));
+    } else if (groupFilter === 'refund') {
+      list = list.filter((b) => ['return_submitted', 'returned'].includes(b.status));
+    } else if (groupFilter === 'closed') {
+      list = list.filter((b) => ['cancelled', 'rejected'].includes(b.status));
+    }
+    return list.sort((a, b) => new Date(b.updatedAt || b.createdAt) - new Date(a.updatedAt || a.createdAt));
+  };
+
   const load = () => {
     setLoading(true);
-    const params = filter ? { status: filter } : {};
-    bookingAPI.getAll(params)
+    bookingAPI.getAll()
       .then((r) => {
-        let list = r.data;
-        if (!filter && group === 'pending') {
-          list = list.filter((b) => PENDING_STATUSES.includes(b.status));
-        } else if (!filter && group === 'active') {
-          list = list.filter((b) => ACTIVE_STATUSES.includes(b.status));
-        }
-        setBookings(list);
+        const raw = r.data || [];
+        setAllBookings(raw);
+        setBookings(applyListFilter(raw, filter, group));
       })
       .finally(() => setLoading(false));
   };
@@ -84,6 +113,52 @@ export default function StaffBookings() {
       return () => clearTimeout(t);
     }
   }, [focusId, loading, bookings]);
+
+  const summary = useMemo(() => {
+    const visible = (allBookings || []).filter((b) => !['payment_pending', 'pending'].includes(b.status));
+    return {
+      total: visible.length,
+      active: visible.filter((b) => ACTIVE_STATUSES.includes(b.status)).length,
+      refund: visible.filter((b) => ['return_submitted', 'returned'].includes(b.status)).length,
+      done: visible.filter((b) => b.status === 'deposit_refunded').length,
+    };
+  }, [allBookings]);
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return bookings;
+    return bookings.filter((b) => {
+      const hay = [
+        b.id,
+        shortId(b.id),
+        b.user?.name,
+        b.user?.phone,
+        b.user?.email,
+        b.costume?.name,
+        b.size?.label,
+      ].filter(Boolean).join(' ').toLowerCase();
+      return hay.includes(q);
+    });
+  }, [bookings, search]);
+
+  const activeQuick = useMemo(() => {
+    if (filter === 'deposit_refunded' && !group) return 'done';
+    if (!filter && group === 'active') return 'active';
+    if (!filter && group === 'shipping') return 'shipping';
+    if (!filter && group === 'refund') return 'refund';
+    if (!filter && group === 'closed') return 'closed';
+    if (!filter && !group) return 'all';
+    return '';
+  }, [filter, group]);
+
+  const setQuick = (q) => {
+    setFilter(q.status);
+    setGroup(q.group);
+    const next = new URLSearchParams();
+    if (q.status) next.set('status', q.status);
+    if (q.group) next.set('group', q.group);
+    setSearchParams(next, { replace: true });
+  };
 
   const updateFilter = (value) => {
     setFilter(value);
@@ -104,14 +179,49 @@ export default function StaffBookings() {
     load();
   };
 
+  const closeSlipModal = () => {
+    if (slipActing) return;
+    setSlipModal(null);
+    setRejectSlipReason('');
+  };
+
   const openSlip = async (booking) => {
+    setRejectSlipReason('');
     setSlipLoading(true);
     setSlipModal({ booking, payment: null, error: null });
     try {
       const { data: payment } = await paymentAPI.getByBooking(booking.id);
-      setSlipModal({ booking, payment, error: null });
+      if (!payment?.slipImage && booking.rejectedSlipImage) {
+        setSlipModal({
+          booking,
+          payment: {
+            ...payment,
+            slipImage: booking.rejectedSlipImage,
+            status: payment?.status || 'rejected',
+            rejectReason: payment?.rejectReason || booking.slipRejectReason || null,
+          },
+          error: null,
+          archived: true,
+        });
+      } else {
+        setSlipModal({ booking, payment, error: null });
+      }
     } catch {
-      setSlipModal({ booking, payment: null, error: 'ไม่พบสลิปการชำระเงิน' });
+      if (booking.rejectedSlipImage) {
+        setSlipModal({
+          booking,
+          payment: {
+            slipImage: booking.rejectedSlipImage,
+            status: 'rejected',
+            rejectReason: booking.slipRejectReason || null,
+            submittedAt: null,
+          },
+          error: null,
+          archived: true,
+        });
+      } else {
+        setSlipModal({ booking, payment: null, error: 'ไม่พบสลิปการชำระเงิน' });
+      }
     } finally {
       setSlipLoading(false);
     }
@@ -122,9 +232,9 @@ export default function StaffBookings() {
     setSlipActing(true);
     try {
       await paymentAPI.verify(slipModal.payment.id, 'verified');
-      await bookingAPI.updateStatus(slipModal.booking.id, { status: 'approved' });
       setSlipModal(null);
-      load();
+      setRejectSlipReason('');
+      navigate('/staff/dispatch?queue=prep');
     } catch {
       alert('ยืนยันการชำระเงินไม่สำเร็จ');
     } finally {
@@ -134,14 +244,20 @@ export default function StaffBookings() {
 
   const handleRejectSlip = async () => {
     if (!slipModal?.payment) return;
+    const slipReason = rejectSlipReason.trim();
+    if (!slipReason) {
+      alert('กรุณาระบุเหตุผลในการปฏิเสธสลิป');
+      return;
+    }
     if (!confirm('ปฏิเสธสลิปนี้? ลูกค้าจะต้องอัปโหลดใหม่')) return;
     setSlipActing(true);
     try {
-      await paymentAPI.verify(slipModal.payment.id, 'rejected');
+      await paymentAPI.verify(slipModal.payment.id, 'rejected', slipReason);
       setSlipModal(null);
+      setRejectSlipReason('');
       load();
-    } catch {
-      alert('ปฏิเสธสลิปไม่สำเร็จ');
+    } catch (err) {
+      alert(err?.response?.data?.error || 'ปฏิเสธสลิปไม่สำเร็จ');
     } finally {
       setSlipActing(false);
     }
@@ -154,218 +270,229 @@ export default function StaffBookings() {
   };
 
   const canViewSlip = (status) =>
-    ['pending', 'payment_verified', 'approved', 'preparing', 'ready_for_pickup', 'picked_up', 'returned', 'deposit_refunded'].includes(status);
+    [
+      'pending', 'payment_verified', 'approved', 'preparing', 'ready_to_ship',
+      'out_for_delivery', 'delivered', 'return_submitted', 'ready_for_pickup',
+      'picked_up', 'returned', 'deposit_refunded', 'rejected', 'cancelled',
+    ].includes(status);
 
-  const openPrep = (booking) => {
-    setPrepChecklist({ ...emptyPrep(), ...(booking.prepChecklist || {}) });
-    setPrepModal(booking);
-  };
-
-  const startPreparing = async (booking) => {
-    await bookingAPI.updateStatus(booking.id, { status: 'preparing' });
-    const { data } = await bookingAPI.get(booking.id);
-    openPrep(data);
-    load();
-  };
-
-  const savePrepChecklist = async () => {
-    if (!prepModal) return;
-    setSavingPrep(true);
-    try {
-      await bookingAPI.updatePrep(prepModal.id, { prepChecklist });
-      setPrepModal((prev) => (prev ? { ...prev, prepChecklist } : null));
-      load();
-    } finally {
-      setSavingPrep(false);
+  const primaryAction = (b) => {
+    if (b.status === 'pending' || b.status === 'payment_verified') {
+      return { label: 'ไปตรวจสลิป', path: '/staff/dispatch?queue=approve', tone: 'primary' };
     }
-  };
-
-  const markReady = async (bookingId) => {
-    await bookingAPI.updateStatus(bookingId, { status: 'ready_to_ship' });
-    setPrepModal(null);
-    load();
-  };
-
-  const goDispatch = () => {
-    navigate('/staff/dispatch');
-  };
-
-  const renderActions = (b) => {
-    if (b.status === 'payment_pending') {
-      return <span className="staff-muted-action">รอลูกค้าชำระเงิน</span>;
+    if (b.status === 'approved' || b.status === 'preparing') {
+      return { label: 'ไปจัดเตรียม', path: '/staff/dispatch?queue=prep', tone: 'primary' };
     }
-    if (b.status === 'pending') {
-      return (
-        <>
-          <button type="button" className="btn btn-primary btn-sm" onClick={() => openSlip(b)}>
-            ตรวจสลิป
-          </button>
-          <button type="button" className="btn btn-ghost btn-sm" onClick={() => setModal({ ...b, action: 'reject' })}>
-            ปฏิเสธจอง
-          </button>
-        </>
-      );
+    if (['ready_to_ship', 'ready_for_pickup'].includes(b.status)) {
+      return { label: 'ไปมอบหมายจัดส่ง', path: '/staff/dispatch?queue=ready', tone: 'primary' };
     }
-    if (b.status === 'payment_verified') {
-      return (
-        <>
-          {canViewSlip(b.status) && (
-            <button type="button" className="btn btn-ghost btn-sm" onClick={() => openSlip(b)}>ดูสลิป</button>
-          )}
-          <button type="button" className="btn btn-success btn-sm" onClick={() => setModal({ ...b, action: 'approve' })}>
-            อนุมัติ
-          </button>
-          <button type="button" className="btn btn-danger btn-sm" onClick={() => setModal({ ...b, action: 'reject' })}>
-            ปฏิเสธ
-          </button>
-        </>
-      );
-    }
-    if (b.status === 'approved') {
-      return (
-        <>
-          <button type="button" className="btn btn-ghost btn-sm" onClick={() => openSlip(b)}>ดูสลิป</button>
-          <button type="button" className="btn btn-primary btn-sm" onClick={() => startPreparing(b)}>
-            เริ่มเตรียมชุด
-          </button>
-        </>
-      );
-    }
-    if (b.status === 'preparing') {
-      return (
-        <>
-          <button type="button" className="btn btn-secondary btn-sm" onClick={() => openPrep(b)}>
-            Checklist
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary btn-sm"
-            disabled={!isPrepComplete(b.prepChecklist)}
-            title={!isPrepComplete(b.prepChecklist) ? 'ติ๊ก checklist ให้ครบก่อน' : ''}
-            onClick={() => markReady(b.id)}
-          >
-            พร้อมส่งแมสฯ
-          </button>
-        </>
-      );
-    }
-    if (['ready_to_ship', 'ready_for_pickup', 'out_for_delivery'].includes(b.status)) {
-      return (
-        <button type="button" className="btn btn-primary btn-sm" onClick={goDispatch}>
-          ไปคิวส่งแมสฯ
-        </button>
-      );
+    if (b.status === 'out_for_delivery') {
+      return { label: 'ไปยืนยันส่งถึง', path: '/staff/dispatch?queue=shipping', tone: 'primary' };
     }
     if (['delivered', 'picked_up'].includes(b.status)) {
-      return <span className="staff-muted-action">รอลูกค้าส่งคืนเอง</span>;
+      return { label: 'รอลูกค้าส่งคืน', path: null, tone: 'muted' };
     }
     if (b.status === 'return_submitted') {
-      return (
-        <button type="button" className="btn btn-success btn-sm" onClick={goDispatch}>
-          ไปรับคืนเข้าคลัง
-        </button>
-      );
+      return { label: 'ไปรับคืน', path: '/staff/dispatch?queue=inbound', tone: 'success' };
     }
     if (b.status === 'returned') {
-      return (
-        <button type="button" className="btn btn-success btn-sm" onClick={() => navigate('/staff/refund')}>
-          คืนมัดจำ
-        </button>
-      );
+      return { label: 'ไปคืนมัดจำ', path: '/staff/refund', tone: 'success' };
     }
-    if (canViewSlip(b.status)) {
-      return (
-        <button type="button" className="btn btn-ghost btn-sm" onClick={() => openSlip(b)}>
-          ดูสลิป
-        </button>
-      );
+    if (b.status === 'deposit_refunded') {
+      return { label: 'ดูประวัติคืนมัดจำ', path: '/staff/refund?tab=done', tone: 'ghost' };
     }
-    return <span className="staff-muted-action">—</span>;
+    return null;
   };
 
   return (
     <DashboardLayout role="staff">
-      <div className="staff-ops">
-        <div className="staff-page-head">
-          <div>
-            <h1 className="page-title">จัดการคำสั่งเช่า</h1>
-            <p className="page-subtitle">ตรวจสลิป อนุมัติ และเตรียมชุดให้พร้อมส่งแมสฯ</p>
+      <div className="staff-ops staff-orders-desk">
+        <header className="orders-hero">
+          <div className="orders-hero-copy">
+            <p className="orders-hero-kicker">คำสั่งเช่า</p>
+            <h1>จัดการคำสั่งเช่า</h1>
+            <p>ค้นหา ติดตามสถานะ และส่งต่อไปยังคิวจัดส่งหรือคืนมัดจำ</p>
+          </div>
+          <div className="orders-hero-stats">
+            <div>
+              <span>ทั้งหมด</span>
+              <strong>{loading ? '—' : summary.total}</strong>
+            </div>
+            <div>
+              <span>กำลังทำ</span>
+              <strong>{loading ? '—' : summary.active}</strong>
+            </div>
+            <div>
+              <span>รอคืนมัดจำ</span>
+              <strong>{loading ? '—' : summary.refund}</strong>
+            </div>
+          </div>
+        </header>
+
+        <div className="orders-toolbar">
+          <div className="orders-search">
+            <Search size={16} />
+            <input
+              type="search"
+              placeholder="ค้นหาชื่อลูกค้า, เบอร์, เลขจอง, ชุดครุย..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+          <div className="orders-filter">
+            <label htmlFor="staff-status-filter">สถานะ</label>
+            <select
+              id="staff-status-filter"
+              className="form-input"
+              value={filter}
+              onChange={(e) => updateFilter(e.target.value)}
+            >
+              {STATUS_OPTIONS.map((opt) => (
+                <option key={opt.value || 'all'} value={opt.value}>{opt.label}</option>
+              ))}
+            </select>
           </div>
         </div>
 
-        <div className="staff-toolbar">
-          <label htmlFor="staff-status-filter">กรองสถานะ</label>
-          <select
-            id="staff-status-filter"
-            className="form-input"
-            value={filter}
-            onChange={(e) => updateFilter(e.target.value)}
-          >
-            {STATUS_OPTIONS.map((opt) => (
-              <option key={opt.value || 'all'} value={opt.value}>{opt.label}</option>
-            ))}
-          </select>
-          {group && !filter && (
-            <span className="staff-chip">
-              กลุ่ม: {group === 'pending' ? 'รอดำเนินการ' : 'กำลังดำเนินการ'}
-              <button
-                type="button"
-                aria-label="ล้างกลุ่ม"
-                onClick={() => {
-                  setGroup('');
-                  setSearchParams({}, { replace: true });
-                }}
-              >
-                ×
-              </button>
-            </span>
-          )}
-          <span className="staff-panel-count" style={{ marginLeft: 'auto' }}>
-            {loading ? '...' : `${bookings.length} รายการ`}
-          </span>
+        <div className="orders-chips" role="tablist" aria-label="กรองด่วน">
+          {QUICK_FILTERS.map((q) => (
+            <button
+              key={q.id}
+              type="button"
+              role="tab"
+              aria-selected={activeQuick === q.id}
+              className={activeQuick === q.id ? 'is-active' : ''}
+              onClick={() => setQuick(q)}
+            >
+              {q.label}
+            </button>
+          ))}
         </div>
 
-        <div className="staff-panel">
+        <section className="orders-panel">
+          <header className="orders-panel-head">
+            <div>
+              <h2>รายการคำสั่ง</h2>
+              <p>
+                {loading
+                  ? 'กำลังโหลด...'
+                  : `แสดง ${filtered.length} จาก ${bookings.length} รายการ`}
+              </p>
+            </div>
+          </header>
+
           {loading ? (
-            <div className="staff-empty">กำลังโหลด...</div>
-          ) : bookings.length === 0 ? (
-            <div className="staff-empty">ไม่พบรายการตามตัวกรอง</div>
+            <div className="orders-empty">กำลังโหลดคำสั่งเช่า...</div>
+          ) : filtered.length === 0 ? (
+            <div className="orders-empty">
+              <ClipboardList size={28} strokeWidth={1.5} />
+              <h3>ไม่พบรายการ</h3>
+              <p>ลองเปลี่ยนตัวกรองหรือคำค้นหา</p>
+            </div>
           ) : (
-            <div className="staff-booking-list">
-              {bookings.map((b) => (
-                <div
-                  key={b.id}
-                  id={`staff-booking-${b.id}`}
-                  className={`staff-booking-row${b.id === focusId ? ' is-focus' : ''}`}
-                >
-                  <div className="staff-booking-main">
-                    <div className="staff-booking-title">
-                      <strong>{b.user?.name || '-'}</strong>
-                      <StatusBadge status={b.status} size="sm" />
+            <div className="orders-list">
+              {filtered.map((b) => {
+                const action = primaryAction(b);
+                return (
+                  <article
+                    key={b.id}
+                    id={`staff-booking-${b.id}`}
+                    className={`orders-card${b.id === focusId ? ' is-focus' : ''}`}
+                  >
+                    <div className="orders-card-main">
+                      <div className="orders-card-who">
+                        <div className="orders-avatar" aria-hidden>{initials(b.user?.name)}</div>
+                        <div>
+                          <div className="orders-card-name">
+                            <strong>{b.user?.name || 'ลูกค้า'}</strong>
+                            <StatusBadge status={b.status} size="sm" />
+                          </div>
+                          <p className="orders-card-contact">
+                            {b.user?.phone || b.user?.email || 'ไม่มีเบอร์ติดต่อ'}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="orders-card-facts">
+                        <div>
+                          <span>ชุดครุย</span>
+                          <strong>{b.costume?.name || '—'}</strong>
+                        </div>
+                        <div>
+                          <span>ไซส์ / ระดับ</span>
+                          <strong>
+                            {b.size?.label ? `ไซส์ ${b.size.label}` : 'ไม่ระบุไซส์'}
+                            {' · '}
+                            {degreeLabel(b)}
+                          </strong>
+                        </div>
+                        <div>
+                          <span>ช่วงเช่า</span>
+                          <strong>
+                            {new Date(b.startDate).toLocaleDateString('th-TH')}
+                            {' – '}
+                            {new Date(b.endDate).toLocaleDateString('th-TH')}
+                          </strong>
+                        </div>
+                        <div>
+                          <span>เลขจอง</span>
+                          <code>#{shortId(b.id)}</code>
+                        </div>
+                      </div>
                     </div>
-                    <div className="staff-booking-meta">
-                      <span>{b.costume?.name || '-'}</span>
-                      <span>{b.size?.label ? `ไซส์ ${b.size.label}` : 'ไม่ระบุไซส์'}</span>
-                      <span>{b.degreeLabel || b.degreeLevel || '-'}</span>
+
+                    <div className="orders-card-side">
+                      <div className="orders-money">
+                        <strong>฿{(b.totalPrice || 0).toLocaleString()}</strong>
+                        <span>มัดจำ ฿{(b.deposit || 0).toLocaleString()}</span>
+                      </div>
+                      <div className="orders-actions">
+                        {action?.path ? (
+                          <button
+                            type="button"
+                            className={`btn btn-sm ${
+                              action.tone === 'success'
+                                ? 'btn-success'
+                                : action.tone === 'ghost'
+                                  ? 'btn-ghost'
+                                  : 'btn-primary'
+                            }`}
+                            onClick={() => navigate(action.path)}
+                          >
+                            {action.label}
+                            <ArrowRight size={14} />
+                          </button>
+                        ) : action ? (
+                          <span className="orders-muted">{action.label}</span>
+                        ) : null}
+                        {canViewSlip(b.status) && (
+                          <button type="button" className="btn btn-ghost btn-sm" onClick={() => openSlip(b)}>
+                            <Eye size={14} />
+                            ดูสลิป
+                          </button>
+                        )}
+                      </div>
                     </div>
-                    <div className="staff-booking-meta" style={{ marginTop: 4 }}>
-                      <span>{b.user?.email}</span>
-                      <span>
-                        {new Date(b.startDate).toLocaleDateString('th-TH')}
-                        {' – '}
-                        {new Date(b.endDate).toLocaleDateString('th-TH')}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="staff-booking-side">
-                    <span className="amount">฿{(b.totalPrice || 0).toLocaleString()}</span>
-                    มัดจำ ฿{(b.deposit || 0).toLocaleString()}
-                  </div>
-                  <div className="staff-actions">{renderActions(b)}</div>
-                </div>
-              ))}
+                  </article>
+                );
+              })}
             </div>
           )}
+        </section>
+
+        <div className="orders-shortcuts">
+          <button type="button" className="orders-shortcut" onClick={() => navigate('/staff/dispatch?queue=approve')}>
+            <Receipt size={16} />
+            ไปตรวจสลิป
+          </button>
+          <button type="button" className="orders-shortcut" onClick={() => navigate('/staff/dispatch')}>
+            <Truck size={16} />
+            ไปจัดส่งและรับคืน
+          </button>
+          <button type="button" className="orders-shortcut" onClick={() => navigate('/staff/refund')}>
+            <Wallet size={16} />
+            ไปคืนมัดจำ
+          </button>
         </div>
 
         {modal && (
@@ -395,53 +522,8 @@ export default function StaffBookings() {
           </div>
         )}
 
-        {prepModal && (
-          <div className="modal-overlay" onClick={() => setPrepModal(null)}>
-            <div className="modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 420 }}>
-              <h3>Checklist เตรียมชุด</h3>
-              <p style={{ marginBottom: '0.25rem', color: 'var(--text-muted)' }}>
-                {prepModal.costume?.name} — {prepModal.user?.name}
-              </p>
-              <div className="staff-checklist">
-                {PREP_ITEMS.map((item) => (
-                  <label
-                    key={item.key}
-                    className={`staff-check-item${prepChecklist[item.key] ? ' is-on' : ''}`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={!!prepChecklist[item.key]}
-                      onChange={(e) => {
-                        setPrepChecklist((prev) => ({ ...prev, [item.key]: e.target.checked }));
-                      }}
-                    />
-                    <span>{item.label}</span>
-                  </label>
-                ))}
-              </div>
-              <div className="modal-actions" style={{ flexWrap: 'wrap' }}>
-                <button type="button" className="btn btn-ghost" onClick={() => setPrepModal(null)}>ปิด</button>
-                <button type="button" className="btn btn-secondary" disabled={savingPrep} onClick={savePrepChecklist}>
-                  {savingPrep ? 'กำลังบันทึก...' : 'บันทึก'}
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  disabled={!isPrepComplete(prepChecklist)}
-                  onClick={async () => {
-                    await bookingAPI.updatePrep(prepModal.id, { prepChecklist });
-                    await markReady(prepModal.id);
-                  }}
-                >
-                  ครบแล้ว — พร้อมส่งแมสฯ
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
         {slipModal && (
-          <div className="modal-overlay" onClick={() => !slipActing && setSlipModal(null)}>
+          <div className="modal-overlay" onClick={closeSlipModal}>
             <div className="modal staff-modal-wide" onClick={(e) => e.stopPropagation()}>
               <h3>สลิปการชำระเงิน</h3>
               <p style={{ marginBottom: '1rem', color: 'var(--text-muted)' }}>
@@ -475,6 +557,16 @@ export default function StaffBookings() {
                       <strong>{slipModal.booking?.user?.phone || slipModal.booking?.user?.email || '-'}</strong>
                     </div>
                   </div>
+                  {(slipModal.payment?.rejectReason || slipModal.booking?.slipRejectReason) && (
+                    <div className="alert alert-error" style={{ marginBottom: '0.75rem' }}>
+                      เหตุผลปฏิเสธสลิป: {slipModal.payment?.rejectReason || slipModal.booking?.slipRejectReason}
+                    </div>
+                  )}
+                  {(slipModal.booking?.rejectReason || slipModal.booking?.cancelReason) && (
+                    <div className="alert alert-error" style={{ marginBottom: '0.75rem' }}>
+                      เหตุผล{slipModal.booking?.status === 'cancelled' ? 'ยกเลิก' : 'ปฏิเสธ'}คำสั่ง: {slipModal.booking?.rejectReason || slipModal.booking?.cancelReason}
+                    </div>
+                  )}
                   {slipModal.payment?.slipImage ? (
                     <a
                       href={slipModal.payment.slipImage}
@@ -485,16 +577,43 @@ export default function StaffBookings() {
                     >
                       <img src={slipModal.payment.slipImage} alt="สลิปการชำระเงิน" />
                     </a>
+                  ) : slipModal.booking?.rejectedSlipImage ? (
+                    <a
+                      href={slipModal.booking.rejectedSlipImage}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="booking-slip-preview"
+                      style={{ maxWidth: '100%' }}
+                    >
+                      <img src={slipModal.booking.rejectedSlipImage} alt="สลิปที่เคยถูกปฏิเสธ" />
+                    </a>
                   ) : (
                     <div className="alert alert-error">ไม่มีรูปสลิป</div>
+                  )}
+                  {slipModal.payment?.slipImage
+                    && !slipModal.archived
+                    && slipModal.booking?.status === 'pending'
+                    && slipModal.payment?.status === 'pending' && (
+                    <div className="form-group" style={{ marginTop: '1rem', marginBottom: 0 }}>
+                      <label htmlFor="staff-reject-slip-reason">เหตุผลปฏิเสธสลิป (ถ้าจะปฏิเสธ)</label>
+                      <textarea
+                        id="staff-reject-slip-reason"
+                        className="form-input"
+                        rows={3}
+                        value={rejectSlipReason}
+                        onChange={(e) => setRejectSlipReason(e.target.value)}
+                        placeholder="เช่น ยอดเงินไม่ตรง / ชื่อบัญชีไม่ตรง / รูปไม่ชัด"
+                      />
+                    </div>
                   )}
                 </div>
               )}
               <div className="modal-actions" style={{ flexWrap: 'wrap', marginTop: '1.25rem' }}>
-                <button type="button" className="btn btn-ghost" disabled={slipActing} onClick={() => setSlipModal(null)}>
+                <button type="button" className="btn btn-ghost" disabled={slipActing} onClick={closeSlipModal}>
                   ปิด
                 </button>
                 {slipModal.payment?.slipImage &&
+                  !slipModal.archived &&
                   slipModal.booking?.status === 'pending' &&
                   slipModal.payment?.status === 'pending' && (
                   <>
@@ -502,7 +621,7 @@ export default function StaffBookings() {
                       ปฏิเสธสลิป
                     </button>
                     <button type="button" className="btn btn-success" disabled={slipActing} onClick={handleVerifyFromSlip}>
-                      {slipActing ? 'กำลังบันทึก...' : 'ยืนยันสลิปและอนุมัติ'}
+                      {slipActing ? 'กำลังบันทึก...' : 'ยืนยันสลิป — เข้าคิวจัดเตรียม'}
                     </button>
                   </>
                 )}

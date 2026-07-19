@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
@@ -17,6 +18,7 @@ import notificationRoutes from './routes/notifications.js';
 import uploadRoutes from './routes/upload.js';
 import favoriteRoutes from './routes/favorites.js';
 import cartRoutes from './routes/cart.js';
+import { startMaintenanceJobs } from './utils/jobs.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -45,6 +47,8 @@ const seedDefaultUsers = async () => {
       phone: '0812345678',
       role: u.role,
       avatar: null,
+      emailVerified: true,
+      emailVerifiedAt: new Date().toISOString(),
       createdAt: new Date().toISOString(),
     });
   }
@@ -69,5 +73,6 @@ app.get('/api/health', (_req, res) => res.json({ status: 'ok', name: 'KruyMo API
 seedDefaultUsers().then(() => {
   app.listen(PORT, () => {
     console.log(`🎓 KruyMo API running at http://localhost:${PORT}`);
+    startMaintenanceJobs();
   });
 });

@@ -22,7 +22,7 @@ export default function CostumeDetail() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [sizeId, setSizeId] = useState('');
-  const [degreeLevel, setDegreeLevel] = useState('bachelor');
+  const [degreeLevel, setDegreeLevel] = useState('');
   const [availability, setAvailability] = useState(null);
   const [checking, setChecking] = useState(false);
   const [availError, setAvailError] = useState('');
@@ -42,12 +42,11 @@ export default function CostumeDetail() {
     ]).then(([c, s]) => {
       setCostume(c.data);
       setSizes(s.data);
-      if (c.data?.degreeLevel) setDegreeLevel(c.data.degreeLevel);
     }).finally(() => setLoading(false));
   }, [id]);
 
   useEffect(() => {
-    if (!startDate || !endDate || !degreeLevel) {
+    if (!degreeLevel || !startDate || !endDate) {
       setAvailability(null);
       setAvailError('');
       return;
@@ -197,120 +196,148 @@ export default function CostumeDetail() {
             </p>
 
             <div className="card" style={{ padding: '1.5rem' }}>
-              <h3 style={{ fontWeight: 700, marginBottom: '0.35rem' }}>1) เลือกวันจองก่อน</h3>
+              <h3 style={{ fontWeight: 700, marginBottom: '0.35rem' }}>1) เลือกระดับปริญญา</h3>
               <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
-                เลือกช่วงวันเช่าก่อน ระบบจะเช็คว่าไซส์และระดับไหนยังว่างในช่วงนั้น
+                เลือกระดับชั้นก่อน แล้วค่อยเลือกวันเช่าและไซส์
               </p>
 
-              <DateRangePicker
-                startDate={startDate}
-                endDate={endDate}
-                minDate={new Date().toISOString().split('T')[0]}
-                onChange={({ startDate: s, endDate: e }) => {
-                  setStartDate(s);
-                  setEndDate(e);
-                }}
-              />
-
-              {days > 0 && (
-                <div style={{ background: '#f8f9fa', borderRadius: '10px', padding: '1rem', marginBottom: '1.25rem' }}>
-                  <p>จำนวน {days} วัน × ฿{costume.pricePerDay} = <strong>฿{rentalPrice}</strong></p>
-                  <p>เงินมัดจำ = <strong>฿{costume.deposit}</strong></p>
-                  <p style={{ fontWeight: 800, fontSize: '1.1rem', color: 'var(--primary)', marginTop: '8px' }}>
-                    รวมทั้งสิ้น ฿{total}
-                  </p>
-                </div>
-              )}
-
-              <h3 style={{ fontWeight: 700, marginBottom: '0.35rem' }}>2) เลือกระดับและไซส์</h3>
-              {!datesReady && (
-                <div className="alert alert-info">กรุณาเลือกวันเริ่มเช่าและวันคืนชุดก่อน เพื่อดูคงเหลือจริง</div>
-              )}
-              {availError && <div className="alert alert-error">{availError}</div>}
-              {checking && <div className="alert alert-info">กำลังเช็คคงเหลือตามวันที่เลือก...</div>}
-
               <div className="form-group">
-                <label>ระดับปริญญา</label>
+                <label>ระดับปริญญา *</label>
                 <select
                   className="form-input"
                   value={degreeLevel}
-                  disabled
+                  onChange={(e) => {
+                    setDegreeLevel(e.target.value);
+                    setSizeId('');
+                    setAvailability(null);
+                  }}
                 >
+                  <option value="">เลือกระดับปริญญา</option>
                   {DEGREE_OPTIONS.map((o) => (
                     <option key={o.value} value={o.value}>{o.label}</option>
                   ))}
                 </select>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.35rem' }}>
-                  ระดับตามชุดที่เลือก · ถ้าต้องการระดับอื่น ให้เลือกจากหน้าชุดครุย
-                </p>
               </div>
 
-              <div className="form-group" style={{ marginBottom: '0.5rem' }}>
-                <label>ไซส์ — คลิกแถวในตารางเพื่อเลือก</label>
-              </div>
+              {degreeLevel && (
+                <>
+                  <h3 style={{ fontWeight: 700, marginBottom: '0.35rem', marginTop: '0.5rem' }}>2) เลือกวันจอง</h3>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+                    เลือกช่วงวันเช่า ระบบจะเช็คไซส์ที่ว่างในช่วงนั้น
+                  </p>
 
-              <div className="size-chart" style={{ marginBottom: '1rem' }}>
-                <div className="size-chart-head">
-                  <strong>ตารางไซส์ชุดครุย</strong>
-                  <span>{datesReady ? 'คงเหลือตามวันที่เลือก' : 'อ้างอิงตามส่วนสูง (ซม.)'}</span>
-                </div>
-                <div className="table-wrapper">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Size</th>
-                        <th>Height (cm)</th>
-                        <th>คงเหลือ</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {sizeOptions.map((s) => (
-                        <tr
-                          key={s.sizeId}
-                          className={s.sizeId === sizeId ? 'is-selected' : ''}
-                          onClick={() => {
-                            if (!datesReady || !s.inStock) return;
-                            setSizeId(s.sizeId);
-                          }}
-                          style={{ cursor: datesReady && s.inStock ? 'pointer' : 'default', opacity: datesReady && !s.inStock ? 0.45 : 1 }}
-                        >
-                          <td><strong>{s.label}</strong></td>
-                          <td>{s.heightMin}-{s.heightMax}</td>
-                          <td>
-                            {!datesReady && '-'}
-                            {datesReady && checking && '...'}
-                            {datesReady && !checking && (s.inStock ? s.available : 'เต็ม')}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.75rem' }}>
-                  เลือกวันก่อน แล้วคลิกแถวที่ยังว่างเพื่อเลือกไซส์ · ไม่ใช้เกณฑ์น้ำหนัก
-                </p>
-              </div>
+                  <DateRangePicker
+                    startDate={startDate}
+                    endDate={endDate}
+                    minDate={new Date().toISOString().split('T')[0]}
+                    onChange={({ startDate: s, endDate: e }) => {
+                      setStartDate(s);
+                      setEndDate(e);
+                      setSizeId('');
+                    }}
+                  />
 
-              {selectedSize && datesReady && (
-                <p style={{ fontSize: '0.9rem', marginBottom: '1rem', color: selectedSize.inStock ? 'var(--success)' : 'var(--danger)' }}>
-                  {selectedSize.inStock
-                    ? `เลือกไซส์ ${selectedSize.label} แล้ว · ว่าง ${selectedSize.available} ชุด ในช่วงวันที่เลือก`
-                    : `ไซส์ ${selectedSize.label} เต็มในช่วงวันที่เลือก`}
-                </p>
+                  {days > 0 && (
+                    <div style={{ background: '#f8f9fa', borderRadius: '10px', padding: '1rem', marginBottom: '1.25rem' }}>
+                      <p>จำนวน {days} วัน × ฿{costume.pricePerDay} = <strong>฿{rentalPrice}</strong></p>
+                      <p>เงินมัดจำ = <strong>฿{costume.deposit}</strong></p>
+                      <p style={{ fontWeight: 800, fontSize: '1.1rem', color: 'var(--primary)', marginTop: '8px' }}>
+                        รวมทั้งสิ้น ฿{total}
+                      </p>
+                    </div>
+                  )}
+                </>
               )}
-              {datesReady && !sizeId && !checking && (
-                <p style={{ fontSize: '0.9rem', marginBottom: '1rem', color: 'var(--text-muted)' }}>
-                  ยังไม่ได้เลือกไซส์ — คลิกแถวในตารางด้านบน
-                </p>
+
+              {degreeLevel && datesReady && (
+                <>
+                  <h3 style={{ fontWeight: 700, marginBottom: '0.35rem' }}>3) เลือกไซส์</h3>
+                  {availError && <div className="alert alert-error">{availError}</div>}
+                  {checking && <div className="alert alert-info">กำลังเช็คคงเหลือตามวันที่เลือก...</div>}
+
+                  <div className="form-group" style={{ marginBottom: '0.5rem' }}>
+                    <label>ไซส์ — คลิกแถวในตารางเพื่อเลือก</label>
+                  </div>
+
+                  <div className="size-chart" style={{ marginBottom: '1rem' }}>
+                    <div className="size-chart-head">
+                      <strong>ตารางไซส์ชุดครุย</strong>
+                      <span>คงเหลือตามวันที่เลือก</span>
+                    </div>
+                    <div className="table-wrapper">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Size</th>
+                            <th>Height (cm)</th>
+                            <th>คงเหลือ</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {sizeOptions.map((s) => (
+                            <tr
+                              key={s.sizeId}
+                              className={s.sizeId === sizeId ? 'is-selected' : ''}
+                              onClick={() => {
+                                if (!s.inStock) return;
+                                setSizeId(s.sizeId);
+                              }}
+                              style={{ cursor: s.inStock ? 'pointer' : 'default', opacity: !s.inStock ? 0.45 : 1 }}
+                            >
+                              <td><strong>{s.label}</strong></td>
+                              <td>{s.heightMin}-{s.heightMax}</td>
+                              <td>
+                                {checking && '...'}
+                                {!checking && (s.inStock ? s.available : 'เต็ม')}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.75rem' }}>
+                      คลิกแถวที่ยังว่างเพื่อเลือกไซส์ · ไม่ใช้เกณฑ์น้ำหนัก
+                    </p>
+                  </div>
+
+                  {selectedSize && (
+                    <p style={{ fontSize: '0.9rem', marginBottom: '1rem', color: selectedSize.inStock ? 'var(--success)' : 'var(--danger)' }}>
+                      {selectedSize.inStock
+                        ? `เลือกไซส์ ${selectedSize.label} แล้ว · ว่าง ${selectedSize.available} ชุด ในช่วงวันที่เลือก`
+                        : `ไซส์ ${selectedSize.label} เต็มในช่วงวันที่เลือก`}
+                    </p>
+                  )}
+                  {!sizeId && !checking && (
+                    <p style={{ fontSize: '0.9rem', marginBottom: '1rem', color: 'var(--text-muted)' }}>
+                      ยังไม่ได้เลือกไซส์ — คลิกแถวในตารางด้านบน
+                    </p>
+                  )}
+                </>
               )}
+
+              {degreeLevel && !datesReady && (
+                <div className="alert alert-info" style={{ marginTop: '0.5rem' }}>
+                  กรุณาเลือกวันเริ่มเช่าและวันคืนชุดก่อน เพื่อดูตารางไซส์
+                </div>
+              )}
+              {!degreeLevel && (
+                <div className="alert alert-info">กรุณาเลือกระดับปริญญาก่อน</div>
+              )}
+              {availError && !datesReady && <div className="alert alert-error">{availError}</div>}
 
               {cartMsg && <div className="alert alert-success">{cartMsg} <Link to="/cart">ดูตะกร้า</Link></div>}
               {cartError && <div className="alert alert-error">{cartError}</div>}
 
-              <div style={{ display: 'grid', gap: 10 }}>
+              <div style={{ display: 'grid', gap: 10, marginTop: '1rem' }}>
                 <button className="btn btn-primary" style={{ width: '100%' }}
                   disabled={!canBook} onClick={handleBook}>
-                  {!datesReady ? 'เลือกวันจองก่อน' : !sizeId ? 'เลือกไซส์จากตาราง' : 'จองชุดครุยเลย'}
+                  {!degreeLevel
+                    ? 'เลือกระดับปริญญาก่อน'
+                    : !datesReady
+                      ? 'เลือกวันจองก่อน'
+                      : !sizeId
+                        ? 'เลือกไซส์จากตาราง'
+                        : 'จองชุดครุยเลย'}
                 </button>
                 <button
                   type="button"

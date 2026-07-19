@@ -4,13 +4,6 @@ import { costumeAPI, masterDataAPI } from '../../services/api';
 import CustomerLayout from '../../components/CustomerLayout';
 import CostumeCard from '../../components/CostumeCard';
 
-const DEGREE_OPTIONS = [
-  { value: '', label: 'ทุกระดับ' },
-  { value: 'bachelor', label: 'ปริญญาตรี' },
-  { value: 'master', label: 'ปริญญาโท' },
-  { value: 'doctoral', label: 'ปริญญาเอก' },
-];
-
 export default function Catalog() {
   const [searchParams] = useSearchParams();
   const [costumes, setCostumes] = useState([]);
@@ -19,7 +12,6 @@ export default function Catalog() {
   const [filters, setFilters] = useState({
     universityId: searchParams.get('universityId') || 'uni-spu',
     facultyId: searchParams.get('facultyId') || '',
-    degreeLevel: '',
   });
   const [loading, setLoading] = useState(true);
 
@@ -39,7 +31,7 @@ export default function Catalog() {
     setFilters((prev) => (
       prev.universityId === uni && prev.facultyId === fac
         ? prev
-        : { ...prev, universityId: uni, facultyId: fac }
+        : { universityId: uni, facultyId: fac }
     ));
   }, [searchParams]);
 
@@ -60,7 +52,7 @@ export default function Catalog() {
     <CustomerLayout>
       <div className="container" style={{ padding: '2rem 20px' }}>
         <h1 className="page-title">ชุดครุยศรีปทุม</h1>
-        <p className="page-subtitle">เลือกคณะ สายสี และไซส์ มหาวิทยาลัยศรีปทุม</p>
+        <p className="page-subtitle">เลือกคณะและสายสี — เลือกระดับปริญญาตอนจอง</p>
 
         <div className="card" style={{ padding: '1.5rem', marginBottom: '2rem' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
@@ -78,13 +70,6 @@ export default function Catalog() {
                 onChange={(e) => setFilters({ ...filters, facultyId: e.target.value })}>
                 <option value="">ทั้งหมด</option>
                 {filteredFaculties.map((f) => <option key={f.id} value={f.id}>{f.name}</option>)}
-              </select>
-            </div>
-            <div className="form-group" style={{ margin: 0 }}>
-              <label>ระดับปริญญา</label>
-              <select className="form-input" value={filters.degreeLevel}
-                onChange={(e) => setFilters({ ...filters, degreeLevel: e.target.value })}>
-                {DEGREE_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
               </select>
             </div>
           </div>
