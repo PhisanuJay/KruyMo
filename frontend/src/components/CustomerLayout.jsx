@@ -23,6 +23,7 @@ export default function CustomerLayout({ children }) {
             <Link to="/">หน้าแรก</Link>
             <Link to="/catalog">ชุดครุย</Link>
             <Link to="/how-to-rent">ขั้นตอนการเช่า</Link>
+            <Link to="/about">เกี่ยวกับเรา</Link>
             {user && <Link to="/bookings">ประวัติการจอง</Link>}
             {user && <Link to="/profile">โปรไฟล์</Link>}
           </div>
@@ -64,6 +65,10 @@ export default function CustomerLayout({ children }) {
           <p style={{ marginTop: 8 }}>
             <Link to="/how-to-rent" style={{ color: 'inherit', textDecoration: 'underline', opacity: 0.9 }}>
               ขั้นตอนการเช่า
+            </Link>
+            {' · '}
+            <Link to="/about" style={{ color: 'inherit', textDecoration: 'underline', opacity: 0.9 }}>
+              เกี่ยวกับเรา
             </Link>
             {' · '}
             <Link to="/catalog" style={{ color: 'inherit', textDecoration: 'underline', opacity: 0.9 }}>

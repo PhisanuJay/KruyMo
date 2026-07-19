@@ -7,7 +7,7 @@
     "degreeLevel": "bachelor",
     "startDate": "2026-07-10",
     "endDate": "2026-07-22",
-    "status": "payment_pending",
+    "status": "cancelled",
     "rentalPrice": 5200,
     "deposit": 2000,
     "totalPrice": 7200,
@@ -24,7 +24,9 @@
     "penaltyAmount": 0,
     "refundAmount": null,
     "createdAt": "2026-07-09T07:11:37.462Z",
-    "updatedAt": "2026-07-09T07:11:49.531Z"
+    "updatedAt": "2026-07-19T17:42:28.016Z",
+    "cancelReason": "หมดเวลาชำระเงินภายใน 24 ชั่วโมง",
+    "cancelledAt": "2026-07-19T17:42:28.013Z"
   },
   {
     "id": "d04bc91a-39ec-4ba8-80c3-bf846b8d04df",
@@ -61,7 +63,7 @@
     "degreeLevel": "bachelor",
     "startDate": "2026-08-01",
     "endDate": "2026-08-13",
-    "status": "payment_pending",
+    "status": "cancelled",
     "rentalPrice": 4550,
     "deposit": 1500,
     "totalPrice": 6050,
@@ -78,7 +80,9 @@
     "penaltyAmount": 0,
     "refundAmount": null,
     "createdAt": "2026-07-14T19:44:24.540Z",
-    "updatedAt": "2026-07-14T19:44:30.518Z"
+    "updatedAt": "2026-07-19T17:42:28.029Z",
+    "cancelReason": "หมดเวลาชำระเงินภายใน 24 ชั่วโมง",
+    "cancelledAt": "2026-07-19T17:42:28.027Z"
   },
   {
     "id": "cb227fc1-7d10-4d0e-8221-fcab0561d40a",
@@ -88,7 +92,7 @@
     "degreeLevel": "bachelor",
     "startDate": "2026-07-14",
     "endDate": "2026-07-30",
-    "status": "payment_pending",
+    "status": "cancelled",
     "rentalPrice": 5950,
     "deposit": 1500,
     "totalPrice": 7450,
@@ -104,7 +108,10 @@
     "returnImages": [],
     "penaltyAmount": 0,
     "refundAmount": null,
-    "createdAt": "2026-07-14T19:46:38.961Z"
+    "createdAt": "2026-07-14T19:46:38.961Z",
+    "cancelReason": "หมดเวลาชำระเงินภายใน 24 ชั่วโมง",
+    "cancelledAt": "2026-07-19T17:42:28.039Z",
+    "updatedAt": "2026-07-19T17:42:28.042Z"
   },
   {
     "id": "264ea998-8b14-4dd7-941a-e1f0c7a4269a",
@@ -114,7 +121,7 @@
     "degreeLevel": "bachelor",
     "startDate": "2026-07-22",
     "endDate": "2026-07-30",
-    "status": "payment_pending",
+    "status": "cancelled",
     "rentalPrice": 3150,
     "deposit": 1500,
     "totalPrice": 4650,
@@ -131,7 +138,9 @@
     "penaltyAmount": 0,
     "refundAmount": null,
     "createdAt": "2026-07-14T19:49:56.996Z",
-    "updatedAt": "2026-07-14T19:50:03.840Z"
+    "updatedAt": "2026-07-19T17:42:28.051Z",
+    "cancelReason": "หมดเวลาชำระเงินภายใน 24 ชั่วโมง",
+    "cancelledAt": "2026-07-19T17:42:28.049Z"
   },
   {
     "id": "93b81d6c-ab05-4a44-be53-00d6d392cdcf",
@@ -141,7 +150,7 @@
     "degreeLevel": "bachelor",
     "startDate": "2026-07-16",
     "endDate": "2026-07-24",
-    "status": "payment_pending",
+    "status": "cancelled",
     "rentalPrice": 3150,
     "deposit": 1500,
     "totalPrice": 4650,
@@ -157,7 +166,10 @@
     "returnImages": [],
     "penaltyAmount": 0,
     "refundAmount": null,
-    "createdAt": "2026-07-14T20:35:54.733Z"
+    "createdAt": "2026-07-14T20:35:54.733Z",
+    "cancelReason": "หมดเวลาชำระเงินภายใน 24 ชั่วโมง",
+    "cancelledAt": "2026-07-19T17:42:28.059Z",
+    "updatedAt": "2026-07-19T17:42:28.060Z"
   },
   {
     "id": "9159f855-b7a9-4e63-9b4f-d55e3e8f7f4c",
@@ -167,7 +179,7 @@
     "degreeLevel": "bachelor",
     "startDate": "2026-07-16",
     "endDate": "2026-07-17",
-    "status": "payment_pending",
+    "status": "cancelled",
     "rentalPrice": 700,
     "deposit": 1500,
     "totalPrice": 2200,
@@ -183,7 +195,10 @@
     "returnImages": [],
     "penaltyAmount": 0,
     "refundAmount": null,
-    "createdAt": "2026-07-14T20:56:42.634Z"
+    "createdAt": "2026-07-14T20:56:42.634Z",
+    "cancelReason": "หมดเวลาชำระเงินภายใน 24 ชั่วโมง",
+    "cancelledAt": "2026-07-19T17:42:28.067Z",
+    "updatedAt": "2026-07-19T17:42:28.069Z"
   },
   {
     "id": "b11af224-d0a7-4b62-ad48-bd99b1f5bb31",
@@ -193,7 +208,7 @@
     "degreeLevel": "bachelor",
     "startDate": "2026-07-16",
     "endDate": "2026-07-23",
-    "status": "payment_pending",
+    "status": "cancelled",
     "rentalPrice": 2800,
     "deposit": 1500,
     "totalPrice": 4300,
@@ -209,7 +224,10 @@
     "returnImages": [],
     "penaltyAmount": 0,
     "refundAmount": null,
-    "createdAt": "2026-07-14T21:08:20.807Z"
+    "createdAt": "2026-07-14T21:08:20.807Z",
+    "cancelReason": "หมดเวลาชำระเงินภายใน 24 ชั่วโมง",
+    "cancelledAt": "2026-07-19T17:42:28.075Z",
+    "updatedAt": "2026-07-19T17:42:28.077Z"
   },
   {
     "id": "ff6982ea-4cac-4862-b478-363d1e9cd5e1",
@@ -398,9 +416,15 @@
     "penaltyAmount": 0,
     "refundAmount": null,
     "createdAt": "2026-07-15T00:12:52.936Z",
-    "updatedAt": "2026-07-15T00:12:52.936Z",
-    "status": "ready_to_ship",
-    "messenger": null
+    "updatedAt": "2026-07-15T18:06:30.001Z",
+    "status": "out_for_delivery",
+    "messenger": {
+      "name": "เจ",
+      "phone": "0813131345",
+      "eta": "13:05",
+      "note": "",
+      "dispatchedAt": "2026-07-15T18:06:29.994Z"
+    }
   },
   {
     "id": "sim-ship-out",
@@ -509,7 +533,7 @@
     "degreeLevel": "bachelor",
     "startDate": "2026-07-15",
     "endDate": "2026-07-16",
-    "status": "payment_pending",
+    "status": "cancelled",
     "rentalPrice": 700,
     "deposit": 1500,
     "totalPrice": 2200,
@@ -535,7 +559,10 @@
       "postalCode": "10209"
     },
     "messenger": null,
-    "createdAt": "2026-07-15T05:24:15.471Z"
+    "createdAt": "2026-07-15T05:24:15.471Z",
+    "cancelReason": "หมดเวลาชำระเงินภายใน 24 ชั่วโมง",
+    "cancelledAt": "2026-07-19T17:42:28.087Z",
+    "updatedAt": "2026-07-19T17:42:28.088Z"
   },
   {
     "id": "ae9839f4-31b7-49da-96ba-58ce46322db0",
@@ -545,7 +572,7 @@
     "degreeLevel": "bachelor",
     "startDate": "2026-07-16",
     "endDate": "2026-07-17",
-    "status": "payment_pending",
+    "status": "cancelled",
     "rentalPrice": 760,
     "deposit": 1500,
     "totalPrice": 2260,
@@ -571,7 +598,10 @@
       "postalCode": "10209"
     },
     "messenger": null,
-    "createdAt": "2026-07-15T05:29:15.943Z"
+    "createdAt": "2026-07-15T05:29:15.943Z",
+    "cancelReason": "หมดเวลาชำระเงินภายใน 24 ชั่วโมง",
+    "cancelledAt": "2026-07-19T17:42:28.096Z",
+    "updatedAt": "2026-07-19T17:42:28.098Z"
   },
   {
     "id": "b24d967f-1793-4d48-b1ef-5411e3fe7d32",
@@ -581,7 +611,7 @@
     "degreeLevel": "bachelor",
     "startDate": "2026-07-15",
     "endDate": "2026-07-17",
-    "status": "payment_pending",
+    "status": "cancelled",
     "rentalPrice": 1140,
     "deposit": 1500,
     "totalPrice": 2640,
@@ -607,7 +637,10 @@
       "postalCode": "10209"
     },
     "messenger": null,
-    "createdAt": "2026-07-15T05:33:25.554Z"
+    "createdAt": "2026-07-15T05:33:25.554Z",
+    "cancelReason": "หมดเวลาชำระเงินภายใน 24 ชั่วโมง",
+    "cancelledAt": "2026-07-19T17:42:28.105Z",
+    "updatedAt": "2026-07-19T17:42:28.107Z"
   },
   {
     "id": "ae727182-cb8a-4c21-b7bc-94a3855054c9",
@@ -645,5 +678,307 @@
     "messenger": null,
     "createdAt": "2026-07-15T05:38:05.412Z",
     "updatedAt": "2026-07-15T05:38:54.068Z"
+  },
+  {
+    "id": "f9b1653d-d705-4ae3-b373-4a3ac4df1c7c",
+    "userId": "b0e2aa38-952a-4e93-8257-7c384f859049",
+    "costumeId": "costume-001",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "startDate": "2026-07-20",
+    "endDate": "2026-07-24",
+    "status": "deposit_refunded",
+    "rentalPrice": 1750,
+    "deposit": 1500,
+    "totalPrice": 3250,
+    "days": 5,
+    "rejectReason": null,
+    "prepChecklist": {
+      "gown": true,
+      "cap": true,
+      "sash": true,
+      "accessories": true
+    },
+    "pickupConfirmedAt": "2026-07-15T07:34:52.221Z",
+    "returnImages": [],
+    "penaltyAmount": 100,
+    "penaltyReason": "คราบเล็กน้อย",
+    "refundAmount": 1400,
+    "refundAccount": {
+      "method": "promptpay",
+      "promptpay": "0812345678",
+      "bankName": "",
+      "accountNumber": "",
+      "accountName": "ลูกค้าทดสอบ UAT"
+    },
+    "deliveryAddress": {
+      "recipientName": "ลูกค้าทดสอบ UAT",
+      "recipientPhone": "0812345678",
+      "line1": "456 ถนนใหม่ UAT",
+      "district": "จตุจักร",
+      "province": "กรุงเทพมหานคร",
+      "postalCode": "10900"
+    },
+    "messenger": {
+      "name": "แมสทดสอบ",
+      "phone": "0891112222",
+      "deliveredAt": "2026-07-15T07:34:52.221Z"
+    },
+    "createdAt": "2026-07-15T07:34:52.107Z",
+    "updatedAt": "2026-07-15T07:34:52.246Z",
+    "returnNote": "ส่งคืนแล้ว",
+    "returnSubmittedAt": "2026-07-15T07:34:52.229Z",
+    "returnedAt": "2026-07-15T07:34:52.238Z",
+    "refundedAt": "2026-07-15T07:34:52.246Z"
+  },
+  {
+    "id": "c3cf4c1c-79a9-486b-9e2b-2bfa29b539b7",
+    "userId": "b0e2aa38-952a-4e93-8257-7c384f859049",
+    "costumeId": "costume-001",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "startDate": "2026-08-04",
+    "endDate": "2026-08-08",
+    "status": "cancelled",
+    "rentalPrice": 1750,
+    "deposit": 1500,
+    "totalPrice": 3250,
+    "days": 5,
+    "rejectReason": null,
+    "prepChecklist": {
+      "gown": false,
+      "cap": false,
+      "sash": false,
+      "accessories": false
+    },
+    "pickupConfirmedAt": null,
+    "returnImages": [],
+    "penaltyAmount": 0,
+    "penaltyReason": null,
+    "refundAmount": null,
+    "refundAccount": null,
+    "deliveryAddress": {
+      "recipientName": "ลูกค้าทดสอบ UAT",
+      "recipientPhone": "0812345678",
+      "line1": "123 ถนนพหลโยธิน",
+      "district": "จตุจักร",
+      "province": "กรุงเทพมหานคร",
+      "postalCode": "10900"
+    },
+    "messenger": null,
+    "createdAt": "2026-07-15T07:34:52.138Z",
+    "updatedAt": "2026-07-15T07:34:52.158Z"
+  },
+  {
+    "id": "65146661-ec7d-4c7a-be09-f8967c99369e",
+    "userId": "b0e2aa38-952a-4e93-8257-7c384f859049",
+    "costumeId": "costume-001",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "startDate": "2026-08-24",
+    "endDate": "2026-08-28",
+    "status": "cancelled",
+    "rentalPrice": 1750,
+    "deposit": 1500,
+    "totalPrice": 3250,
+    "days": 5,
+    "rejectReason": null,
+    "prepChecklist": {
+      "gown": false,
+      "cap": false,
+      "sash": false,
+      "accessories": false
+    },
+    "pickupConfirmedAt": null,
+    "returnImages": [],
+    "penaltyAmount": 0,
+    "penaltyReason": null,
+    "refundAmount": null,
+    "refundAccount": null,
+    "deliveryAddress": {
+      "recipientName": "ลูกค้าทดสอบ UAT",
+      "recipientPhone": "0812345678",
+      "line1": "123 ถนนพหลโยธิน",
+      "district": "จตุจักร",
+      "province": "กรุงเทพมหานคร",
+      "postalCode": "10900"
+    },
+    "messenger": null,
+    "createdAt": "2026-07-15T07:34:52.360Z",
+    "updatedAt": "2026-07-15T07:34:52.384Z"
+  },
+  {
+    "id": "793abcae-de7a-4697-9e60-4aa8782ded56",
+    "userId": "b0e2aa38-952a-4e93-8257-7c384f859049",
+    "costumeId": "costume-001",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "startDate": "2026-08-24",
+    "endDate": "2026-08-28",
+    "status": "cancelled",
+    "rentalPrice": 1750,
+    "deposit": 1500,
+    "totalPrice": 3250,
+    "days": 5,
+    "rejectReason": null,
+    "prepChecklist": {
+      "gown": false,
+      "cap": false,
+      "sash": false,
+      "accessories": false
+    },
+    "pickupConfirmedAt": null,
+    "returnImages": [],
+    "penaltyAmount": 0,
+    "penaltyReason": null,
+    "refundAmount": null,
+    "refundAccount": null,
+    "deliveryAddress": {
+      "recipientName": "ลูกค้าทดสอบ UAT",
+      "recipientPhone": "0812345678",
+      "line1": "123 ถนนพหลโยธิน",
+      "district": "จตุจักร",
+      "province": "กรุงเทพมหานคร",
+      "postalCode": "10900"
+    },
+    "messenger": null,
+    "createdAt": "2026-07-15T07:34:52.370Z",
+    "updatedAt": "2026-07-15T07:34:52.388Z"
+  },
+  {
+    "id": "9ecd50ea-29b5-4e1d-bc5b-4d56326ea58c",
+    "userId": "54a40d6b-79b9-4901-b941-6db9948482bf",
+    "costumeId": "costume-001",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "startDate": "2026-07-16",
+    "endDate": "2026-07-23",
+    "status": "delivered",
+    "rentalPrice": 2800,
+    "deposit": 1500,
+    "totalPrice": 4300,
+    "days": 8,
+    "rejectReason": null,
+    "prepChecklist": {
+      "gown": false,
+      "cap": false,
+      "sash": false,
+      "accessories": false
+    },
+    "pickupConfirmedAt": "2026-07-15T18:21:31.914Z",
+    "returnImages": [],
+    "penaltyAmount": 0,
+    "penaltyReason": null,
+    "refundAmount": null,
+    "refundAccount": null,
+    "deliveryAddress": {
+      "recipientName": "พิษณุ",
+      "recipientPhone": "0653382730",
+      "line1": "112/70 อมรพันธุ์ 12 ซอย 9",
+      "district": "บางเขน",
+      "province": "อนุชัย",
+      "postalCode": "10220"
+    },
+    "messenger": {
+      "name": "ddd",
+      "phone": "4919844",
+      "eta": "16:00",
+      "note": "",
+      "dispatchedAt": "2026-07-15T18:21:05.973Z",
+      "deliveredAt": "2026-07-15T18:21:31.914Z"
+    },
+    "createdAt": "2026-07-15T18:04:04.205Z",
+    "updatedAt": "2026-07-15T18:21:31.915Z"
+  },
+  {
+    "id": "e9209c2d-db41-4ce7-9a05-f8dc1a35f341",
+    "userId": "b0e2aa38-952a-4e93-8257-7c384f859049",
+    "costumeId": "costume-001",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "startDate": "2026-07-17",
+    "endDate": "2026-07-19",
+    "status": "ready_to_ship",
+    "rentalPrice": 1050,
+    "deposit": 1500,
+    "totalPrice": 2550,
+    "days": 3,
+    "rejectReason": null,
+    "prepChecklist": {
+      "gown": false,
+      "cap": false,
+      "sash": false,
+      "accessories": false
+    },
+    "pickupConfirmedAt": null,
+    "returnImages": [],
+    "penaltyAmount": 0,
+    "penaltyReason": null,
+    "refundAmount": null,
+    "refundAccount": null,
+    "deliveryAddress": {
+      "recipientName": "สิวกร",
+      "recipientPhone": "0813131364",
+      "line1": "1112/10 หมูบ้าน จรหัน ซอย 9",
+      "district": "บางเขน",
+      "province": "อนุสวชชขจร",
+      "postalCode": "10110"
+    },
+    "messenger": null,
+    "createdAt": "2026-07-16T05:41:19.972Z",
+    "updatedAt": "2026-07-16T06:33:42.733Z"
+  },
+  {
+    "id": "45a640de-f342-41ca-b2fe-647ddef21759",
+    "userId": "b0e2aa38-952a-4e93-8257-7c384f859049",
+    "costumeId": "costume-001",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "startDate": "2026-07-20",
+    "endDate": "2026-07-22",
+    "status": "deposit_refunded",
+    "rentalPrice": 1050,
+    "deposit": 1500,
+    "totalPrice": 2550,
+    "days": 3,
+    "rejectReason": null,
+    "pickupConfirmedAt": "2026-07-19T20:06:07.065Z",
+    "returnImages": [
+      "/uploads/1784491575469-142968059.png"
+    ],
+    "penaltyAmount": 0,
+    "penaltyReason": "ปกติดี",
+    "refundAmount": 1500,
+    "refundAccount": {
+      "method": "promptpay",
+      "promptpay": "0812345678",
+      "bankName": "",
+      "accountNumber": "",
+      "accountName": "ลูกค้าทดสอบ"
+    },
+    "refundSlipImage": "/uploads/1784491615369-261341433.png",
+    "deliveryAddress": {
+      "recipientName": "ลูกค้าทดสอบ",
+      "recipientPhone": "0812345678",
+      "line1": "13321321321321",
+      "amphoe": "คลองเตย",
+      "district": "คลองตัน",
+      "province": "กรุงเทพมหานคร",
+      "postalCode": "10110"
+    },
+    "messenger": {
+      "name": "เเ",
+      "phone": "00000001122",
+      "eta": "13:00–15:00",
+      "note": "",
+      "dispatchedAt": "2026-07-19T20:05:45.816Z",
+      "deliveredAt": "2026-07-19T20:06:07.065Z"
+    },
+    "createdAt": "2026-07-19T20:03:36.775Z",
+    "updatedAt": "2026-07-19T20:06:59.433Z",
+    "returnNote": null,
+    "returnSubmittedAt": "2026-07-19T20:06:19.812Z",
+    "returnedAt": "2026-07-19T20:06:59.409Z",
+    "refundedAt": "2026-07-19T20:06:59.432Z"
   }
 ]

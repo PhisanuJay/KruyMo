@@ -8,75 +8,75 @@
     "sizeId": "size-45",
     "pricePerDay": 350,
     "deposit": 1500,
-    "stock": 21,
+    "stock": 63,
     "images": [
-      "/images/gown-yellow.png"
+      "/images/gowns/gown-bachelor-yellow.jpg"
     ],
     "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะนิเทศศาสตร์ ระดับปริญญาตรี สายสีเหลือง พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
     "createdAt": "2024-01-01T00:00:00.000Z"
   },
   {
     "id": "costume-002",
-    "name": "ชุดครุยปริญญาตรี ศรีปทุม คณะบัญชี",
+    "name": "ชุดครุยปริญญาตรี ศรีปทุม คณะดิจิทัลมีเดีย",
     "universityId": "uni-spu",
-    "facultyId": "fac-acc",
+    "facultyId": "fac-digital",
     "degreeLevel": "bachelor",
     "sizeId": "size-45",
     "pricePerDay": 350,
     "deposit": 1500,
-    "stock": 21,
+    "stock": 63,
     "images": [
-      "/images/gown-green.png"
+      "/images/gowns/gown-bachelor-yellow.jpg"
     ],
-    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะบัญชี ระดับปริญญาตรี สายสีเขียว พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
+    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะดิจิทัลมีเดีย ระดับปริญญาตรี สายสีเหลือง พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
     "createdAt": "2024-01-01T00:00:00.000Z"
   },
   {
     "id": "costume-003",
-    "name": "ชุดครุยปริญญาตรี ศรีปทุม คณะนิติศาสตร์",
-    "universityId": "uni-spu",
-    "facultyId": "fac-law",
-    "degreeLevel": "bachelor",
-    "sizeId": "size-45",
-    "pricePerDay": 300,
-    "deposit": 1200,
-    "stock": 21,
-    "images": [
-      "/images/gown-white.png"
-    ],
-    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะนิติศาสตร์ ระดับปริญญาตรี สายสีขาว พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
-    "createdAt": "2024-01-01T00:00:00.000Z"
-  },
-  {
-    "id": "costume-004",
-    "name": "ชุดครุยปริญญาตรี ศรีปทุม คณะศิลปศาสตร์",
-    "universityId": "uni-spu",
-    "facultyId": "fac-lib",
-    "degreeLevel": "bachelor",
-    "sizeId": "size-45",
-    "pricePerDay": 280,
-    "deposit": 1000,
-    "stock": 21,
-    "images": [
-      "/images/gown-orange.png"
-    ],
-    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะศิลปศาสตร์ ระดับปริญญาตรี สายสีส้ม พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
-    "createdAt": "2024-01-01T00:00:00.000Z"
-  },
-  {
-    "id": "costume-005",
     "name": "ชุดครุยปริญญาตรี ศรีปทุม คณะบริหารธุรกิจ",
     "universityId": "uni-spu",
     "facultyId": "fac-bus",
     "degreeLevel": "bachelor",
     "sizeId": "size-45",
-    "pricePerDay": 400,
-    "deposit": 2000,
-    "stock": 21,
+    "pricePerDay": 350,
+    "deposit": 1500,
+    "stock": 63,
     "images": [
-      "/images/gown-cyan.png"
+      "/images/gowns/gown-bachelor-blue.jpg"
     ],
     "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะบริหารธุรกิจ ระดับปริญญาตรี สายสีฟ้า พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "costume-004",
+    "name": "ชุดครุยปริญญาตรี ศรีปทุม วิทยาลัยโลจิสติกส์และซัพพลายเชน",
+    "universityId": "uni-spu",
+    "facultyId": "fac-logistics",
+    "degreeLevel": "bachelor",
+    "sizeId": "size-45",
+    "pricePerDay": 350,
+    "deposit": 1500,
+    "stock": 63,
+    "images": [
+      "/images/gowns/gown-bachelor-blue.jpg"
+    ],
+    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม วิทยาลัยโลจิสติกส์และซัพพลายเชน ระดับปริญญาตรี สายสีฟ้า พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "costume-005",
+    "name": "ชุดครุยปริญญาตรี ศรีปทุม คณะวิศวกรรมศาสตร์",
+    "universityId": "uni-spu",
+    "facultyId": "fac-eng",
+    "degreeLevel": "bachelor",
+    "sizeId": "size-45",
+    "pricePerDay": 350,
+    "deposit": 1500,
+    "stock": 63,
+    "images": [
+      "/images/gowns/gown-bachelor-maroon.jpg"
+    ],
+    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะวิศวกรรมศาสตร์ ระดับปริญญาตรี สายสีแดงเลือดหมู พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
     "createdAt": "2024-01-01T00:00:00.000Z"
   },
   {
@@ -86,17 +86,65 @@
     "facultyId": "fac-it",
     "degreeLevel": "bachelor",
     "sizeId": "size-45",
-    "pricePerDay": 380,
+    "pricePerDay": 350,
     "deposit": 1500,
-    "stock": 21,
+    "stock": 63,
     "images": [
-      "/images/gown-purple.png"
+      "/images/gowns/gown-bachelor-purple.jpg"
     ],
     "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะเทคโนโลยีสารสนเทศ ระดับปริญญาตรี สายสีม่วง พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
     "createdAt": "2024-01-01T00:00:00.000Z"
   },
   {
     "id": "costume-007",
+    "name": "ชุดครุยปริญญาตรี ศรีปทุม คณะศิลปศาสตร์",
+    "universityId": "uni-spu",
+    "facultyId": "fac-lib",
+    "degreeLevel": "bachelor",
+    "sizeId": "size-45",
+    "pricePerDay": 350,
+    "deposit": 1500,
+    "stock": 63,
+    "images": [
+      "/images/gowns/gown-bachelor-orange.jpg"
+    ],
+    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะศิลปศาสตร์ ระดับปริญญาตรี สายสีส้ม พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "costume-008",
+    "name": "ชุดครุยปริญญาตรี ศรีปทุม คณะบัญชี",
+    "universityId": "uni-spu",
+    "facultyId": "fac-acc",
+    "degreeLevel": "bachelor",
+    "sizeId": "size-45",
+    "pricePerDay": 350,
+    "deposit": 1500,
+    "stock": 63,
+    "images": [
+      "/images/gowns/gown-bachelor-green.jpg"
+    ],
+    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะบัญชี ระดับปริญญาตรี สายสีเขียว พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "costume-009",
+    "name": "ชุดครุยปริญญาตรี ศรีปทุม คณะนิติศาสตร์",
+    "universityId": "uni-spu",
+    "facultyId": "fac-law",
+    "degreeLevel": "bachelor",
+    "sizeId": "size-45",
+    "pricePerDay": 350,
+    "deposit": 1500,
+    "stock": 63,
+    "images": [
+      "/images/gowns/gown-bachelor-white.jpg"
+    ],
+    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะนิติศาสตร์ ระดับปริญญาตรี สายสีขาว พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "costume-010",
     "name": "ชุดครุยปริญญาโท ศรีปทุม คณะนิเทศศาสตร์",
     "universityId": "uni-spu",
     "facultyId": "fac-comm",
@@ -104,15 +152,111 @@
     "sizeId": "size-45",
     "pricePerDay": 420,
     "deposit": 1800,
-    "stock": 21,
+    "stock": 63,
     "images": [
-      "/images/gown-yellow.png"
+      "/images/gowns/gown-master-yellow.jpg"
     ],
     "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะนิเทศศาสตร์ ระดับปริญญาโท สายสีเหลือง พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
     "createdAt": "2024-01-01T00:00:00.000Z"
   },
   {
-    "id": "costume-008",
+    "id": "costume-011",
+    "name": "ชุดครุยปริญญาโท ศรีปทุม คณะดิจิทัลมีเดีย",
+    "universityId": "uni-spu",
+    "facultyId": "fac-digital",
+    "degreeLevel": "master",
+    "sizeId": "size-45",
+    "pricePerDay": 420,
+    "deposit": 1800,
+    "stock": 63,
+    "images": [
+      "/images/gowns/gown-master-yellow.jpg"
+    ],
+    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะดิจิทัลมีเดีย ระดับปริญญาโท สายสีเหลือง พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "costume-012",
+    "name": "ชุดครุยปริญญาโท ศรีปทุม คณะบริหารธุรกิจ",
+    "universityId": "uni-spu",
+    "facultyId": "fac-bus",
+    "degreeLevel": "master",
+    "sizeId": "size-45",
+    "pricePerDay": 420,
+    "deposit": 1800,
+    "stock": 63,
+    "images": [
+      "/images/gowns/gown-master-blue.jpg"
+    ],
+    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะบริหารธุรกิจ ระดับปริญญาโท สายสีฟ้า พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "costume-013",
+    "name": "ชุดครุยปริญญาโท ศรีปทุม วิทยาลัยโลจิสติกส์และซัพพลายเชน",
+    "universityId": "uni-spu",
+    "facultyId": "fac-logistics",
+    "degreeLevel": "master",
+    "sizeId": "size-45",
+    "pricePerDay": 420,
+    "deposit": 1800,
+    "stock": 63,
+    "images": [
+      "/images/gowns/gown-master-blue.jpg"
+    ],
+    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม วิทยาลัยโลจิสติกส์และซัพพลายเชน ระดับปริญญาโท สายสีฟ้า พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "costume-014",
+    "name": "ชุดครุยปริญญาโท ศรีปทุม คณะวิศวกรรมศาสตร์",
+    "universityId": "uni-spu",
+    "facultyId": "fac-eng",
+    "degreeLevel": "master",
+    "sizeId": "size-45",
+    "pricePerDay": 420,
+    "deposit": 1800,
+    "stock": 63,
+    "images": [
+      "/images/gowns/gown-master-maroon.jpg"
+    ],
+    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะวิศวกรรมศาสตร์ ระดับปริญญาโท สายสีแดงเลือดหมู พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "costume-015",
+    "name": "ชุดครุยปริญญาโท ศรีปทุม คณะเทคโนโลยีสารสนเทศ",
+    "universityId": "uni-spu",
+    "facultyId": "fac-it",
+    "degreeLevel": "master",
+    "sizeId": "size-45",
+    "pricePerDay": 420,
+    "deposit": 1800,
+    "stock": 63,
+    "images": [
+      "/images/gowns/gown-master-purple.jpg"
+    ],
+    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะเทคโนโลยีสารสนเทศ ระดับปริญญาโท สายสีม่วง พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "costume-016",
+    "name": "ชุดครุยปริญญาโท ศรีปทุม คณะศิลปศาสตร์",
+    "universityId": "uni-spu",
+    "facultyId": "fac-lib",
+    "degreeLevel": "master",
+    "sizeId": "size-45",
+    "pricePerDay": 420,
+    "deposit": 1800,
+    "stock": 63,
+    "images": [
+      "/images/gowns/gown-master-orange.jpg"
+    ],
+    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะศิลปศาสตร์ ระดับปริญญาโท สายสีส้ม พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "costume-017",
     "name": "ชุดครุยปริญญาโท ศรีปทุม คณะบัญชี",
     "universityId": "uni-spu",
     "facultyId": "fac-acc",
@@ -120,79 +264,31 @@
     "sizeId": "size-45",
     "pricePerDay": 420,
     "deposit": 1800,
-    "stock": 21,
+    "stock": 63,
     "images": [
-      "/images/gown-green.png"
+      "/images/gowns/gown-master-green.jpg"
     ],
     "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะบัญชี ระดับปริญญาโท สายสีเขียว พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
     "createdAt": "2024-01-01T00:00:00.000Z"
   },
   {
-    "id": "costume-009",
+    "id": "costume-018",
     "name": "ชุดครุยปริญญาโท ศรีปทุม คณะนิติศาสตร์",
     "universityId": "uni-spu",
     "facultyId": "fac-law",
     "degreeLevel": "master",
     "sizeId": "size-45",
-    "pricePerDay": 380,
-    "deposit": 1500,
-    "stock": 21,
+    "pricePerDay": 420,
+    "deposit": 1800,
+    "stock": 63,
     "images": [
-      "/images/gown-white.png"
+      "/images/gowns/gown-master-white.jpg"
     ],
     "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะนิติศาสตร์ ระดับปริญญาโท สายสีขาว พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
     "createdAt": "2024-01-01T00:00:00.000Z"
   },
   {
-    "id": "costume-010",
-    "name": "ชุดครุยปริญญาโท ศรีปทุม คณะศิลปศาสตร์",
-    "universityId": "uni-spu",
-    "facultyId": "fac-lib",
-    "degreeLevel": "master",
-    "sizeId": "size-45",
-    "pricePerDay": 350,
-    "deposit": 1300,
-    "stock": 21,
-    "images": [
-      "/images/gown-orange.png"
-    ],
-    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะศิลปศาสตร์ ระดับปริญญาโท สายสีส้ม พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
-    "createdAt": "2024-01-01T00:00:00.000Z"
-  },
-  {
-    "id": "costume-011",
-    "name": "ชุดครุยปริญญาโท ศรีปทุม คณะบริหารธุรกิจ",
-    "universityId": "uni-spu",
-    "facultyId": "fac-bus",
-    "degreeLevel": "master",
-    "sizeId": "size-45",
-    "pricePerDay": 480,
-    "deposit": 2200,
-    "stock": 21,
-    "images": [
-      "/images/gown-cyan.png"
-    ],
-    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะบริหารธุรกิจ ระดับปริญญาโท สายสีฟ้า พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
-    "createdAt": "2024-01-01T00:00:00.000Z"
-  },
-  {
-    "id": "costume-012",
-    "name": "ชุดครุยปริญญาโท ศรีปทุม คณะเทคโนโลยีสารสนเทศ",
-    "universityId": "uni-spu",
-    "facultyId": "fac-it",
-    "degreeLevel": "master",
-    "sizeId": "size-45",
-    "pricePerDay": 450,
-    "deposit": 1800,
-    "stock": 21,
-    "images": [
-      "/images/gown-purple.png"
-    ],
-    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะเทคโนโลยีสารสนเทศ ระดับปริญญาโท สายสีม่วง พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
-    "createdAt": "2024-01-01T00:00:00.000Z"
-  },
-  {
-    "id": "costume-013",
+    "id": "costume-019",
     "name": "ชุดครุยปริญญาเอก ศรีปทุม คณะนิเทศศาสตร์",
     "universityId": "uni-spu",
     "facultyId": "fac-comm",
@@ -200,15 +296,111 @@
     "sizeId": "size-45",
     "pricePerDay": 500,
     "deposit": 2000,
-    "stock": 21,
+    "stock": 63,
     "images": [
-      "/images/gown-yellow.png"
+      "/images/gowns/gown-doctoral-yellow.jpg"
     ],
     "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะนิเทศศาสตร์ ระดับปริญญาเอก สายสีเหลือง พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
     "createdAt": "2024-01-01T00:00:00.000Z"
   },
   {
-    "id": "costume-014",
+    "id": "costume-020",
+    "name": "ชุดครุยปริญญาเอก ศรีปทุม คณะดิจิทัลมีเดีย",
+    "universityId": "uni-spu",
+    "facultyId": "fac-digital",
+    "degreeLevel": "doctoral",
+    "sizeId": "size-45",
+    "pricePerDay": 500,
+    "deposit": 2000,
+    "stock": 63,
+    "images": [
+      "/images/gowns/gown-doctoral-yellow.jpg"
+    ],
+    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะดิจิทัลมีเดีย ระดับปริญญาเอก สายสีเหลือง พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "costume-021",
+    "name": "ชุดครุยปริญญาเอก ศรีปทุม คณะบริหารธุรกิจ",
+    "universityId": "uni-spu",
+    "facultyId": "fac-bus",
+    "degreeLevel": "doctoral",
+    "sizeId": "size-45",
+    "pricePerDay": 500,
+    "deposit": 2000,
+    "stock": 63,
+    "images": [
+      "/images/gowns/gown-doctoral-blue.jpg"
+    ],
+    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะบริหารธุรกิจ ระดับปริญญาเอก สายสีฟ้า พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "costume-022",
+    "name": "ชุดครุยปริญญาเอก ศรีปทุม วิทยาลัยโลจิสติกส์และซัพพลายเชน",
+    "universityId": "uni-spu",
+    "facultyId": "fac-logistics",
+    "degreeLevel": "doctoral",
+    "sizeId": "size-45",
+    "pricePerDay": 500,
+    "deposit": 2000,
+    "stock": 63,
+    "images": [
+      "/images/gowns/gown-doctoral-blue.jpg"
+    ],
+    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม วิทยาลัยโลจิสติกส์และซัพพลายเชน ระดับปริญญาเอก สายสีฟ้า พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "costume-023",
+    "name": "ชุดครุยปริญญาเอก ศรีปทุม คณะวิศวกรรมศาสตร์",
+    "universityId": "uni-spu",
+    "facultyId": "fac-eng",
+    "degreeLevel": "doctoral",
+    "sizeId": "size-45",
+    "pricePerDay": 500,
+    "deposit": 2000,
+    "stock": 63,
+    "images": [
+      "/images/gowns/gown-doctoral-maroon.jpg"
+    ],
+    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะวิศวกรรมศาสตร์ ระดับปริญญาเอก สายสีแดงเลือดหมู พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "costume-024",
+    "name": "ชุดครุยปริญญาเอก ศรีปทุม คณะเทคโนโลยีสารสนเทศ",
+    "universityId": "uni-spu",
+    "facultyId": "fac-it",
+    "degreeLevel": "doctoral",
+    "sizeId": "size-45",
+    "pricePerDay": 500,
+    "deposit": 2000,
+    "stock": 63,
+    "images": [
+      "/images/gowns/gown-doctoral-purple.jpg"
+    ],
+    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะเทคโนโลยีสารสนเทศ ระดับปริญญาเอก สายสีม่วง พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "costume-025",
+    "name": "ชุดครุยปริญญาเอก ศรีปทุม คณะศิลปศาสตร์",
+    "universityId": "uni-spu",
+    "facultyId": "fac-lib",
+    "degreeLevel": "doctoral",
+    "sizeId": "size-45",
+    "pricePerDay": 500,
+    "deposit": 2000,
+    "stock": 63,
+    "images": [
+      "/images/gowns/gown-doctoral-orange.jpg"
+    ],
+    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะศิลปศาสตร์ ระดับปริญญาเอก สายสีส้ม พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "costume-026",
     "name": "ชุดครุยปริญญาเอก ศรีปทุม คณะบัญชี",
     "universityId": "uni-spu",
     "facultyId": "fac-acc",
@@ -216,75 +408,27 @@
     "sizeId": "size-45",
     "pricePerDay": 500,
     "deposit": 2000,
-    "stock": 21,
+    "stock": 63,
     "images": [
-      "/images/gown-green.png"
+      "/images/gowns/gown-doctoral-green.jpg"
     ],
     "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะบัญชี ระดับปริญญาเอก สายสีเขียว พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
     "createdAt": "2024-01-01T00:00:00.000Z"
   },
   {
-    "id": "costume-015",
+    "id": "costume-027",
     "name": "ชุดครุยปริญญาเอก ศรีปทุม คณะนิติศาสตร์",
     "universityId": "uni-spu",
     "facultyId": "fac-law",
     "degreeLevel": "doctoral",
     "sizeId": "size-45",
-    "pricePerDay": 450,
-    "deposit": 1800,
-    "stock": 21,
+    "pricePerDay": 500,
+    "deposit": 2000,
+    "stock": 63,
     "images": [
-      "/images/gown-white.png"
+      "/images/gowns/gown-doctoral-white.jpg"
     ],
     "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะนิติศาสตร์ ระดับปริญญาเอก สายสีขาว พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
-    "createdAt": "2024-01-01T00:00:00.000Z"
-  },
-  {
-    "id": "costume-016",
-    "name": "ชุดครุยปริญญาเอก ศรีปทุม คณะศิลปศาสตร์",
-    "universityId": "uni-spu",
-    "facultyId": "fac-lib",
-    "degreeLevel": "doctoral",
-    "sizeId": "size-45",
-    "pricePerDay": 420,
-    "deposit": 1500,
-    "stock": 21,
-    "images": [
-      "/images/gown-orange.png"
-    ],
-    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะศิลปศาสตร์ ระดับปริญญาเอก สายสีส้ม พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
-    "createdAt": "2024-01-01T00:00:00.000Z"
-  },
-  {
-    "id": "costume-017",
-    "name": "ชุดครุยปริญญาเอก ศรีปทุม คณะบริหารธุรกิจ",
-    "universityId": "uni-spu",
-    "facultyId": "fac-bus",
-    "degreeLevel": "doctoral",
-    "sizeId": "size-45",
-    "pricePerDay": 550,
-    "deposit": 2500,
-    "stock": 21,
-    "images": [
-      "/images/gown-cyan.png"
-    ],
-    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะบริหารธุรกิจ ระดับปริญญาเอก สายสีฟ้า พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
-    "createdAt": "2024-01-01T00:00:00.000Z"
-  },
-  {
-    "id": "costume-018",
-    "name": "ชุดครุยปริญญาเอก ศรีปทุม คณะเทคโนโลยีสารสนเทศ",
-    "universityId": "uni-spu",
-    "facultyId": "fac-it",
-    "degreeLevel": "doctoral",
-    "sizeId": "size-45",
-    "pricePerDay": 520,
-    "deposit": 2000,
-    "stock": 21,
-    "images": [
-      "/images/gown-purple.png"
-    ],
-    "description": "ชุดครุยบัณฑิต มหาวิทยาลัยศรีปทุม คณะเทคโนโลยีสารสนเทศ ระดับปริญญาเอก สายสีม่วง พู่ขาว พร้อมตราประจำมหาวิทยาลัย",
     "createdAt": "2024-01-01T00:00:00.000Z"
   }
 ]

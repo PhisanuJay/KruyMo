@@ -78,6 +78,162 @@
     "quantity": 1
   },
   {
+    "costumeId": "costume-001",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-001",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
     "costumeId": "costume-002",
     "sizeId": "size-38",
     "degreeLevel": "bachelor",
@@ -156,6 +312,162 @@
     "quantity": 1
   },
   {
+    "costumeId": "costume-002",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-002",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
     "costumeId": "costume-003",
     "sizeId": "size-38",
     "degreeLevel": "bachelor",
@@ -234,6 +546,162 @@
     "quantity": 1
   },
   {
+    "costumeId": "costume-003",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-003",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
     "costumeId": "costume-004",
     "sizeId": "size-38",
     "degreeLevel": "bachelor",
@@ -312,6 +780,162 @@
     "quantity": 1
   },
   {
+    "costumeId": "costume-004",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-004",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
     "costumeId": "costume-005",
     "sizeId": "size-38",
     "degreeLevel": "bachelor",
@@ -390,6 +1014,162 @@
     "quantity": 1
   },
   {
+    "costumeId": "costume-005",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-005",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
     "costumeId": "costume-006",
     "sizeId": "size-38",
     "degreeLevel": "bachelor",
@@ -463,6 +1243,240 @@
   },
   {
     "costumeId": "costume-006",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-006",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-007",
     "sizeId": "size-50",
     "degreeLevel": "bachelor",
     "quantity": 1
@@ -546,6 +1560,162 @@
     "quantity": 1
   },
   {
+    "costumeId": "costume-007",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-007",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
     "costumeId": "costume-008",
     "sizeId": "size-38",
     "degreeLevel": "master",
@@ -624,6 +1794,162 @@
     "quantity": 1
   },
   {
+    "costumeId": "costume-008",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-008",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
     "costumeId": "costume-009",
     "sizeId": "size-38",
     "degreeLevel": "master",
@@ -702,6 +2028,162 @@
     "quantity": 1
   },
   {
+    "costumeId": "costume-009",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-009",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
     "costumeId": "costume-010",
     "sizeId": "size-38",
     "degreeLevel": "master",
@@ -780,6 +2262,162 @@
     "quantity": 1
   },
   {
+    "costumeId": "costume-010",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-010",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
     "costumeId": "costume-011",
     "sizeId": "size-38",
     "degreeLevel": "master",
@@ -858,6 +2496,162 @@
     "quantity": 1
   },
   {
+    "costumeId": "costume-011",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-011",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
     "costumeId": "costume-012",
     "sizeId": "size-38",
     "degreeLevel": "master",
@@ -931,6 +2725,240 @@
   },
   {
     "costumeId": "costume-012",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-012",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-013",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-013",
     "sizeId": "size-50",
     "degreeLevel": "master",
     "quantity": 1
@@ -1016,6 +3044,162 @@
   {
     "costumeId": "costume-014",
     "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-014",
+    "sizeId": "size-38",
     "degreeLevel": "doctoral",
     "quantity": 1
   },
@@ -1089,6 +3273,162 @@
     "costumeId": "costume-014",
     "sizeId": "size-50",
     "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-015",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
     "quantity": 1
   },
   {
@@ -1172,6 +3512,162 @@
   {
     "costumeId": "costume-016",
     "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-016",
+    "sizeId": "size-38",
     "degreeLevel": "doctoral",
     "quantity": 1
   },
@@ -1245,6 +3741,162 @@
     "costumeId": "costume-016",
     "sizeId": "size-50",
     "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-017",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
     "quantity": 1
   },
   {
@@ -1328,6 +3980,162 @@
   {
     "costumeId": "costume-018",
     "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-018",
+    "sizeId": "size-38",
     "degreeLevel": "doctoral",
     "quantity": 1
   },
@@ -1399,6 +4207,2112 @@
   },
   {
     "costumeId": "costume-018",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-019",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-020",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-021",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-022",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-023",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-024",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-025",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-026",
+    "sizeId": "size-50",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-38",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-39",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-40",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-41",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-42",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-43",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-44",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-45",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-46",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-47",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-48",
+    "degreeLevel": "bachelor",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-49",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-50",
+    "degreeLevel": "bachelor",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-38",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-39",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-40",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-41",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-42",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-43",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-44",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-45",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-46",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-47",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-48",
+    "degreeLevel": "master",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-49",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-50",
+    "degreeLevel": "master",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-38",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-39",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-40",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-41",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-42",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-43",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-44",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-45",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-46",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-47",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-48",
+    "degreeLevel": "doctoral",
+    "quantity": 2
+  },
+  {
+    "costumeId": "costume-027",
+    "sizeId": "size-49",
+    "degreeLevel": "doctoral",
+    "quantity": 1
+  },
+  {
+    "costumeId": "costume-027",
     "sizeId": "size-50",
     "degreeLevel": "doctoral",
     "quantity": 1

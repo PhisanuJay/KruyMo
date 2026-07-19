@@ -12,6 +12,7 @@ import BookingDetail from './pages/customer/BookingDetail';
 import Favorites from './pages/customer/Favorites';
 import Cart from './pages/customer/Cart';
 import HowToRent from './pages/customer/HowToRent';
+import About from './pages/customer/About';
 
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
@@ -55,6 +56,7 @@ export default function App() {
       {/* Public */}
       <Route path="/" element={<Home />} />
       <Route path="/how-to-rent" element={<HowToRent />} />
+      <Route path="/about" element={<About />} />
       <Route path="/catalog" element={<Catalog />} />
       <Route path="/costume/:id" element={<CostumeDetail />} />
       <Route path="/login" element={<Login />} />
