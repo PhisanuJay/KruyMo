@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 import { userAPI } from '../../../services/api';
+import { useAuth } from '../../../context/AuthContext';
 import DashboardLayout from '../../../components/DashboardLayout';
 
 const ROLE_LABELS = { customer: 'ลูกค้า', staff: 'พนักงาน', admin: 'แอดมิน' };
-const ROLE_COLORS = { customer: '#74B9FF', staff: '#A29BFE', admin: '#FF6B6B' };
+const ROLE_COLORS = { customer: '#74B9FF', staff: '#A29BFE', admin: '#E63946' };
 
 const emptyForm = () => ({
   name: '',
@@ -15,17 +16,20 @@ const emptyForm = () => ({
 });
 
 export default function UserManager() {
+  const { user: me } = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState(emptyForm());
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
 
   const load = () => {
     setLoading(true);
     userAPI.getAll()
-      .then((r) => setUsers(r.data))
+      .then((r) => setUsers(Array.isArray(r.data) ? r.data : []))
+      .catch(() => setUsers([]))
       .finally(() => setLoading(false));
   };
 
@@ -34,6 +38,23 @@ export default function UserManager() {
   const handleRoleChange = async (id, role) => {
     const { data } = await userAPI.update(id, { role });
     setUsers((prev) => prev.map((u) => (u.id === id ? data : u)));
+  };
+
+  const handleDelete = async (u) => {
+    if (u.id === me?.id) {
+      alert('ไม่สามารถลบบัญชีของตัวเองได้');
+      return;
+    }
+    if (!confirm(`ลบผู้ใช้ "${u.name}" (${u.email})?\nการกระทำนี้ย้อนกลับไม่ได้`)) return;
+    setDeletingId(u.id);
+    try {
+      await userAPI.delete(u.id);
+      setUsers((prev) => prev.filter((x) => x.id !== u.id));
+    } catch (err) {
+      alert(err.response?.data?.error || 'ลบผู้ใช้ไม่สำเร็จ');
+    } finally {
+      setDeletingId(null);
+    }
   };
 
   const handleCreate = async (e) => {
@@ -67,7 +88,7 @@ export default function UserManager() {
       <div className="booking-page-head">
         <div>
           <h1 className="page-title">จัดการผู้ใช้</h1>
-          <p className="page-subtitle" style={{ marginBottom: 0 }}>เพิ่มผู้ใช้และกำหนดสิทธิ์ role</p>
+          <p className="page-subtitle" style={{ marginBottom: 0 }}>เพิ่ม ลบ และกำหนดสิทธิ์ผู้ใช้ในระบบ</p>
         </div>
         <button
           type="button"
@@ -170,47 +191,77 @@ export default function UserManager() {
         <div className="card table-wrapper">
           <table>
             <thead>
-              <tr><th>ชื่อ</th><th>อีเมล</th><th>เบอร์โทร</th><th>Role</th><th>เปลี่ยนสิทธิ์</th></tr>
+              <tr>
+                <th>ชื่อ</th>
+                <th>อีเมล</th>
+                <th>เบอร์โทร</th>
+                <th>สิทธิ์</th>
+                <th>เปลี่ยนสิทธิ์</th>
+                <th>จัดการ</th>
+              </tr>
             </thead>
             <tbody>
               {users.length === 0 && (
                 <tr>
-                  <td colSpan={5} style={{ textAlign: 'center', color: '#6B7280' }}>ยังไม่มีผู้ใช้</td>
+                  <td colSpan={6} style={{ textAlign: 'center', color: '#6B7280' }}>ยังไม่มีผู้ใช้</td>
                 </tr>
               )}
-              {users.map((u) => (
-                <tr key={u.id}>
-                  <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <div style={{
-                        width: 32, height: 32, borderRadius: '50%', background: ROLE_COLORS[u.role],
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '0.8rem',
-                      }}>
-                        {u.name?.[0]}
+              {users.map((u) => {
+                const isSelf = u.id === me?.id;
+                return (
+                  <tr key={u.id}>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <div style={{
+                          width: 32, height: 32, borderRadius: '50%', background: ROLE_COLORS[u.role],
+                          display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '0.8rem',
+                        }}>
+                          {u.name?.[0]}
+                        </div>
+                        {u.name}
+                        {isSelf && (
+                          <span style={{ fontSize: '0.75rem', color: '#6B7280' }}>(คุณ)</span>
+                        )}
                       </div>
-                      {u.name}
-                    </div>
-                  </td>
-                  <td>{u.email}</td>
-                  <td>{u.phone || '-'}</td>
-                  <td>
-                    <span style={{
-                      padding: '4px 12px', borderRadius: '50px', fontSize: '0.8rem', fontWeight: 600,
-                      color: 'white', background: ROLE_COLORS[u.role],
-                    }}>
-                      {ROLE_LABELS[u.role]}
-                    </span>
-                  </td>
-                  <td>
-                    <select className="form-input" style={{ maxWidth: 140 }} value={u.role}
-                      onChange={(e) => handleRoleChange(u.id, e.target.value)}>
-                      <option value="customer">ลูกค้า</option>
-                      <option value="staff">พนักงาน</option>
-                      <option value="admin">แอดมิน</option>
-                    </select>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                    <td>{u.email}</td>
+                    <td>{u.phone || '-'}</td>
+                    <td>
+                      <span style={{
+                        padding: '4px 12px', borderRadius: '50px', fontSize: '0.8rem', fontWeight: 600,
+                        color: 'white', background: ROLE_COLORS[u.role],
+                      }}>
+                        {ROLE_LABELS[u.role]}
+                      </span>
+                    </td>
+                    <td>
+                      <select
+                        className="form-input"
+                        style={{ maxWidth: 140 }}
+                        value={u.role}
+                        disabled={isSelf}
+                        onChange={(e) => handleRoleChange(u.id, e.target.value)}
+                      >
+                        <option value="customer">ลูกค้า</option>
+                        <option value="staff">พนักงาน</option>
+                        <option value="admin">แอดมิน</option>
+                      </select>
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn-danger btn-sm"
+                        disabled={isSelf || deletingId === u.id}
+                        title={isSelf ? 'ลบบัญชีตัวเองไม่ได้' : 'ลบผู้ใช้'}
+                        onClick={() => handleDelete(u)}
+                      >
+                        <Trash2 size={14} />
+                        {deletingId === u.id ? 'กำลังลบ...' : 'ลบ'}
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

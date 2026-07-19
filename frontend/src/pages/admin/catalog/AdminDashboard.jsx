@@ -1,6 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { AlertTriangle, Eye, Clock, CheckCircle2, Shirt, Wallet, CalendarDays, Users, Truck } from 'lucide-react';
+import {
+  AlertTriangle, Eye, Clock, Shirt, Wallet, CalendarDays, Users,
+  Truck, Receipt, ArrowRight, Package,
+} from 'lucide-react';
 import { reportAPI } from '../../../services/api';
 import DashboardLayout from '../../../components/DashboardLayout';
 import StatusBadge from '../../../components/StatusBadge';
@@ -132,222 +135,258 @@ function GownStatusDonut({ items, total }) {
   );
 }
 
-function notificationIcon(type) {
-  if (type?.includes('approve') || type?.includes('success') || type?.includes('refund')) {
-    return { Icon: CheckCircle2, color: '#16A34A', bg: '#DCFCE7' };
-  }
-  if (type?.includes('ready') || type?.includes('pickup')) {
-    return { Icon: Shirt, color: '#2563EB', bg: '#DBEAFE' };
-  }
-  if (type?.includes('reject') || type?.includes('fail')) {
-    return { Icon: AlertTriangle, color: '#DC2626', bg: '#FEE2E2' };
-  }
-  return { Icon: Clock, color: '#D97706', bg: '#FEF3C7' };
-}
-
-function MetricCard({ icon: Icon, iconColor, iconBg, label, value, unit }) {
-  return (
-    <div className="metric-card">
-      <div className="metric-card-icon" style={{ color: iconColor, background: iconBg }}>
-        <Icon size={20} />
-      </div>
-      <div className="metric-card-body">
-        <div className="metric-card-label">{label}</div>
-        <div className="metric-card-value">{value}</div>
-        <div className="metric-card-unit">{unit}</div>
-      </div>
-    </div>
-  );
-}
-
 export default function AdminDashboard() {
   const [data, setData] = useState(null);
+  const [loadError, setLoadError] = useState(false);
 
   useEffect(() => {
-    reportAPI.dashboard().then((r) => setData(r.data)).catch(() => setData(null));
+    setLoadError(false);
+    reportAPI.dashboard()
+      .then((r) => setData(r.data || null))
+      .catch(() => {
+        setData(null);
+        setLoadError(true);
+      });
   }, []);
+
+  const todayLabel = useMemo(() => new Date().toLocaleDateString('th-TH', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }), []);
 
   if (!data) {
     return (
       <DashboardLayout role="admin">
-        <div className="loading">กำลังโหลด...</div>
+        <div className="admin-desk">
+          <div className="admin-empty">
+            {loadError ? 'โหลดภาพรวมไม่สำเร็จ — ลองรีเฟรชหน้า' : 'กำลังโหลดภาพรวมระบบ...'}
+          </div>
+        </div>
       </DashboardLayout>
     );
   }
 
   const yearBe = new Date().getFullYear() + 543;
+  const ops = data.opsQueue || {};
+  const shipCount = (ops.readyToShip || 0) + (ops.outForDelivery || 0) + (ops.returnSubmitted || 0);
+  const pendingSlip = data.pendingApproval || 0;
+  const awaitRefund = ops.awaitingRefund || 0;
+  const focusCount = pendingSlip + shipCount + awaitRefund + (data.nearReturnDeadline || 0);
+
+  const actionCards = [
+    {
+      key: 'slip',
+      label: 'รอตรวจสลิป',
+      value: pendingSlip,
+      hint: pendingSlip > 0 ? 'ต้องตรวจยืนยันการชำระเงิน' : 'ไม่มีคิวรอตรวจ',
+      icon: Receipt,
+      to: '/admin/dispatch?queue=approve',
+      tone: 'red',
+    },
+    {
+      key: 'ship',
+      label: 'จัดส่งและรับคืน',
+      value: shipCount,
+      hint: [
+        ops.readyToShip ? `พร้อมส่ง ${ops.readyToShip}` : null,
+        ops.outForDelivery ? `กำลังส่ง ${ops.outForDelivery}` : null,
+        ops.returnSubmitted ? `รอรับคืน ${ops.returnSubmitted}` : null,
+      ].filter(Boolean).join(' · ') || 'ไม่มีคิวปฏิบัติการ',
+      icon: Truck,
+      to: '/admin/dispatch',
+      tone: 'dark',
+    },
+    {
+      key: 'refund',
+      label: 'รอคืนมัดจำ',
+      value: awaitRefund,
+      hint: awaitRefund > 0 ? 'ติดตามคิวคืนเงินมัดจำ' : 'ยังไม่มีคิวคืนมัดจำ',
+      icon: Wallet,
+      to: '/admin/refund',
+      tone: 'green',
+    },
+  ];
+
+  const kpis = [
+    {
+      label: 'รายได้วันนี้',
+      value: formatBaht(data.todayRevenue ?? 0),
+      unit: `จาก ${data.todayPaidCount ?? 0} รายการ`,
+      icon: Wallet,
+      tone: 'red',
+    },
+    {
+      label: 'การเช่าวันนี้',
+      value: data.todayRentals ?? 0,
+      unit: 'รายการ',
+      icon: CalendarDays,
+      tone: 'dark',
+    },
+    {
+      label: 'ว่างในคลัง',
+      value: data.totalStock ?? 0,
+      unit: 'หน่วยว่างจาก inventory',
+      icon: Shirt,
+      tone: 'muted',
+    },
+    {
+      label: 'สมาชิกทั้งหมด',
+      value: data.totalMembers ?? 0,
+      unit: 'บัญชีลูกค้า',
+      icon: Users,
+      tone: 'muted',
+    },
+  ];
 
   return (
     <DashboardLayout role="admin">
-      <h1 className="page-title">ภาพรวมระบบ</h1>
-      <p className="page-subtitle">สถิติและข้อมูลสำคัญของ KruyMo</p>
-
-      {data.opsQueue && (
-        data.opsQueue.readyToShip + data.opsQueue.outForDelivery + data.opsQueue.returnSubmitted + data.opsQueue.awaitingRefund > 0
-      ) && (
-        <div className="alert alert-info" style={{ marginBottom: '1.25rem', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.75rem 1.25rem' }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600 }}>
-            <Truck size={16} />
-            คิวงานปฏิบัติการ
-          </span>
-          {data.opsQueue.readyToShip > 0 && <span>พร้อมส่ง {data.opsQueue.readyToShip}</span>}
-          {data.opsQueue.outForDelivery > 0 && <span>กำลังส่ง {data.opsQueue.outForDelivery}</span>}
-          {data.opsQueue.returnSubmitted > 0 && <span>รอรับคืน {data.opsQueue.returnSubmitted}</span>}
-          {data.opsQueue.awaitingRefund > 0 && <span>รอคืนมัดจำ {data.opsQueue.awaitingRefund}</span>}
-          {(data.opsQueue.readyToShip + data.opsQueue.outForDelivery + data.opsQueue.returnSubmitted) > 0 && (
-            <Link to="/admin/dispatch" className="btn btn-secondary btn-sm" style={{ marginLeft: 'auto' }}>
-              ไปจัดส่งและรับคืน
-            </Link>
-          )}
-          {data.opsQueue.awaitingRefund > 0 && (
-            <Link to="/admin/refund" className="btn btn-outline btn-sm" style={data.opsQueue.readyToShip + data.opsQueue.outForDelivery + data.opsQueue.returnSubmitted === 0 ? { marginLeft: 'auto' } : undefined}>
-              ดูคิวคืนมัดจำ
-            </Link>
-          )}
-        </div>
-      )}
-
-      <div className="dash-stats-grid" style={{ marginBottom: '1.25rem' }}>
-        <MetricCard
-          icon={Wallet}
-          iconColor="#E63946"
-          iconBg="#FFE4E6"
-          label="รายได้วันนี้"
-          value={formatBaht(data.todayRevenue ?? 0)}
-          unit={`จาก ${data.todayPaidCount ?? 0} รายการ`}
-        />
-        <MetricCard
-          icon={CalendarDays}
-          iconColor="#16A34A"
-          iconBg="#DCFCE7"
-          label="การเช่าวันนี้"
-          value={data.todayRentals ?? 0}
-          unit="รายการ"
-        />
-        <MetricCard
-          icon={Shirt}
-          iconColor="#2563EB"
-          iconBg="#DBEAFE"
-          label="ชุดคงเหลือ"
-          value={data.totalStock ?? 0}
-          unit="ชุด"
-        />
-        <MetricCard
-          icon={Clock}
-          iconColor="#D97706"
-          iconBg="#FEF3C7"
-          label="รออนุมัติ"
-          value={data.pendingApproval ?? 0}
-          unit="รายการ"
-        />
-        <MetricCard
-          icon={Users}
-          iconColor="#7C3AED"
-          iconBg="#EDE9FE"
-          label="สมาชิกทั้งหมด"
-          value={data.totalMembers ?? 0}
-          unit="คน"
-        />
-        <MetricCard
-          icon={AlertTriangle}
-          iconColor="#E63946"
-          iconBg="#FFE4E6"
-          label="ใกล้ครบกำหนดคืน"
-          value={data.nearReturnDeadline ?? 0}
-          unit="รายการ"
-        />
-      </div>
-
-      <div className="dash-main-grid">
-        <section className="dash-panel">
-          <div className="dash-panel-head">
-            <h3>รายได้รายเดือน (ปี {yearBe})</h3>
-            <Link to="/admin/reports" className="dash-link">ดูทั้งหมด &gt;</Link>
+      <div className="admin-desk">
+        <header className="admin-hero">
+          <div className="admin-hero-copy">
+            <p className="admin-hero-kicker">วันนี้ · {todayLabel}</p>
+            <h1>ภาพรวมระบบ</h1>
+            <p>ดูงานที่ต้องติดตามก่อน แล้วค่อยดูตัวเลขสรุปและรายงาน</p>
           </div>
-          <MonthlyRevenueChart data={data.monthlyRevenue} />
-        </section>
-
-        <section className="dash-panel">
-          <div className="dash-panel-head">
-            <h3>สถานะชุดครุย</h3>
-            <Link to="/admin/costumes" className="dash-link">ดูทั้งหมด &gt;</Link>
+          <div className="admin-hero-aside">
+            <span>งานที่ต้องโฟกัส</span>
+            <strong>{focusCount}</strong>
+            <small>สลิป · จัดส่ง · คืนมัดจำ · ใกล้ครบกำหนด</small>
           </div>
-          <GownStatusDonut items={data.gownStatus || []} total={data.gownTotal || 0} />
-        </section>
+        </header>
 
-        <section className="dash-panel dash-notif-panel">
-          <div className="dash-panel-head">
-            <h3>การแจ้งเตือนล่าสุด</h3>
-            <Link to="/admin/notifications" className="dash-link">ดูทั้งหมด &gt;</Link>
+        {(data.nearReturnDeadline || 0) > 0 && (
+          <Link to="/admin/bookings?group=renting" className="admin-alert">
+            <AlertTriangle size={18} />
+            <div>
+              <strong>ใกล้ครบกำหนดคืน {data.nearReturnDeadline} รายการ</strong>
+              <span>ตรวจคำสั่งที่กำลังเช่า เพื่อติดตามการส่งคืน</span>
+            </div>
+            <ArrowRight size={18} />
+          </Link>
+        )}
+
+        <section className="admin-section">
+          <div className="admin-section-head">
+            <h2>ต้องทำวันนี้</h2>
+            <p>งานปฏิบัติการที่ควรรีบติดตาม</p>
           </div>
-          <ul className="dash-notif-list">
-            {(data.recentNotifications || []).length === 0 && (
-              <li className="dash-empty">ยังไม่มีการแจ้งเตือน</li>
-            )}
-            {data.recentNotifications?.map((n) => {
-              const { Icon, color, bg } = notificationIcon(n.type);
+          <div className="admin-action-grid">
+            {actionCards.map((card) => {
+              const Icon = card.icon;
               return (
-                <li key={n.id} className={!n.isRead ? 'unread' : ''}>
-                  <div className="dash-notif-icon" style={{ color, background: bg }}>
-                    <Icon size={16} />
+                <Link key={card.key} to={card.to} className={`admin-action-card tone-${card.tone}`}>
+                  <div className="admin-action-top">
+                    <span className="admin-action-icon"><Icon size={18} /></span>
+                    <ArrowRight size={16} className="admin-action-arrow" />
                   </div>
-                  <p className="dash-notif-msg">{n.message}</p>
-                  <div className="dash-notif-meta">
-                    <span>{n.timeLabel} น.</span>
-                    {!n.isRead && <span className="dash-unread-dot" />}
-                  </div>
-                </li>
+                  <span className="admin-action-label">{card.label}</span>
+                  <strong className="admin-action-value">{card.value}</strong>
+                  <span className="admin-action-hint">{card.hint}</span>
+                </Link>
               );
             })}
-          </ul>
+          </div>
+        </section>
+
+        <section className="admin-section">
+          <div className="admin-section-head">
+            <h2>ตัวเลขสรุป</h2>
+            <p>ภาพรวมธุรกิจวันนี้</p>
+          </div>
+          <div className="admin-kpi-grid">
+            {kpis.map((k) => {
+              const Icon = k.icon;
+              return (
+                <article key={k.label} className={`admin-kpi tone-${k.tone}`}>
+                  <span className="admin-kpi-icon"><Icon size={18} /></span>
+                  <div>
+                    <span className="admin-kpi-label">{k.label}</span>
+                    <strong className="admin-kpi-value">{k.value}</strong>
+                    <span className="admin-kpi-unit">{k.unit}</span>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        <div className="admin-split-grid">
+          <section className="admin-panel">
+            <div className="admin-panel-head">
+              <h3>รายได้รายเดือน (ปี {yearBe})</h3>
+              <Link to="/admin/reports" className="admin-link">ดูรายงาน</Link>
+            </div>
+            <MonthlyRevenueChart data={data.monthlyRevenue} />
+          </section>
+
+          <section className="admin-panel">
+            <div className="admin-panel-head">
+              <h3>สถานะชุดครุย</h3>
+              <Link to="/admin/costumes" className="admin-link">จัดการชุด</Link>
+            </div>
+            <GownStatusDonut items={data.gownStatus || []} total={data.gownTotal || 0} />
+          </section>
+        </div>
+
+        <section className="admin-panel" style={{ marginTop: '1.15rem' }}>
+          <div className="admin-panel-head">
+            <div>
+              <h3>คำสั่งล่าสุด</h3>
+              <p className="admin-panel-sub">รายการจองล่าสุดในระบบ</p>
+            </div>
+            <Link to="/admin/bookings" className="admin-link">ดูทั้งหมด</Link>
+          </div>
+          <div className="table-wrapper">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>เลขจอง</th>
+                  <th>ลูกค้า</th>
+                  <th>ชุดครุย</th>
+                  <th>ยอดรวม</th>
+                  <th>สถานะ</th>
+                  <th>ดู</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(data.recentBookings || []).length === 0 && (
+                  <tr>
+                    <td colSpan={6} className="admin-table-empty">
+                      <Package size={20} />
+                      ยังไม่มีการจอง
+                    </td>
+                  </tr>
+                )}
+                {data.recentBookings?.map((b) => (
+                  <tr key={b.id}>
+                    <td className="admin-order-id">{b.orderId}</td>
+                    <td>
+                      <div className="admin-cell-main">{b.customerName}</div>
+                      <div className="admin-cell-sub">{b.universityName || '—'}</div>
+                    </td>
+                    <td>{b.degreeShort || b.costumeName || '—'}</td>
+                    <td className="admin-cell-money">{formatBaht(b.totalPrice)}</td>
+                    <td><StatusBadge status={b.status} size="sm" /></td>
+                    <td>
+                      <Link to={`/admin/bookings/${b.id}`} className="dash-view-btn" title="ดูรายละเอียด">
+                        <Eye size={16} />
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="admin-panel-foot">
+            <Link to="/admin/notifications" className="admin-foot-link">
+              <Clock size={14} />
+              จัดการเทมเพลตแจ้งเตือน
+            </Link>
+          </div>
         </section>
       </div>
-
-      <section className="dash-panel" style={{ marginTop: '1.25rem' }}>
-        <div className="dash-panel-head">
-          <h3>การจองล่าสุด</h3>
-          <Link to="/admin/bookings" className="dash-link">ดูทั้งหมด &gt;</Link>
-        </div>
-        <div className="table-wrapper">
-          <table className="dash-bookings-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>ลูกค้า</th>
-                <th>มหาวิทยาลัย</th>
-                <th>ชุดครุย</th>
-                <th>สถานะ</th>
-                <th>กำหนดคืน</th>
-                <th>ยอดรวม</th>
-                <th>จัดการ</th>
-              </tr>
-            </thead>
-            <tbody>
-              {(data.recentBookings || []).length === 0 && (
-                <tr>
-                  <td colSpan={8} style={{ textAlign: 'center', color: '#6B7280' }}>ยังไม่มีการจอง</td>
-                </tr>
-              )}
-              {data.recentBookings?.map((b) => (
-                <tr key={b.id}>
-                  <td className="dash-order-id">{b.orderId}</td>
-                  <td>{b.customerName}</td>
-                  <td>{b.universityName}</td>
-                  <td>{b.degreeShort}</td>
-                  <td><StatusBadge status={b.status} size="sm" /></td>
-                  <td>{formatThaiDate(b.endDate)}</td>
-                  <td>{formatBaht(b.totalPrice)}</td>
-                  <td>
-                    <Link to={`/admin/bookings/${b.id}`} className="dash-view-btn" title="ดูรายละเอียด">
-                      <Eye size={16} />
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
     </DashboardLayout>
   );
 }

@@ -69,17 +69,17 @@ export const BOOKING_STATUSES = [
 ];
 
 export const STATUS_LABELS = {
-  pending: 'รออนุมัติ',
+  pending: 'รอตรวจสลิป',
   payment_pending: 'รอชำระเงิน',
   payment_verified: 'ตรวจสอบการชำระแล้ว',
   approved: 'อนุมัติแล้ว',
   rejected: 'ปฏิเสธ',
   preparing: 'จัดเตรียมชุด',
-  ready_to_ship: 'พร้อมส่งแมสฯ',
-  out_for_delivery: 'แมสฯ กำลังนำส่ง',
+  ready_to_ship: 'พร้อมจัดส่ง',
+  out_for_delivery: 'กำลังจัดส่ง',
   delivered: 'ส่งถึงแล้ว',
   return_submitted: 'ลูกค้าส่งคืนแล้ว',
-  ready_for_pickup: 'พร้อมส่งแมสฯ',
+  ready_for_pickup: 'พร้อมจัดส่ง',
   picked_up: 'ส่งถึงแล้ว',
   returned: 'รับคืนแล้ว',
   deposit_refunded: 'คืนเงินมัดจำแล้ว',

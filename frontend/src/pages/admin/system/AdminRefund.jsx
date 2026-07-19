@@ -135,9 +135,9 @@ export default function AdminRefund() {
         />
         <SummaryCard
           icon={AlertCircle}
-          label="รอหัก/ค่าปรับ"
+          label="ค่าปรับที่บันทึกแล้ว"
           value={`฿${summary.pendingPenalty.toLocaleString()}`}
-          sub="จากรายการที่รอคืน"
+          sub="จากรายการที่รอคืนมัดจำ"
           color="#E63946"
           bg="#FFE4E6"
         />

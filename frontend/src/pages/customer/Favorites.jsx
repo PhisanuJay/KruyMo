@@ -14,7 +14,7 @@ export default function Favorites() {
   useEffect(() => {
     setLoading(true);
     favoriteAPI.getAll()
-      .then((r) => setItems(r.data))
+      .then((r) => setItems(Array.isArray(r.data) ? r.data : []))
       .catch(() => setItems([]))
       .finally(() => setLoading(false));
   }, []);

@@ -23,7 +23,7 @@ export const userAPI = {
   create: (data) => api.post('/users', data),
   update: (id, data) => api.put(`/users/${id}`, data),
   updateAvatar: (id, avatar) => api.post(`/users/${id}/avatar`, { avatar }),
-  getAll: () => api.get('/users'),
+  delete: (id) => api.delete(`/users/${id}`),
 };
 
 export const costumeAPI = {

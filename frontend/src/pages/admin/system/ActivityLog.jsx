@@ -6,7 +6,9 @@ export default function ActivityLog() {
   const [logs, setLogs] = useState([]);
 
   useEffect(() => {
-    reportAPI.activityLog().then((r) => setLogs(r.data));
+    reportAPI.activityLog()
+      .then((r) => setLogs(Array.isArray(r.data) ? r.data : []))
+      .catch(() => setLogs([]));
   }, []);
 
   return (

@@ -10,10 +10,8 @@ import DashboardLayout from '../../components/DashboardLayout';
 import StatusBadge from '../../components/StatusBadge';
 import './staff.css';
 
-const PENDING_STATUSES = ['pending', 'payment_verified'];
-
 function nextPathForBooking(b) {
-  if (['pending', 'payment_verified'].includes(b.status)) {
+  if (b.status === 'pending' || b.status === 'payment_verified') {
     return '/staff/dispatch?queue=approve';
   }
   if (['preparing', 'approved'].includes(b.status)) {
@@ -79,14 +77,13 @@ export default function StaffDashboard() {
 
   const stats = useMemo(() => {
     const needSlip = bookings.filter((b) => b.status === 'pending');
-    const pending = bookings.filter((b) => PENDING_STATUSES.includes(b.status));
     const prep = bookings.filter((b) => ['preparing', 'approved'].includes(b.status));
     const shipQueue = bookings.filter((b) =>
       ['ready_to_ship', 'ready_for_pickup', 'out_for_delivery', 'return_submitted'].includes(b.status));
-    const awaitRefund = bookings.filter((b) =>
-      ['return_submitted', 'returned'].includes(b.status));
+    // คืนมัดจำหลังรับเข้าคลังแล้วเท่านั้น — return_submitted อยู่คิวจัดส่ง/รับคืน
+    const awaitRefund = bookings.filter((b) => b.status === 'returned');
     const urgent = needSlip.length + prep.length + awaitRefund.length;
-    return { needSlip, pending, prep, shipQueue, awaitRefund, urgent };
+    return { needSlip, prep, shipQueue, awaitRefund, urgent };
   }, [bookings]);
 
   const recent = useMemo(() => [...bookings]
@@ -107,7 +104,7 @@ export default function StaffDashboard() {
     {
       key: 'slip',
       label: 'รอตรวจสลิป',
-      value: stats.pending.length,
+      value: stats.needSlip.length,
       hint: stats.needSlip.length > 0
         ? `${stats.needSlip.length} รายการเร่งด่วน`
         : 'ไม่มีคิวรอตรวจ',

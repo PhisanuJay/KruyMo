@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import bcrypt from 'bcryptjs';
-import { readJSON, updateById, findById, addItem } from '../utils/db.js';
+import { readJSON, updateById, findById, addItem, deleteById } from '../utils/db.js';
 import { authenticate, authorize } from '../middleware/auth.js';
 import { logActivity, generateId, normalizeRefundAccount, validateRefundAccount } from '../utils/helpers.js';
 
@@ -112,6 +112,23 @@ router.post('/:id/avatar', authenticate, (req, res) => {
   }
   const updated = updateById('users.json', req.params.id, { avatar });
   res.json(sanitizeUser(updated));
+});
+
+router.delete('/:id', authenticate, authorize('admin'), (req, res) => {
+  const user = findById('users.json', req.params.id);
+  if (!user) return res.status(404).json({ error: 'ไม่พบผู้ใช้' });
+  if (user.id === req.user.id) {
+    return res.status(400).json({ error: 'ไม่สามารถลบบัญชีของตัวเองได้' });
+  }
+  if (user.role === 'admin') {
+    const adminCount = readJSON('users.json').filter((u) => u.role === 'admin').length;
+    if (adminCount <= 1) {
+      return res.status(400).json({ error: 'ต้องเหลือแอดมินอย่างน้อย 1 คนในระบบ' });
+    }
+  }
+  deleteById('users.json', req.params.id);
+  logActivity('delete_user', `ลบผู้ใช้ ${user.email} (${user.role})`, req.user.id);
+  res.json({ message: 'ลบผู้ใช้สำเร็จ', id: user.id });
 });
 
 export default router;

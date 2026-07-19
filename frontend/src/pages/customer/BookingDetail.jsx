@@ -100,7 +100,8 @@ export default function BookingDetail() {
   const handleReturnUpload = async (files) => {
     const fileArr = Array.isArray(files) ? files : [files];
     const { data } = await uploadAPI.multiple(fileArr);
-    setReturnImages((prev) => [...prev, ...data.urls]);
+    const urls = Array.isArray(data?.urls) ? data.urls : [];
+    if (urls.length) setReturnImages((prev) => [...prev, ...urls]);
   };
 
   const handleSubmitReturn = async () => {

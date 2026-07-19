@@ -78,7 +78,7 @@ export default function Reports() {
       {stock && (
         <div className="card" style={{ padding: '1.5rem' }}>
           <h3 style={{ fontWeight: 700, marginBottom: '1rem' }}>
-            สต็อกชุดคงเหลือ (รวม {stock.totalStock} ชุด)
+            ความจุคลัง (รวม {stock.totalStock} หน่วย จาก inventory)
           </h3>
           <div className="grid-2">
             {stock.byUniversity?.map((item) => (

@@ -60,8 +60,8 @@ export default function Home() {
 
   useEffect(() => {
     costumeAPI.getAll({ universityId: 'uni-spu' })
-      .then((r) => setFeatured(r.data))
-      .catch(() => {});
+      .then((r) => setFeatured(Array.isArray(r.data) ? r.data : []))
+      .catch(() => setFeatured([]));
   }, []);
 
   return (

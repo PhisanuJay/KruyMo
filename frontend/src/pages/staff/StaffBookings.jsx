@@ -9,14 +9,13 @@ import StatusBadge from '../../components/StatusBadge';
 import './staff.css';
 
 const ACTIVE_STATUSES = [
-  'payment_verified', 'approved', 'preparing', 'ready_to_ship',
+  'pending', 'preparing', 'ready_to_ship',
   'out_for_delivery', 'delivered', 'return_submitted', 'ready_for_pickup', 'picked_up',
+  'payment_verified', 'approved',
 ];
 
 const STATUS_OPTIONS = [
   { value: '', label: 'ทุกสถานะ' },
-  { value: 'payment_verified', label: 'ตรวจชำระแล้ว' },
-  { value: 'approved', label: 'อนุมัติแล้ว' },
   { value: 'preparing', label: 'จัดเตรียมชุด' },
   { value: 'ready_to_ship', label: 'พร้อมจัดส่ง' },
   { value: 'out_for_delivery', label: 'กำลังจัดส่ง' },

@@ -9,8 +9,14 @@ const enrichCostume = (costume) => {
   const universities = readJSON('universities.json');
   const faculties = readJSON('faculties.json');
   const sizes = readJSON('sizes.json');
+  const inventory = readJSON('inventory.json', []);
+  const inventoryQty = inventory
+    .filter((i) => i.costumeId === costume.id)
+    .reduce((s, i) => s + (i.quantity || 0), 0);
   return {
     ...costume,
+    stock: inventoryQty,
+    inventoryQty,
     university: universities.find((u) => u.id === costume.universityId),
     faculty: faculties.find((f) => f.id === costume.facultyId),
     size: sizes.find((s) => s.id === costume.sizeId),

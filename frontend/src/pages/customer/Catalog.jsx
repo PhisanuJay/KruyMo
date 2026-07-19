@@ -40,7 +40,8 @@ export default function Catalog() {
     const params = {};
     Object.entries(filters).forEach(([k, v]) => { if (v) params[k] = v; });
     costumeAPI.getAll(params)
-      .then((r) => setCostumes(r.data))
+      .then((r) => setCostumes(Array.isArray(r.data) ? r.data : []))
+      .catch(() => setCostumes([]))
       .finally(() => setLoading(false));
   }, [filters]);
 

@@ -7,9 +7,7 @@ import StatusBadge from '../../components/StatusBadge';
 
 const STATUS_FILTERS = [
   { value: '', label: 'ทุกสถานะ' },
-  { value: 'pending', label: 'รออนุมัติ' },
-  { value: 'payment_verified', label: 'ตรวจสอบการชำระแล้ว' },
-  { value: 'approved', label: 'อนุมัติแล้ว' },
+  { value: 'pending', label: 'รอตรวจสลิป' },
   { value: 'preparing', label: 'จัดเตรียมชุด' },
   { value: 'ready_to_ship', label: 'พร้อมจัดส่ง' },
   { value: 'out_for_delivery', label: 'กำลังจัดส่ง' },
@@ -23,7 +21,7 @@ const STATUS_FILTERS = [
 
 const QUICK_FILTERS = [
   { value: '', label: 'ทั้งหมด' },
-  { value: 'pending', label: 'รออนุมัติ' },
+  { value: 'pending', label: 'รอตรวจสลิป' },
   { value: 'out_for_delivery', label: 'กำลังส่ง' },
   { value: 'delivered', label: 'ส่งถึงแล้ว' },
   { value: 'return_submitted', label: 'ส่งคืนแล้ว' },
@@ -39,11 +37,13 @@ export default function BookingHistory() {
   useEffect(() => {
     bookingAPI.getAll()
       .then((r) => {
-        const sorted = [...r.data].sort(
+        const list = Array.isArray(r.data) ? r.data : [];
+        const sorted = [...list].sort(
           (a, b) => new Date(b.createdAt || b.updatedAt || 0) - new Date(a.createdAt || a.updatedAt || 0)
         );
         setBookings(sorted);
       })
+      .catch(() => setBookings([]))
       .finally(() => setLoading(false));
   }, []);
 

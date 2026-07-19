@@ -1,5 +1,5 @@
 const STATUS_CONFIG = {
-  pending: { label: 'รออนุมัติ', color: '#E17055', bg: '#FFF3E0' },
+  pending: { label: 'รอตรวจสลิป', color: '#E17055', bg: '#FFF3E0' },
   payment_pending: { label: 'รอชำระเงิน', color: '#FDCB6E', bg: '#FFF8E1' },
   payment_verified: { label: 'ตรวจสอบการชำระแล้ว', color: '#74B9FF', bg: '#E3F2FD' },
   approved: { label: 'อนุมัติแล้ว', color: '#00B894', bg: '#E8F5E9' },
