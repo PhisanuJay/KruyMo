@@ -4,11 +4,18 @@
 
 ## เอกสารโครงงาน
 
+- ข้อเสนอโครงงาน (PDF): [docs/ข้อเสนอโครงงานเช่าชุดครุย.pdf](./docs/ข้อเสนอโครงงานเช่าชุดครุย.pdf)
 - ข้อเสนอโครงงาน (อ่านบน GitHub): [docs/proposal.md](./docs/proposal.md)
-- ไฟล์ต้นฉบับ PDF: [docs/proposal-kruymo.pdf](./docs/proposal-kruymo.pdf)
+- ไฟล์ PDF เดิม: [docs/proposal-kruymo.pdf](./docs/proposal-kruymo.pdf)
 - System Architecture (draw.io):
   - English: [docs/KruyMo-system-architecture-EN.drawio](./docs/KruyMo-system-architecture-EN.drawio)
   - ภาษาไทย: [docs/KruyMo-system-architecture-TH.drawio](./docs/KruyMo-system-architecture-TH.drawio)
+- Final Project / ข้อเสนอฉบับสมบูรณ์:
+  - Word: [docs/ข้อเสนอโครงงาน_KruyMo_ฉบับสมบูรณ์.docx](./docs/ข้อเสนอโครงงาน_KruyMo_ฉบับสมบูรณ์.docx)
+  - Markdown: [docs/Final_Project_Report_KruyMo.md](./docs/Final_Project_Report_KruyMo.md)
+  - UML diagrams: [docs/diagrams/](./docs/diagrams/)
+  - SDLC tools: [docs/SDLC_Tools_KruyMo.md](./docs/SDLC_Tools_KruyMo.md)
+  - UAT: [docs/UAT_KruyMo.md](./docs/UAT_KruyMo.md)
 
 ## Tech Stack
 
