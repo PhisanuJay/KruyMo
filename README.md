@@ -13,7 +13,8 @@
   - UML diagrams: [docs/diagrams/](./docs/diagrams/)
   - SDLC tools: [docs/SDLC_Tools_KruyMo.md](./docs/SDLC_Tools_KruyMo.md)
   - UAT (PDF): [docs/User_Acceptance_Testing.pdf](./docs/User_Acceptance_Testing.pdf)
-  - UAT (Word): [docs/UAT_KruyMo_Workshop7.docx](./docs/UAT_KruyMo_Workshop7.docx)
+  - UAT (Markdown): [docs/UAT_KruyMo.md](./docs/UAT_KruyMo.md)
+  - UAT (Word): [docs/UAT_KruyMo.docx](./docs/UAT_KruyMo.docx)
 
 ## Tech Stack
 

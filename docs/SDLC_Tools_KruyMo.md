@@ -82,7 +82,7 @@
 - ทดสอบ Dashboard รายงาน และการจัดการสต็อกฝั่งแอดมิน
 - ทดสอบกรณีผิดปกติ เช่น รหัสผ่านผิด การเข้าหน้าผิดบทบาท และการจองช่วงวันที่สต็อกเต็ม
 
-> เอกสารอ้างอิง: `docs/User_Acceptance_Testing.pdf` และ `docs/UAT_KruyMo_Workshop7.docx`
+> เอกสารอ้างอิง: `docs/User_Acceptance_Testing.pdf`, `docs/UAT_KruyMo.md`, `docs/UAT_KruyMo.docx`
 
 ---
 
