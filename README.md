@@ -4,9 +4,7 @@
 
 ## เอกสารโครงงาน
 
-- ข้อเสนอโครงงาน (PDF): [docs/ข้อเสนอโครงงานเช่าชุดครุย.pdf](./docs/ข้อเสนอโครงงานเช่าชุดครุย.pdf)
-- ข้อเสนอโครงงาน (อ่านบน GitHub): [docs/proposal.md](./docs/proposal.md)
-- ไฟล์ PDF เดิม: [docs/proposal-kruymo.pdf](./docs/proposal-kruymo.pdf)
+- ข้อเสนอโครงงาน: [docs/ข้อเสนอโครงงานเช่าชุดครุย.pdf](./docs/ข้อเสนอโครงงานเช่าชุดครุย.pdf)
 - Final Project / ข้อเสนอฉบับสมบูรณ์:
   - Word: [docs/ข้อเสนอโครงงาน_KruyMo_ฉบับสมบูรณ์.docx](./docs/ข้อเสนอโครงงาน_KruyMo_ฉบับสมบูรณ์.docx)
   - Markdown: [docs/Final_Project_Report_KruyMo.md](./docs/Final_Project_Report_KruyMo.md)
