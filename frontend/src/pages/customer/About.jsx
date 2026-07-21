@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Instagram,
@@ -8,226 +7,215 @@ import {
   MapPin,
   Clock,
   MessageCircle,
-  Send,
   ExternalLink,
 } from 'lucide-react';
 import CustomerLayout from '../../components/CustomerLayout';
 import { ABOUT_CONTACT } from '../../constants/store';
-import { feedbackAPI } from '../../services/api';
-
-const emptyFeedback = () => ({
-  name: '',
-  email: '',
-  topic: 'ทั่วไป',
-  message: '',
-});
 
 export default function About() {
   const c = ABOUT_CONTACT;
-  const [form, setForm] = useState(emptyFeedback);
-  const [sending, setSending] = useState(false);
-  const [done, setDone] = useState(false);
-  const [error, setError] = useState('');
 
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-    setError('');
-    setDone(false);
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    if (!form.name.trim()) {
-      setError('กรุณากรอกชื่อ');
-      return;
-    }
-    if (!form.email.trim()) {
-      setError('กรุณากรอกอีเมล');
-      return;
-    }
-    if (!form.message.trim() || form.message.trim().length < 10) {
-      setError('กรุณาระบุข้อความอย่างน้อย 10 ตัวอักษร');
-      return;
-    }
-
-    setSending(true);
-    setError('');
-    try {
-      await feedbackAPI.submit({
-        name: form.name.trim(),
-        email: form.email.trim(),
-        topic: form.topic,
-        message: form.message.trim(),
-      });
-      setDone(true);
-      setForm(emptyFeedback());
-    } catch (err) {
-      setError(err.response?.data?.error || 'ส่งไม่สำเร็จ กรุณาลองใหม่');
-    } finally {
-      setSending(false);
-    }
-  };
+  const channels = [
+    {
+      key: 'line',
+      label: 'LINE',
+      value: c.line.id,
+      href: c.line.url,
+      icon: MessageCircle,
+      preferred: true,
+    },
+    {
+      key: 'phone',
+      label: 'โทร',
+      value: c.phone,
+      href: `tel:${c.phone.replace(/\D/g, '')}`,
+      icon: Phone,
+    },
+    {
+      key: 'ig',
+      label: 'Instagram',
+      value: c.instagram.handle,
+      href: c.instagram.url,
+      icon: Instagram,
+    },
+    {
+      key: 'fb',
+      label: 'Facebook',
+      value: c.facebook.name,
+      href: c.facebook.url,
+      icon: Facebook,
+    },
+    {
+      key: 'email',
+      label: 'อีเมล',
+      value: c.email,
+      href: `mailto:${c.email}`,
+      icon: Mail,
+    },
+  ];
 
   return (
     <CustomerLayout>
       <div className="about-page">
-        <section className="about-hero">
-          <div className="container">
-            <p className="about-kicker">KruyMo · Sripatum University</p>
-            <h1>เกี่ยวกับเรา</h1>
-            <p className="about-lead">{c.blurb}</p>
+        <section className="about-story-hero">
+          <img
+            className="about-story-hero-img"
+            src="/images/gowns/gown-bachelor-yellow.jpg"
+            alt=""
+          />
+          <div className="about-story-hero-veil" aria-hidden />
+          <div className="container about-story-hero-copy">
+            <p className="about-story-kicker">เรื่องของเรา</p>
+            <h1>
+              <span className="about-story-mark">K</span>ruyMo
+            </h1>
+            <p className="about-story-hero-text">
+              ร้านเช่าชุดครุยสำหรับนักศึกษา มหาวิทยาลัยศรีปทุม
+              — ให้วันรับปริญญาของคุณง่ายขึ้นตั้งแต่ก้าวแรก
+            </p>
+          </div>
+        </section>
+
+        <section className="about-story-block">
+          <div className="container about-story-row">
+            <div className="about-story-text">
+              <p className="about-story-label">เราเป็นใคร</p>
+              <h2>เช่าชุดครุยศรีปทุมแบบครบวงจร</h2>
+              <p>
+                KruyMo เกิดจากความอยากให้การเช่าชุดครุยไม่ยุ่งยากอีกต่อไป
+                เลือกคณะตามสีสาย เลือกระดับตรี โท หรือเอก เลือกไซส์และวันเช่าได้จากมือถือ
+                แล้วปล่อยให้เราดูแลการจัดส่งจนถึงคืนมัดจำ
+              </p>
+            </div>
+            <figure className="about-story-photo">
+              <img src="/images/gowns/gown-bachelor-blue.jpg" alt="ชุดครุยคณะบริหารธุรกิจ" />
+            </figure>
+          </div>
+        </section>
+
+        <section className="about-story-block about-story-block-alt">
+          <div className="container about-story-row is-reverse">
+            <div className="about-story-text">
+              <p className="about-story-label">ทำไมต้อง KruyMo</p>
+              <h2>จองออนไลน์ ส่งถึงบ้าน คืนมัดจำผ่านระบบ</h2>
+              <p>
+                ไม่ต้องวิ่งไปหน้าร้านหลายรอบเพื่อจองคิวหรือเช็คไซส์
+                คุณเลือกชุด ชำระผ่านพร้อมเพย์ อัปโหลดสลิป แล้วติดตามสถานะได้ตลอดทาง
+                เมื่อใช้งานเสร็จ ส่งคืนแล้วรอรับมัดจำคืนตามบัญชีที่แจ้งไว้
+              </p>
+              <Link to="/how-to-rent" className="about-story-link">
+                ดูขั้นตอนการเช่า <ExternalLink size={14} />
+              </Link>
+            </div>
+            <figure className="about-story-photo">
+              <img src="/images/gowns/gown-bachelor-maroon.jpg" alt="ชุดครุยคณะวิศวกรรมศาสตร์" />
+            </figure>
+          </div>
+        </section>
+
+        <section className="about-story-block">
+          <div className="container about-story-row">
+            <div className="about-story-text">
+              <p className="about-story-label">ที่ตั้ง</p>
+              <h2>ใกล้ มหาวิทยาลัยศรีปทุม บางเขน</h2>
+              <p>
+                ร้านอ้างอิงบริเวณ ม.ศรีปทุม บางเขน ถนนพหลโยธิน
+                สะดวกทั้งรับ–คืนชุดและนัดหมายสอบถามในเวลาทำการ
+                {c.hours ? ` (${c.hours})` : ''}
+              </p>
+              <p className="about-story-address">
+                <MapPin size={16} aria-hidden />
+                {c.address}
+              </p>
+            </div>
+            <figure className="about-story-photo about-story-photo-duo">
+              <img src="/images/gowns/gown-bachelor-purple.jpg" alt="ชุดครุยคณะไอที" />
+              <img src="/images/gowns/gown-bachelor-green.jpg" alt="ชุดครุยคณะบัญชี" />
+            </figure>
+          </div>
+        </section>
+
+        <section className="about-story-strip" aria-hidden>
+          <div className="about-story-strip-track">
+            {[
+              '/images/gowns/gown-bachelor-yellow.jpg',
+              '/images/gowns/gown-bachelor-orange.jpg',
+              '/images/gowns/gown-bachelor-white.jpg',
+              '/images/gowns/gown-bachelor-blue.jpg',
+              '/images/gowns/gown-bachelor-maroon.jpg',
+              '/images/gowns/gown-bachelor-purple.jpg',
+              '/images/gowns/gown-bachelor-green.jpg',
+            ].concat([
+              '/images/gowns/gown-bachelor-yellow.jpg',
+              '/images/gowns/gown-bachelor-orange.jpg',
+              '/images/gowns/gown-bachelor-white.jpg',
+              '/images/gowns/gown-bachelor-blue.jpg',
+              '/images/gowns/gown-bachelor-maroon.jpg',
+              '/images/gowns/gown-bachelor-purple.jpg',
+              '/images/gowns/gown-bachelor-green.jpg',
+            ]).map((src, i) => (
+              <img key={`${src}-${i}`} src={src} alt="" />
+            ))}
           </div>
         </section>
 
         <div className="container about-body">
-          <section className="about-contact" aria-labelledby="about-contact-title">
-            <h2 id="about-contact-title">ช่องทางติดต่อ</h2>
-            <p className="about-section-desc">สอบถามการเช่า สถานะจอง หรือนัดรับ–คืนชุดได้ที่ช่องทางด้านล่าง</p>
+          <section className="about-contact-wrap" aria-labelledby="about-contact-title">
+            <div className="about-contact-head">
+              <p className="about-story-label">ติดต่อร้าน</p>
+              <h2 id="about-contact-title">ช่องทางพูดคุยกับเรา</h2>
+              <p>แนะนำเริ่มจาก LINE หรือโทร — ตอบเรื่องจอง ไซส์ และสถานะได้เร็วที่สุด</p>
+            </div>
 
-            <ul className="about-channel-list">
-              <li>
-                <span className="about-channel-icon" aria-hidden><Instagram size={20} /></span>
+            <div className="about-channels">
+              {channels.map((ch) => {
+                const Icon = ch.icon;
+                return (
+                  <a
+                    key={ch.key}
+                    className={`about-channel${ch.preferred ? ' is-preferred' : ''}`}
+                    href={ch.href}
+                    target={ch.href.startsWith('http') ? '_blank' : undefined}
+                    rel={ch.href.startsWith('http') ? 'noreferrer' : undefined}
+                  >
+                    <span className="about-channel-icon" aria-hidden>
+                      <Icon size={20} />
+                    </span>
+                    <span className="about-channel-copy">
+                      <span className="about-channel-top">
+                        <strong>{ch.label}</strong>
+                        {ch.preferred && <em>แนะนำ</em>}
+                      </span>
+                      <span className="about-channel-value">{ch.value}</span>
+                    </span>
+                  </a>
+                );
+              })}
+            </div>
+
+            <div className="about-meta">
+              <div className="about-meta-item">
+                <Clock size={18} aria-hidden />
                 <div>
-                  <p className="about-channel-label">Instagram</p>
-                  <a href={c.instagram.url} target="_blank" rel="noreferrer">{c.instagram.handle}</a>
-                </div>
-              </li>
-              <li>
-                <span className="about-channel-icon" aria-hidden><MessageCircle size={20} /></span>
-                <div>
-                  <p className="about-channel-label">LINE</p>
-                  <a href={c.line.url} target="_blank" rel="noreferrer">{c.line.id}</a>
-                </div>
-              </li>
-              <li>
-                <span className="about-channel-icon" aria-hidden><Facebook size={20} /></span>
-                <div>
-                  <p className="about-channel-label">Facebook</p>
-                  <a href={c.facebook.url} target="_blank" rel="noreferrer">{c.facebook.name}</a>
-                </div>
-              </li>
-              <li>
-                <span className="about-channel-icon" aria-hidden><Phone size={20} /></span>
-                <div>
-                  <p className="about-channel-label">เบอร์โทร</p>
-                  <a href={`tel:${c.phone.replace(/\D/g, '')}`}>{c.phone}</a>
-                </div>
-              </li>
-              <li>
-                <span className="about-channel-icon" aria-hidden><Mail size={20} /></span>
-                <div>
-                  <p className="about-channel-label">อีเมล</p>
-                  <a href={`mailto:${c.email}`}>{c.email}</a>
-                </div>
-              </li>
-              <li>
-                <span className="about-channel-icon" aria-hidden><Clock size={20} /></span>
-                <div>
-                  <p className="about-channel-label">เวลาทำการ</p>
+                  <strong>เวลาทำการ</strong>
                   <p>{c.hours}</p>
                 </div>
-              </li>
-            </ul>
-          </section>
-
-          <section className="about-feedback" aria-labelledby="about-feedback-title">
-            <h2 id="about-feedback-title">ส่ง Feedback</h2>
-            <p className="about-section-desc">
-              บอกข้อเสนอแนะหรือปัญหาการใช้งาน — ข้อความจะถูกบันทึกในระบบ
-              {c.email ? ` และส่งแจ้งเตือนไปที่ ${c.email} เมื่อตั้งค่าอีเมลแล้ว` : ''}
-            </p>
-
-            <form className="about-feedback-form" onSubmit={onSubmit} noValidate>
-              <div className="about-form-row">
-                <div className="form-group">
-                  <label htmlFor="about-name">ชื่อ *</label>
-                  <input
-                    id="about-name"
-                    name="name"
-                    className="form-input"
-                    value={form.name}
-                    onChange={onChange}
-                    placeholder="ชื่อของคุณ"
-                    autoComplete="name"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="about-email">อีเมล *</label>
-                  <input
-                    id="about-email"
-                    name="email"
-                    type="email"
-                    className="form-input"
-                    value={form.email}
-                    onChange={onChange}
-                    placeholder="you@email.com"
-                    autoComplete="email"
-                  />
+              </div>
+              <div className="about-meta-item">
+                <MapPin size={18} aria-hidden />
+                <div>
+                  <strong>ที่ตั้ง</strong>
+                  <p>{c.address}</p>
                 </div>
               </div>
-
-              <div className="form-group">
-                <label htmlFor="about-topic">หัวข้อ</label>
-                <select
-                  id="about-topic"
-                  name="topic"
-                  className="form-input"
-                  value={form.topic}
-                  onChange={onChange}
-                >
-                  <option value="ทั่วไป">ทั่วไป</option>
-                  <option value="การจอง">การจอง / ชำระเงิน</option>
-                  <option value="การจัดส่ง">การจัดส่ง / แมสฯ</option>
-                  <option value="เว็บไซต์">เว็บไซต์ / บั๊ก</option>
-                  <option value="อื่น ๆ">อื่น ๆ</option>
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="about-message">ข้อความ *</label>
-                <textarea
-                  id="about-message"
-                  name="message"
-                  className="form-input about-textarea"
-                  rows={5}
-                  value={form.message}
-                  onChange={onChange}
-                  placeholder="เล่าความคิดเห็นของคุณ..."
-                />
-              </div>
-
-              {error && <p className="about-form-error" role="alert">{error}</p>}
-              {done && (
-                <p className="about-form-success" role="status">
-                  ได้รับข้อความแล้ว ขอบคุณสำหรับ feedback!
-                </p>
-              )}
-
-              <button type="submit" className="btn btn-primary" disabled={sending}>
-                <Send size={18} />
-                {sending ? 'กำลังส่ง...' : 'ส่ง Feedback'}
-              </button>
-            </form>
+            </div>
           </section>
 
           <section className="about-map" aria-labelledby="about-map-title">
             <div className="about-map-head">
-              <div>
-                <h2 id="about-map-title">พิกัดร้าน</h2>
-                <p className="about-section-desc">
-                  <MapPin size={16} style={{ verticalAlign: '-2px', marginRight: 4 }} />
-                  {c.address}
-                </p>
-              </div>
-              <a
-                className="btn btn-outline btn-sm"
-                href={c.mapExternalUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                เปิดใน Google Maps
-                <ExternalLink size={16} />
+              <h2 id="about-map-title">แผนที่</h2>
+              <a className="about-map-link" href={c.mapExternalUrl} target="_blank" rel="noreferrer">
+                เปิดใน Google Maps <ExternalLink size={14} />
               </a>
             </div>
             <div className="about-map-frame">
@@ -239,15 +227,12 @@ export default function About() {
                 allowFullScreen
               />
             </div>
-            <p className="about-map-note">
-              หมุดแผนที่ชี้ไปที่ มหาวิทยาลัยศรีปทุม บางเขน — จุดอ้างอิงบริเวณร้าน
-            </p>
           </section>
 
           <p className="about-footnote">
-            ดูวิธีเช่าแบบละเอียดที่ <Link to="/how-to-rent">ขั้นตอนการเช่า</Link>
-            {' · '}
             <Link to="/catalog">เลือกชุดครุย</Link>
+            {' · '}
+            <Link to="/how-to-rent">ขั้นตอนการเช่า</Link>
           </p>
         </div>
       </div>

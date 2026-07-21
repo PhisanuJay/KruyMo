@@ -6,6 +6,9 @@
 
 - ข้อเสนอโครงงาน (อ่านบน GitHub): [docs/proposal.md](./docs/proposal.md)
 - ไฟล์ต้นฉบับ PDF: [docs/proposal-kruymo.pdf](./docs/proposal-kruymo.pdf)
+- System Architecture (draw.io):
+  - English: [docs/KruyMo-system-architecture-EN.drawio](./docs/KruyMo-system-architecture-EN.drawio)
+  - ภาษาไทย: [docs/KruyMo-system-architecture-TH.drawio](./docs/KruyMo-system-architecture-TH.drawio)
 
 ## Tech Stack
 
