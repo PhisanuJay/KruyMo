@@ -17,20 +17,13 @@ import { bookingAPI, paymentAPI } from '../../../services/api';
 import DashboardLayout from '../../../components/DashboardLayout';
 import StatusTimeline from '../../../components/StatusTimeline';
 import StatusBadge from '../../../components/StatusBadge';
+import { formatOrderId } from '../../../utils/orderId';
 
 const DEGREE_LABELS = {
   bachelor: 'ปริญญาตรี',
   master: 'ปริญญาโท',
   doctoral: 'ปริญญาเอก',
 };
-
-function formatOrderId(booking) {
-  const d = new Date(booking.createdAt);
-  const y = d.getFullYear() + 543;
-  const md = `${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
-  const seq = booking.id.replace(/-/g, '').slice(-3).toUpperCase();
-  return `#ORD-${y}${md}-${seq}`;
-}
 
 function DeliveryAddressBlock({ address, fallbackText }) {
   if (address?.line1) {
@@ -332,7 +325,7 @@ export default function AdminBookingDetail() {
       )}
 
       <section className="card" style={{ padding: '1.5rem', marginTop: '1.25rem' }}>
-        <h3 style={{ fontWeight: 700, marginBottom: '1rem' }}>จัดการคำสั่ง</h3>
+        <h3 style={{ fontWeight: 700, marginBottom: '1rem' }}>การดำเนินการ</h3>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem' }}>
           {booking.status === 'pending' && (
             <>
@@ -364,13 +357,13 @@ export default function AdminBookingDetail() {
           )}
           {booking.status === 'approved' && (
             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-              อยู่ในคิวจัดเตรียม — ให้พนักงานกดพร้อมจัดส่งที่หน้าจัดส่งและรับคืน
+              อยู่ในคิวจัดเตรียม — ให้พนักงานกดพร้อมจัดส่งที่หน้าจัดส่ง–รับคืน
             </p>
           )}
           {booking.status === 'preparing' && (
             <>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                อยู่ในคิวจัดเตรียมชุดที่หน้าจัดส่งและรับคืน
+                อยู่ในคิวจัดเตรียมชุดที่หน้าจัดส่ง–รับคืน
               </p>
               <Link to="/admin/dispatch?queue=prep" className="btn btn-secondary btn-sm">
                 ดูคิวจัดเตรียม
@@ -379,7 +372,7 @@ export default function AdminBookingDetail() {
           )}
           {needsDispatch && (
             <Link to="/admin/dispatch" className="btn btn-secondary btn-sm">
-              ไปจัดส่งและรับคืน
+              ไปจัดส่ง–รับคืน
             </Link>
           )}
           {booking.status === 'returned' && (
@@ -406,7 +399,7 @@ export default function AdminBookingDetail() {
 
         {needsDispatch && (
           <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.85rem', marginBottom: 0 }}>
-            งานจัดส่ง / รับคืนเข้าคลัง / ยืนยันส่งถึง — จัดการที่หน้าจัดส่งและรับคืน
+            งานจัดส่ง / รับคืนเข้าคลัง / ยืนยันส่งถึง — จัดการที่หน้าจัดส่ง–รับคืน
           </p>
         )}
 

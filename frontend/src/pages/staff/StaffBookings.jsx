@@ -6,6 +6,7 @@ import {
 import { bookingAPI, paymentAPI } from '../../services/api';
 import DashboardLayout from '../../components/DashboardLayout';
 import StatusBadge from '../../components/StatusBadge';
+import { formatOrderId, shortOrderCode } from '../../utils/orderId';
 import './staff.css';
 
 const ACTIVE_STATUSES = [
@@ -35,10 +36,6 @@ const QUICK_FILTERS = [
   { id: 'done', label: 'ปิดงานแล้ว', status: 'deposit_refunded', group: '' },
   { id: 'closed', label: 'ยกเลิก / ปฏิเสธ', status: '', group: 'closed' },
 ];
-
-function shortId(id = '') {
-  return id.replace(/-/g, '').slice(0, 8).toUpperCase();
-}
 
 function initials(name = '') {
   const parts = String(name).trim().split(/\s+/).filter(Boolean);
@@ -129,7 +126,8 @@ export default function StaffBookings() {
     return bookings.filter((b) => {
       const hay = [
         b.id,
-        shortId(b.id),
+        formatOrderId(b),
+        shortOrderCode(b.id),
         b.user?.name,
         b.user?.phone,
         b.user?.email,
@@ -309,7 +307,7 @@ export default function StaffBookings() {
         <header className="orders-hero">
           <div className="orders-hero-copy">
             <p className="orders-hero-kicker">คำสั่งเช่า</p>
-            <h1>จัดการคำสั่งเช่า</h1>
+            <h1>คำสั่งเช่า</h1>
             <p>ค้นหา ติดตามสถานะ และส่งต่อไปยังคิวจัดส่งหรือคืนมัดจำ</p>
           </div>
           <div className="orders-hero-stats">
@@ -435,7 +433,7 @@ export default function StaffBookings() {
                         </div>
                         <div>
                           <span>เลขจอง</span>
-                          <code>#{shortId(b.id)}</code>
+                          <code>{formatOrderId(b)}</code>
                         </div>
                       </div>
                     </div>
@@ -486,7 +484,7 @@ export default function StaffBookings() {
           </button>
           <button type="button" className="orders-shortcut" onClick={() => navigate('/staff/dispatch')}>
             <Truck size={16} />
-            ไปจัดส่งและรับคืน
+            ไปจัดส่ง–รับคืน
           </button>
           <button type="button" className="orders-shortcut" onClick={() => navigate('/staff/refund')}>
             <Wallet size={16} />

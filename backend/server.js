@@ -18,6 +18,7 @@ import notificationRoutes from './routes/notifications.js';
 import uploadRoutes from './routes/upload.js';
 import favoriteRoutes from './routes/favorites.js';
 import cartRoutes from './routes/cart.js';
+import feedbackRoutes from './routes/feedback.js';
 import { startMaintenanceJobs } from './utils/jobs.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -33,9 +34,9 @@ const seedDefaultUsers = async () => {
   if (users.length > 0) return;
 
   const defaultUsers = [
-    { name: 'แอดมิน KruyMo', email: 'admin@kruymo.com', password: 'admin123', role: 'admin' },
-    { name: 'พนักงาน KruyMo', email: 'staff@kruymo.com', password: 'staff123', role: 'staff' },
-    { name: 'ลูกค้าทดสอบ', email: 'customer@test.com', password: 'customer123', role: 'customer' },
+    { name: 'แอดมิน KruyMo', email: 'admin@gmail.com', password: '12345678', role: 'admin' },
+    { name: 'พนักงาน KruyMo', email: 'staff@gmail.com', password: '12345678', role: 'staff' },
+    { name: 'ลูกค้าทดสอบ', email: 'customer@gmail.com', password: '12345678', role: 'customer' },
   ];
 
   for (const u of defaultUsers) {
@@ -53,7 +54,7 @@ const seedDefaultUsers = async () => {
     });
   }
   writeJSON('users.json', users);
-  console.log('✅ Seeded default users (admin@kruymo.com / staff@kruymo.com / customer@test.com)');
+  console.log('✅ Seeded default users (admin@gmail.com / staff@gmail.com / customer@gmail.com)');
 };
 
 app.use('/api/auth', authRoutes);
@@ -67,6 +68,7 @@ app.use('/api/notifications', notificationRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/favorites', favoriteRoutes);
 app.use('/api/cart', cartRoutes);
+app.use('/api/feedback', feedbackRoutes);
 
 app.get('/api/health', (_req, res) => res.json({ status: 'ok', name: 'KruyMo API' }));
 

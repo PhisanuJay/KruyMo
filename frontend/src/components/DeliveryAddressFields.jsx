@@ -40,7 +40,12 @@ export function deliveryAddressFromUser(user) {
   };
 }
 
-export function validateDeliveryAddress(address) {
+export function validateDeliveryAddress(address, { required = true } = {}) {
+  const empty = !address?.line1?.trim()
+    && !address?.amphoe?.trim()
+    && !address?.district?.trim()
+    && !address?.postalCode?.trim();
+  if (empty) return required ? 'กรุณากรอกที่อยู่จัดส่ง' : '';
   if (!address?.recipientName?.trim()) return 'กรุณากรอกชื่อผู้รับ';
   if (!address?.recipientPhone?.trim()) return 'กรุณากรอกเบอร์ผู้รับ';
   if (!address?.line1?.trim()) return 'กรุณากรอกที่อยู่จัดส่ง';

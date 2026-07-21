@@ -54,9 +54,9 @@ npm run dev
 
 | Role | Email | Password |
 |------|-------|----------|
-| ลูกค้า | customer@test.com | customer123 |
-| พนักงาน | staff@kruymo.com | staff123 |
-| แอดมิน | admin@kruymo.com | admin123 |
+| ลูกค้า | customer@gmail.com | 12345678 |
+| พนักงาน | staff@gmail.com | 12345678 |
+| แอดมิน | admin@gmail.com | 12345678 |
 
 ## ฟีเจอร์หลัก
 

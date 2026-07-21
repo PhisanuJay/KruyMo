@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useLocation } from 'react-router-dom';
 import {
   Wallet, Clock, CheckCircle2, Banknote, Building2, Smartphone,
   Image as ImageIcon, ArrowRight, AlertTriangle,
@@ -8,6 +8,7 @@ import { bookingAPI, uploadAPI } from '../../services/api';
 import DashboardLayout from '../../components/DashboardLayout';
 import StatusBadge from '../../components/StatusBadge';
 import UploadBox from '../../components/UploadBox';
+import { formatOrderId } from '../../utils/orderId';
 import './staff.css';
 
 const DEDUCT_PRESETS = [
@@ -34,10 +35,6 @@ function formatWhen(dateStr) {
     hour: '2-digit',
     minute: '2-digit',
   });
-}
-
-function shortId(id = '') {
-  return id.replace(/-/g, '').slice(0, 8).toUpperCase();
 }
 
 function initials(name = '') {
@@ -91,6 +88,11 @@ function AccountBlock({ account, emptyHint }) {
 }
 
 export default function DepositRefund() {
+  const location = useLocation();
+  const layoutRole = location.pathname.startsWith('/admin') ? 'admin' : 'staff';
+  const dispatchInboundPath = layoutRole === 'admin'
+    ? '/admin/dispatch?queue=inbound'
+    : '/staff/dispatch?queue=inbound';
   const [searchParams, setSearchParams] = useSearchParams();
   const tab = searchParams.get('tab') === 'done' ? 'done' : 'pending';
   const [pending, setPending] = useState([]);
@@ -231,7 +233,7 @@ export default function DepositRefund() {
   };
 
   return (
-    <DashboardLayout role="staff">
+    <DashboardLayout role={layoutRole}>
       <div className="staff-ops staff-refund-desk">
         <header className="refund-hero">
           <div className="refund-hero-copy">
@@ -306,7 +308,7 @@ export default function DepositRefund() {
             <p>
               คิวจะขึ้นเมื่อลูกค้าแจ้งส่งคืนแล้ว หรือเมื่อรับเข้าคลังจาก
               {' '}
-              <Link to="/staff/dispatch?queue=inbound">จัดส่งและรับคืน · รอรับคืน</Link>
+              <Link to={dispatchInboundPath}>จัดส่ง–รับคืน · รอรับคืน</Link>
             </p>
             <button type="button" className="btn btn-ghost btn-sm" onClick={() => setTab('done')}>
               ดูประวัติคืนแล้ว
@@ -340,7 +342,7 @@ export default function DepositRefund() {
                       <p>
                         {b.costume?.name || '—'}
                         {' · '}
-                        <code>#{shortId(b.id)}</code>
+                        <code>{formatOrderId(b)}</code>
                       </p>
                       {penalty > 0 && (
                         <small className="is-deduct">
@@ -418,7 +420,7 @@ export default function DepositRefund() {
                       </div>
                       <div>
                         <span>เลขจอง</span>
-                        <code>#{shortId(b.id)}</code>
+                        <code>{formatOrderId(b)}</code>
                       </div>
                       <div>
                         <span>มัดจำเดิม</span>

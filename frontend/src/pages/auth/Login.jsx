@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { authAPI } from '../../services/api';
 import CustomerLayout from '../../components/CustomerLayout';
@@ -7,6 +8,7 @@ import CustomerLayout from '../../components/CustomerLayout';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
@@ -38,35 +40,64 @@ export default function Login() {
 
   return (
     <CustomerLayout>
-      <div style={{ maxWidth: 420, margin: '4rem auto', padding: '0 20px' }}>
-        <div className="card" style={{ padding: '2.5rem' }}>
-          <h1 className="page-title" style={{ textAlign: 'center' }}>เข้าสู่ระบบ</h1>
-          <p className="page-subtitle" style={{ textAlign: 'center' }}>ยินดีต้อนรับกลับสู่ KruyMo</p>
+      <div className="auth-shell">
+        <div className="auth-card">
+          <div className="auth-card-brand" aria-hidden>
+            <span className="auth-card-mark">K</span>
+          </div>
+          <h1 className="auth-card-title">เข้าสู่ระบบ</h1>
+          <p className="auth-card-sub">ยินดีต้อนรับกลับสู่ KruyMo</p>
+
           {error && <div className="alert alert-error">{error}</div>}
-          <form onSubmit={handleSubmit}>
+
+          <form className="auth-form" onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>อีเมล</label>
-              <input className="form-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <label htmlFor="login-email">อีเมล</label>
+              <input
+                id="login-email"
+                className="form-input"
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="name@email.com"
+                required
+              />
             </div>
             <div className="form-group">
-              <label>รหัสผ่าน</label>
-              <input className="form-input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <div className="auth-label-row">
+                <label htmlFor="login-password">รหัสผ่าน</label>
+                <Link to="/forgot-password" className="auth-inline-link">ลืมรหัสผ่าน?</Link>
+              </div>
+              <div className="auth-password-wrap">
+                <input
+                  id="login-password"
+                  className="form-input"
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  required
+                />
+                <button
+                  type="button"
+                  className="auth-password-toggle"
+                  onClick={() => setShowPassword((v) => !v)}
+                  aria-label={showPassword ? 'ซ่อนรหัสผ่าน' : 'แสดงรหัสผ่าน'}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
             </div>
-            <button className="btn btn-primary" style={{ width: '100%' }} disabled={loading}>
+            <button className="btn btn-primary auth-submit" disabled={loading}>
               {loading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ'}
             </button>
           </form>
-          <p style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.9rem' }}>
-            <Link to="/forgot-password" style={{ color: '#FF6B6B' }}>ลืมรหัสผ่าน?</Link>
+
+          <p className="auth-footer">
+            ยังไม่มีบัญชี? <Link to="/register">สมัครสมาชิก</Link>
           </p>
-          <p style={{ textAlign: 'center', marginTop: '0.5rem', fontSize: '0.9rem', color: '#636E72' }}>
-            ยังไม่มีบัญชี? <Link to="/register" style={{ color: '#FF6B6B', fontWeight: 600 }}>สมัครสมาชิก</Link>
-          </p>
-          <div style={{ marginTop: '1.5rem', padding: '1rem', background: '#f8f9fa', borderRadius: '10px', fontSize: '0.8rem', color: '#636E72' }}>
-            <strong>ทดสอบ:</strong> customer@test.com / customer123<br />
-            staff@kruymo.com / staff123<br />
-            admin@kruymo.com / admin123
-          </div>
         </div>
       </div>
     </CustomerLayout>

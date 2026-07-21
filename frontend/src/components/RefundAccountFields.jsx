@@ -1,6 +1,6 @@
-import { normalizeRefundAccount, validateRefundAccount } from '../utils/refundAccount';
+import { normalizeRefundAccount, validateRefundAccount, isRefundAccountEmpty } from '../utils/refundAccount';
 
-export { normalizeRefundAccount, validateRefundAccount };
+export { normalizeRefundAccount, validateRefundAccount, isRefundAccountEmpty };
 
 const emptyRefundAccount = () => ({
   method: 'promptpay',

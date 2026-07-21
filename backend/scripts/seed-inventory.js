@@ -32,6 +32,8 @@ for (const costume of costumesData) {
   costume.stock = inventory
     .filter((i) => i.costumeId === costume.id)
     .reduce((sum, i) => sum + i.quantity, 0);
+  delete costume.degreeLevel;
+  delete costume.sizeId;
 }
 fs.writeFileSync(costumesPath, JSON.stringify(costumesData, null, 2));
 

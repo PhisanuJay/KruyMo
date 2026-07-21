@@ -7,6 +7,7 @@ import {
 import { bookingAPI, paymentAPI } from '../../services/api';
 import DashboardLayout from '../../components/DashboardLayout';
 import StatusBadge from '../../components/StatusBadge';
+import { formatOrderId } from '../../utils/orderId';
 import './staff.css';
 
 const QUEUES = [
@@ -70,10 +71,6 @@ const DELIVERY_TIME_SLOTS = [
   '17:00–19:00',
 ];
 
-function shortId(id = '') {
-  return id.replace(/-/g, '').slice(0, 8).toUpperCase();
-}
-
 function initials(name = '') {
   const parts = String(name).trim().split(/\s+/).filter(Boolean);
   if (!parts.length) return '?';
@@ -85,7 +82,6 @@ export default function StaffDispatch() {
   const navigate = useNavigate();
   const location = useLocation();
   const layoutRole = location.pathname.startsWith('/admin') ? 'admin' : 'staff';
-  const viewOnly = layoutRole === 'admin';
   const refundPath = layoutRole === 'admin' ? '/admin/refund' : '/staff/refund';
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -279,24 +275,6 @@ export default function StaffDispatch() {
   };
 
   const renderActions = (b) => {
-    if (viewOnly) {
-      if (b.status === 'pending' || b.status === 'payment_verified') {
-        return (
-          <button type="button" className="btn btn-ghost btn-sm" onClick={() => openSlip(b)}>
-            ดูสลิป
-          </button>
-        );
-      }
-      if (b.status === 'return_submitted') {
-        return (
-          <button type="button" className="btn btn-ghost btn-sm" onClick={() => navigate(refundPath)}>
-            ดูคิวคืนมัดจำ
-          </button>
-        );
-      }
-      return <span className="ops-muted">ดูอย่างเดียว</span>;
-    }
-
     if (b.status === 'pending' || b.status === 'payment_verified') {
       return (
         <button type="button" className="btn btn-primary btn-sm" onClick={() => openSlip(b)}>
@@ -359,12 +337,8 @@ export default function StaffDispatch() {
         <header className="ops-hero">
           <div className="ops-hero-copy">
             <p className="ops-hero-kicker">คิวงาน</p>
-            <h1>จัดส่งและรับคืน</h1>
-            <p>
-              {viewOnly
-                ? 'มุมมองแอดมิน (ดูอย่างเดียว) — พนักงานเป็นผู้ดำเนินการจริง'
-                : 'ตรวจสลิป · จัดเตรียมชุด · จัดส่ง · รับคืนเข้าคลัง'}
-            </p>
+            <h1>จัดส่ง–รับคืน</h1>
+            <p>ตรวจสลิป · จัดเตรียมชุด · จัดส่ง · รับคืนเข้าคลัง</p>
           </div>
           <div className="ops-hero-stats">
             <div>
@@ -378,7 +352,7 @@ export default function StaffDispatch() {
           </div>
         </header>
 
-        <nav className="ops-stage-nav" aria-label="ขั้นตอนจัดส่งและรับคืน">
+        <nav className="ops-stage-nav" aria-label="ขั้นตอนจัดส่ง–รับคืน">
           {QUEUES.map((q, i) => {
             const Icon = q.icon;
             const count = counts[q.id] || 0;
@@ -444,7 +418,7 @@ export default function StaffDispatch() {
                     <div className="ops-card-facts">
                       <div>
                         <span>เลขจอง</span>
-                        <code>#{shortId(b.id)}</code>
+                        <code>{formatOrderId(b)}</code>
                       </div>
                       <div>
                         <span>ช่วงเช่า</span>
@@ -513,7 +487,7 @@ export default function StaffDispatch() {
           )}
         </section>
 
-        {messengerModal && !viewOnly && (
+        {messengerModal && (
           <div className="modal-overlay" onClick={() => !acting && setMessengerModal(null)}>
             <div className="modal ops-modal" onClick={(e) => e.stopPropagation()}>
               <p className="ops-modal-kicker">จัดส่ง</p>
@@ -638,8 +612,7 @@ export default function StaffDispatch() {
                   ) : (
                     <div className="alert alert-error">ไม่มีรูปสลิป</div>
                   )}
-                  {!viewOnly
-                    && slipModal.payment?.slipImage
+                  {slipModal.payment?.slipImage
                     && !slipModal.archived
                     && slipModal.booking?.status === 'pending'
                     && slipModal.payment?.status === 'pending' && (
@@ -661,8 +634,7 @@ export default function StaffDispatch() {
                 <button type="button" className="btn btn-ghost" disabled={slipActing} onClick={closeSlipModal}>
                   ปิด
                 </button>
-                {!viewOnly
-                  && slipModal.payment?.slipImage
+                {slipModal.payment?.slipImage
                   && !slipModal.archived
                   && slipModal.booking?.status === 'pending'
                   && slipModal.payment?.status === 'pending' && (

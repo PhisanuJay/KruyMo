@@ -30,6 +30,8 @@ export const costumeAPI = {
   getAll: (params) => api.get('/costumes', { params }),
   get: (id) => api.get(`/costumes/${id}`),
   availability: (id, params) => api.get(`/costumes/${id}/availability`, { params }),
+  getInventory: (id) => api.get(`/costumes/${id}/inventory`),
+  updateInventory: (id, data) => api.put(`/costumes/${id}/inventory`, data),
   create: (data) => api.post('/costumes', data),
   update: (id, data) => api.put(`/costumes/${id}`, data),
   delete: (id) => api.delete(`/costumes/${id}`),
@@ -121,6 +123,10 @@ export const uploadAPI = {
     files.forEach((f) => form.append('files', f));
     return api.post('/upload/multiple', form, { headers: { 'Content-Type': 'multipart/form-data' } });
   },
+};
+
+export const feedbackAPI = {
+  submit: (data) => api.post('/feedback', data),
 };
 
 export default api;

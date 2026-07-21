@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { costumeAPI, masterDataAPI } from '../../services/api';
 import CustomerLayout from '../../components/CustomerLayout';
 import CostumeCard from '../../components/CostumeCard';
+import { uniqueCostumesByFaculty } from '../../utils/costumes';
 
 export default function Catalog() {
   const [searchParams] = useSearchParams();
@@ -40,7 +41,7 @@ export default function Catalog() {
     const params = {};
     Object.entries(filters).forEach(([k, v]) => { if (v) params[k] = v; });
     costumeAPI.getAll(params)
-      .then((r) => setCostumes(Array.isArray(r.data) ? r.data : []))
+      .then((r) => setCostumes(uniqueCostumesByFaculty(Array.isArray(r.data) ? r.data : [])))
       .catch(() => setCostumes([]))
       .finally(() => setLoading(false));
   }, [filters]);

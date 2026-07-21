@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import CustomerLayout from '../../components/CustomerLayout';
 import { ABOUT_CONTACT } from '../../constants/store';
+import { feedbackAPI } from '../../services/api';
 
 const emptyFeedback = () => ({
   name: '',
@@ -35,7 +36,7 @@ export default function About() {
     setDone(false);
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (!form.name.trim()) {
       setError('กรุณากรอกชื่อ');
@@ -52,13 +53,20 @@ export default function About() {
 
     setSending(true);
     setError('');
-    // mock — ยังไม่เชื่อม API จริง
-    window.setTimeout(() => {
-      console.info('[mock feedback]', form);
-      setSending(false);
+    try {
+      await feedbackAPI.submit({
+        name: form.name.trim(),
+        email: form.email.trim(),
+        topic: form.topic,
+        message: form.message.trim(),
+      });
       setDone(true);
       setForm(emptyFeedback());
-    }, 600);
+    } catch (err) {
+      setError(err.response?.data?.error || 'ส่งไม่สำเร็จ กรุณาลองใหม่');
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -126,7 +134,8 @@ export default function About() {
           <section className="about-feedback" aria-labelledby="about-feedback-title">
             <h2 id="about-feedback-title">ส่ง Feedback</h2>
             <p className="about-section-desc">
-              บอกข้อเสนอแนะหรือปัญหาการใช้งาน — ตอนนี้เป็นแบบจำลอง ยังไม่ส่งอีเมลจริง
+              บอกข้อเสนอแนะหรือปัญหาการใช้งาน — ข้อความจะถูกบันทึกในระบบ
+              {c.email ? ` และส่งแจ้งเตือนไปที่ ${c.email} เมื่อตั้งค่าอีเมลแล้ว` : ''}
             </p>
 
             <form className="about-feedback-form" onSubmit={onSubmit} noValidate>
@@ -191,7 +200,7 @@ export default function About() {
               {error && <p className="about-form-error" role="alert">{error}</p>}
               {done && (
                 <p className="about-form-success" role="status">
-                  ได้รับข้อความแล้ว (mock) ขอบคุณสำหรับ feedback!
+                  ได้รับข้อความแล้ว ขอบคุณสำหรับ feedback!
                 </p>
               )}
 
@@ -231,7 +240,7 @@ export default function About() {
               />
             </div>
             <p className="about-map-note">
-              หมุดแผนที่ชี้ไปที่ มหาวิทยาลัยศรีปทุม บางเขน (ข้อมูล mock สำหรับสาธิต)
+              หมุดแผนที่ชี้ไปที่ มหาวิทยาลัยศรีปทุม บางเขน — จุดอ้างอิงบริเวณร้าน
             </p>
           </section>
 

@@ -70,4 +70,4 @@
 
 1. คนละโฟลเดอร์ (`catalog/` vs `system/`) และคนละ route ฝั่ง backend
 2. ถ้าต้องแตะไฟล์ร่วม → คุยหรือ merge ทีละ commit สั้นๆ
-3. ทดสอบด้วยบัญชี `admin@kruymo.com` / `admin123`
+3. ทดสอบด้วยบัญชี `admin@gmail.com` / `12345678`

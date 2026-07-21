@@ -63,8 +63,8 @@ export default function BookingHistory() {
   return (
     <CustomerLayout>
       <div className="container" style={{ padding: '2rem 20px' }}>
-        <h1 className="page-title">ประวัติการจอง</h1>
-        <p className="page-subtitle">รายการล่าสุดอยู่บนสุด · ค้นหาและกรองสถานะได้</p>
+        <h1 className="page-title">ติดตามสถานะ</h1>
+        <p className="page-subtitle">ดูสถานะการจองล่าสุดอยู่บนสุด · ค้นหาและกรองได้</p>
 
         <div className="card booking-history-filters">
           <div className="booking-history-filters-row">
@@ -110,7 +110,7 @@ export default function BookingHistory() {
           <div className="loading">กำลังโหลด...</div>
         ) : bookings.length === 0 ? (
           <div className="empty-state">
-            ยังไม่มีประวัติการจอง{' '}
+            ยังไม่มีการจอง{' '}
             <Link to="/catalog" style={{ color: 'var(--primary)' }}>เลือกชุดครุย</Link>
           </div>
         ) : filtered.length === 0 ? (

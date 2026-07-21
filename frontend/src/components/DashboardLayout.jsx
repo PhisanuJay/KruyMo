@@ -7,8 +7,8 @@ import {
 
 const staffLinks = [
   { to: '/staff', icon: LayoutDashboard, label: 'แดชบอร์ด' },
-  { to: '/staff/bookings', icon: ClipboardList, label: 'จัดการคำสั่งเช่า' },
-  { to: '/staff/dispatch', icon: Truck, label: 'จัดส่งและรับคืน' },
+  { to: '/staff/bookings', icon: ClipboardList, label: 'คำสั่งเช่า' },
+  { to: '/staff/dispatch', icon: Truck, label: 'จัดส่ง–รับคืน' },
   { to: '/staff/refund', icon: BarChart3, label: 'คืนเงินมัดจำ' },
 ];
 
@@ -22,9 +22,9 @@ const adminNavSections = [
   {
     title: 'คำสั่งเช่า',
     links: [
-      { to: '/admin/bookings', icon: ClipboardList, label: 'จัดการคำสั่งเช่า' },
-      { to: '/admin/dispatch', icon: Truck, label: 'จัดส่งและรับคืน' },
-      { to: '/admin/refund', icon: Wallet, label: 'ติดตามคืนมัดจำ' },
+      { to: '/admin/bookings', icon: ClipboardList, label: 'คำสั่งเช่า' },
+      { to: '/admin/dispatch', icon: Truck, label: 'จัดส่ง–รับคืน' },
+      { to: '/admin/refund', icon: Wallet, label: 'คืนเงินมัดจำ' },
     ],
   },
   {

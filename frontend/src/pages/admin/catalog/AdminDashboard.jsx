@@ -187,7 +187,7 @@ export default function AdminDashboard() {
     },
     {
       key: 'ship',
-      label: 'จัดส่งและรับคืน',
+      label: 'จัดส่ง–รับคืน',
       value: shipCount,
       hint: [
         ops.readyToShip ? `พร้อมส่ง ${ops.readyToShip}` : null,
@@ -202,7 +202,7 @@ export default function AdminDashboard() {
       key: 'refund',
       label: 'รอคืนมัดจำ',
       value: awaitRefund,
-      hint: awaitRefund > 0 ? 'ติดตามคิวคืนเงินมัดจำ' : 'ยังไม่มีคิวคืนมัดจำ',
+      hint: awaitRefund > 0 ? 'มีรายการรอโอนคืน' : 'ยังไม่มีคิวคืนมัดจำ',
       icon: Wallet,
       to: '/admin/refund',
       tone: 'green',
@@ -225,9 +225,9 @@ export default function AdminDashboard() {
       tone: 'dark',
     },
     {
-      label: 'ว่างในคลัง',
+      label: 'เหลือในคลัง',
       value: data.totalStock ?? 0,
-      unit: 'หน่วยว่างจาก inventory',
+      unit: 'หน่วย (คลัง − จองครอง · ไม่ผูกวัน)',
       icon: Shirt,
       tone: 'muted',
     },

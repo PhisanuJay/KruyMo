@@ -4,6 +4,7 @@ import CustomerLayout from '../../components/CustomerLayout';
 import CostumeCard from '../../components/CostumeCard';
 import { costumeAPI } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
+import { uniqueCostumesByFaculty } from '../../utils/costumes';
 
 /** ก้อนใหญ่ = สโลแกน · คณะเท่ากันตามสีสายปัจจุบัน */
 const SLOGAN = {
@@ -24,23 +25,9 @@ const CATEGORIES = [
     img: '/images/gowns/gown-bachelor-yellow.jpg',
   },
   {
-    name: 'ดิจิทัลมีเดีย',
-    desc: 'สายสีเหลือง',
-    to: '/catalog?facultyId=fac-digital',
-    bg: '#CA8A04',
-    img: '/images/gowns/gown-bachelor-yellow.jpg',
-  },
-  {
     name: 'บริหารธุรกิจ',
     desc: 'สายสีฟ้า',
     to: '/catalog?facultyId=fac-bus',
-    bg: '#0284C7',
-    img: '/images/gowns/gown-bachelor-blue.jpg',
-  },
-  {
-    name: 'โลจิสติกส์และซัพพลายเชน',
-    desc: 'สายสีฟ้า',
-    to: '/catalog?facultyId=fac-logistics',
     bg: '#0284C7',
     img: '/images/gowns/gown-bachelor-blue.jpg',
   },
@@ -104,7 +91,7 @@ export default function Home() {
 
   useEffect(() => {
     costumeAPI.getAll({ universityId: 'uni-spu' })
-      .then((r) => setFeatured(Array.isArray(r.data) ? r.data : []))
+      .then((r) => setFeatured(uniqueCostumesByFaculty(Array.isArray(r.data) ? r.data : [])))
       .catch(() => setFeatured([]));
   }, []);
 

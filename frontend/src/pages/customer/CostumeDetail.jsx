@@ -7,18 +7,12 @@ import { useShop } from '../../context/ShopContext';
 import CustomerLayout from '../../components/CustomerLayout';
 import UniversityTag from '../../components/UniversityTag';
 import DateRangePicker from '../../components/DateRangePicker';
-
-const DEGREE_OPTIONS = [
-  { value: 'bachelor', label: 'ปริญญาตรี' },
-  { value: 'master', label: 'ปริญญาโท' },
-  { value: 'doctoral', label: 'ปริญญาเอก' },
-];
+import { DEGREE_OPTIONS, gownImageForDegree, costumeDisplayName } from '../../utils/costumes';
 
 export default function CostumeDetail() {
   const { id } = useParams();
   const [costume, setCostume] = useState(null);
   const [sizes, setSizes] = useState([]);
-  const [activeImage, setActiveImage] = useState(0);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [sizeId, setSizeId] = useState('');
@@ -144,8 +138,11 @@ export default function CostumeDetail() {
   if (loading) return <CustomerLayout><div className="loading">กำลังโหลด...</div></CustomerLayout>;
   if (!costume) return <CustomerLayout><div className="empty-state">ไม่พบชุดครุย</div></CustomerLayout>;
 
-  const images = costume.images?.length ? costume.images : [null];
+  const baseImage = costume.images?.[0] || null;
+  const sashColor = costume.faculty?.sashColor;
+  const displayImage = gownImageForDegree(baseImage, degreeLevel, sashColor);
   const facultyColor = costume.faculty?.color || '#636E72';
+  const displayName = costumeDisplayName(costume, degreeLevel);
 
   return (
     <CustomerLayout>
@@ -157,15 +154,16 @@ export default function CostumeDetail() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }} className="grid-2">
           <div>
             <div style={{
-              height: 480, borderRadius: '24px', overflow: 'hidden',
-              background: '#F0F0F0', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: 'var(--shadow)',
+              height: 520, borderRadius: '24px', overflow: 'hidden',
+              background: '#F2F2F2', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: 'var(--shadow)', padding: '1rem',
             }}>
-              {images[activeImage] ? (
+              {displayImage ? (
                 <img
-                  src={images[activeImage]}
-                  alt={costume.name}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+                  key={displayImage}
+                  src={displayImage}
+                  alt={displayName}
+                  style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center' }}
                 />
               ) : (
                 <span style={{ fontSize: '6rem', opacity: 0.4 }}>🎓</span>
@@ -179,7 +177,7 @@ export default function CostumeDetail() {
               {costume.faculty && <UniversityTag name={costume.faculty.name} color={facultyColor} />}
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: '0.5rem' }}>
-              <h1 style={{ fontSize: '1.75rem', fontWeight: 800, flex: 1, margin: 0 }}>{costume.name}</h1>
+              <h1 style={{ fontSize: '1.75rem', fontWeight: 800, flex: 1, margin: 0 }}>{displayName}</h1>
               <button
                 type="button"
                 className={`fav-btn detail ${favorited ? 'is-active' : ''}`}

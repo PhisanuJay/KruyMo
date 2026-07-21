@@ -82,11 +82,9 @@ const DEGREE_SHORT = { bachelor: 'ป.ตรี', master: 'ป.โท', doctoral
 const THAI_MONTHS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
 
 const formatOrderId = (booking) => {
-  const d = new Date(booking.createdAt);
-  const y = d.getFullYear() + 543;
-  const md = `${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
-  const seq = booking.id.replace(/-/g, '').slice(-3).toUpperCase();
-  return `#ORD-${y}${md}-${seq}`;
+  const hex = String(booking?.id || '').replace(/-/g, '');
+  if (!hex) return '—';
+  return `#${hex.slice(-6).toUpperCase()}`;
 };
 
 const daysUntil = (dateStr) => {
@@ -144,9 +142,9 @@ router.get('/dashboard', authenticate, authorize('admin'), (req, res) => {
   const available = Math.max(0, totalPool - rented - reserved);
   const gownTotal = available + rented + reserved || 1;
   const gownStatus = [
-    { key: 'available', label: 'ว่างในคลัง', count: available, color: '#22C55E' },
+    { key: 'available', label: 'เหลือในคลัง', count: available, color: '#22C55E' },
     { key: 'rented', label: 'กำลังใช้งาน', count: rented, color: '#F59E0B' },
-    { key: 'reserved', label: 'จองในคิว', count: reserved, color: '#3B82F6' },
+    { key: 'reserved', label: 'จองครอง', count: reserved, color: '#3B82F6' },
   ].map((item) => ({
     ...item,
     percent: Math.round((item.count / gownTotal) * 100),

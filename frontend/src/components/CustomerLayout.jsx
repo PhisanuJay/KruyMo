@@ -1,8 +1,19 @@
 import { Link } from 'react-router-dom';
-import { Heart, ShoppingCart } from 'lucide-react';
+import {
+  Heart,
+  ShoppingCart,
+  Instagram,
+  Facebook,
+  Phone,
+  Mail,
+  Clock,
+  MessageCircle,
+  MapPin,
+} from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useShop } from '../context/ShopContext';
 import NotificationBell from './NotificationBell';
+import { ABOUT_CONTACT } from '../constants/store';
 
 export default function CustomerLayout({ children }) {
   const { user, logout } = useAuth();
@@ -10,9 +21,11 @@ export default function CustomerLayout({ children }) {
   const favoriteCount = shop?.favoriteIds?.length || 0;
   const cartCount = shop?.cartCount || 0;
   const isCustomer = user?.role === 'customer';
+  const c = ABOUT_CONTACT;
+  const year = new Date().getFullYear();
 
   return (
-    <div>
+    <div className="site-shell">
       <nav className="site-nav">
         <div className="container site-nav-inner">
           <Link to="/" className="brand">
@@ -23,8 +36,8 @@ export default function CustomerLayout({ children }) {
             <Link to="/">หน้าแรก</Link>
             <Link to="/catalog">ชุดครุย</Link>
             <Link to="/how-to-rent">ขั้นตอนการเช่า</Link>
-            <Link to="/about">เกี่ยวกับเรา</Link>
-            {user && <Link to="/bookings">ประวัติการจอง</Link>}
+            {!user && <Link to="/about">เกี่ยวกับเรา</Link>}
+            {user && <Link to="/bookings">ติดตามสถานะ</Link>}
             {user && <Link to="/profile">โปรไฟล์</Link>}
           </div>
 
@@ -59,22 +72,54 @@ export default function CustomerLayout({ children }) {
       <main>{children}</main>
 
       <footer className="site-footer">
-        <div className="container">
-          <div className="brand"><span>K</span>ruyMo</div>
-          <p>ระบบเช่าชุดครุยบัณฑิตออนไลน์ · จองง่าย ชำระสะดวก ติดตามสถานะได้ตลอด</p>
-          <p style={{ marginTop: 8 }}>
-            <Link to="/how-to-rent" style={{ color: 'inherit', textDecoration: 'underline', opacity: 0.9 }}>
-              ขั้นตอนการเช่า
-            </Link>
-            {' · '}
-            <Link to="/about" style={{ color: 'inherit', textDecoration: 'underline', opacity: 0.9 }}>
-              เกี่ยวกับเรา
-            </Link>
-            {' · '}
-            <Link to="/catalog" style={{ color: 'inherit', textDecoration: 'underline', opacity: 0.9 }}>
-              ชุดครุย
-            </Link>
-          </p>
+        <div className="container footer-inner">
+          <div className="footer-top">
+            <div className="footer-col footer-col-brand">
+              <Link to="/" className="footer-logo">
+                <span className="footer-logo-mark">K</span>
+                <span className="footer-logo-text">ruyMo</span>
+              </Link>
+              <p className="footer-tagline">{c.tagline}</p>
+              <div className="footer-social" aria-label="โซเชียลมีเดีย">
+                <a href={c.instagram.url} target="_blank" rel="noreferrer" aria-label="Instagram">
+                  <Instagram size={18} />
+                </a>
+                <a href={c.line.url} target="_blank" rel="noreferrer" aria-label="LINE">
+                  <MessageCircle size={18} />
+                </a>
+                <a href={c.facebook.url} target="_blank" rel="noreferrer" aria-label="Facebook">
+                  <Facebook size={18} />
+                </a>
+              </div>
+            </div>
+
+            <div className="footer-col footer-col-contact">
+              <h2 className="footer-heading">ติดต่อร้าน</h2>
+              <ul className="footer-contact-list">
+                <li>
+                  <Phone size={16} aria-hidden />
+                  <a href={`tel:${c.phone.replace(/\D/g, '')}`}>{c.phone}</a>
+                </li>
+                <li>
+                  <Mail size={16} aria-hidden />
+                  <a href={`mailto:${c.email}`}>{c.email}</a>
+                </li>
+                <li>
+                  <Clock size={16} aria-hidden />
+                  <span>{c.hours}</span>
+                </li>
+                <li>
+                  <MapPin size={16} aria-hidden />
+                  <span>{c.address}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="footer-bottom">
+            <p>© {year} KruyMo · เช่าชุดครุย มหาวิทยาลัยศรีปทุม</p>
+            <p className="footer-bottom-note">จองออนไลน์ · จัดส่งแมสฯ · คืนมัดจำผ่านระบบ</p>
+          </div>
         </div>
       </footer>
     </div>

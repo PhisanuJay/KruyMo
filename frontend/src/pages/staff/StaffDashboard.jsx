@@ -8,6 +8,7 @@ import { bookingAPI } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import DashboardLayout from '../../components/DashboardLayout';
 import StatusBadge from '../../components/StatusBadge';
+import { formatOrderId } from '../../utils/orderId';
 import './staff.css';
 
 function nextPathForBooking(b) {
@@ -50,10 +51,6 @@ function actionHint(status) {
     returned: 'คืนมัดจำ',
   };
   return map[status] || 'ดูรายละเอียด';
-}
-
-function shortId(id = '') {
-  return id.replace(/-/g, '').slice(0, 8).toUpperCase();
 }
 
 function initials(name = '') {
@@ -114,7 +111,7 @@ export default function StaffDashboard() {
     },
     {
       key: 'ship',
-      label: 'จัดส่งและรับคืน',
+      label: 'จัดส่ง–รับคืน',
       value: stats.shipQueue.length,
       hint: stats.prep.length > 0
         ? `${stats.prep.length} รายการกำลังจัดเตรียม`
@@ -238,7 +235,7 @@ export default function StaffDashboard() {
                       <p>
                         {b.costume?.name || '—'}
                         {' · '}
-                        <code>#{shortId(b.id)}</code>
+                        <code>{formatOrderId(b)}</code>
                       </p>
                     </div>
                   </div>

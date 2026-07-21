@@ -11,9 +11,20 @@ export function normalizeRefundAccount(raw) {
   };
 }
 
-export function validateRefundAccount(raw) {
+export function isRefundAccountEmpty(raw) {
   const a = normalizeRefundAccount(raw);
-  if (!a) return 'กรุณากรอกช่องทางรับเงินคืนมัดจำ';
+  if (!a) return true;
+  if (a.method === 'bank') {
+    return !a.bankName && !a.accountNumber && !a.accountName;
+  }
+  return !a.promptpay && !a.accountName;
+}
+
+export function validateRefundAccount(raw, { required = true } = {}) {
+  if (isRefundAccountEmpty(raw)) {
+    return required ? 'กรุณากรอกช่องทางรับเงินคืนมัดจำ' : '';
+  }
+  const a = normalizeRefundAccount(raw);
   if (!a.accountName) return 'กรุณากรอกชื่อบัญชี';
   if (a.method === 'promptpay') {
     if (!a.promptpay) return 'กรุณากรอกเบอร์พร้อมเพย์';

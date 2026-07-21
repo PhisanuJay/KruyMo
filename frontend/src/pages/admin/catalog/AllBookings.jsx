@@ -7,6 +7,7 @@ import {
 import { bookingAPI, masterDataAPI } from '../../../services/api';
 import DashboardLayout from '../../../components/DashboardLayout';
 import StatusBadge from '../../../components/StatusBadge';
+import { formatOrderId } from '../../../utils/orderId';
 
 const DEGREE_SHORT = { bachelor: 'ป.ตรี', master: 'ป.โท', doctoral: 'ป.เอก' };
 
@@ -30,14 +31,6 @@ function formatThaiDate(dateStr) {
   if (!dateStr) return '—';
   const d = new Date(dateStr);
   return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear() + 543}`;
-}
-
-function formatOrderId(booking) {
-  const d = new Date(booking.createdAt);
-  const y = d.getFullYear() + 543;
-  const md = `${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
-  const seq = booking.id.replace(/-/g, '').slice(-3).toUpperCase();
-  return `#ORD-${y}${md}-${seq}`;
 }
 
 function SummaryCard({ icon: Icon, label, value, sub, color, bg }) {
@@ -157,7 +150,7 @@ export default function AllBookings() {
         <header className="admin-hero admin-hero-compact">
           <div className="admin-hero-copy">
             <p className="admin-hero-kicker">คำสั่งเช่า</p>
-            <h1>จัดการคำสั่งเช่า</h1>
+            <h1>คำสั่งเช่า</h1>
             <p>ค้นหาและกรองคำสั่ง — ใช้ชิปด้านล่างแทนเมนูย่อยในแถบข้าง</p>
           </div>
           <div className="admin-hero-aside">

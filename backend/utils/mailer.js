@@ -68,3 +68,32 @@ export const sendPasswordResetOtp = async ({ to, name, otp }) => {
     `,
   });
 };
+
+export const sendFeedbackMessage = async ({ name, email, topic, message }) => {
+  const transporter = createTransporter();
+  const sender = process.env.EMAIL_FROM_NAME?.trim() || 'KruyMo';
+  const to = process.env.FEEDBACK_TO?.trim() || process.env.EMAIL_USER.trim();
+  const safeName = escapeHtml(name);
+  const safeEmail = escapeHtml(email);
+  const safeTopic = escapeHtml(topic);
+  const safeMessage = escapeHtml(message).replace(/\n/g, '<br>');
+
+  await transporter.sendMail({
+    from: `"${sender}" <${process.env.EMAIL_USER.trim()}>`,
+    to,
+    replyTo: email,
+    subject: `[KruyMo Feedback] ${topic} — ${name}`,
+    text: `ชื่อ: ${name}\nอีเมล: ${email}\nหัวข้อ: ${topic}\n\n${message}`,
+    html: `
+      <div style="max-width:560px;margin:auto;padding:28px;font-family:Arial,sans-serif;color:#222">
+        <h1 style="color:#e63946;margin:0 0 16px">KruyMo Feedback</h1>
+        <p><strong>ชื่อ:</strong> ${safeName}</p>
+        <p><strong>อีเมล:</strong> ${safeEmail}</p>
+        <p><strong>หัวข้อ:</strong> ${safeTopic}</p>
+        <div style="margin-top:20px;padding:16px;background:#f8fafc;border-radius:12px;line-height:1.6">
+          ${safeMessage}
+        </div>
+      </div>
+    `,
+  });
+};

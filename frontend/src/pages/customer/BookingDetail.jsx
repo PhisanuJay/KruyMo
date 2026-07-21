@@ -163,7 +163,7 @@ export default function BookingDetail() {
   return (
     <CustomerLayout>
       <div className="container" style={{ maxWidth: 700, padding: '2rem 20px' }}>
-        <Link to="/bookings" style={{ color: 'var(--primary)', fontSize: '0.9rem' }}>← กลับ</Link>
+        <Link to="/bookings" style={{ color: 'var(--primary)', fontSize: '0.9rem' }}>← กลับไปติดตามสถานะ</Link>
         <h1 className="page-title" style={{ marginTop: '1rem' }}>สถานะการจอง</h1>
         <div style={{ marginBottom: '1rem' }}><StatusBadge status={booking.status} /></div>
 

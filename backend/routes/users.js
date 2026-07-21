@@ -72,8 +72,18 @@ router.put('/:id', authenticate, async (req, res) => {
   }
   const { name, phone, email, currentPassword, newPassword, role, address, refundAccount } = req.body;
   const updates = {};
-  if (name) updates.name = name;
-  if (phone !== undefined) updates.phone = phone;
+  if (name !== undefined) {
+    const nextName = String(name || '').trim();
+    if (!nextName) return res.status(400).json({ error: 'กรุณากรอกชื่อ-นามสกุล' });
+    updates.name = nextName;
+  }
+  if (phone !== undefined) {
+    const nextPhone = String(phone || '').trim();
+    if (nextPhone && !/^[0-9+\-\s]{9,15}$/.test(nextPhone)) {
+      return res.status(400).json({ error: 'เบอร์โทรไม่ถูกต้อง' });
+    }
+    updates.phone = nextPhone;
+  }
   if (email) {
     const nextEmail = String(email).trim().toLowerCase();
     if (nextEmail !== String(user.email || '').trim().toLowerCase()) {
@@ -87,16 +97,26 @@ router.put('/:id', authenticate, async (req, res) => {
   }
   if (address !== undefined) updates.address = address;
   if (refundAccount !== undefined) {
-    const err = validateRefundAccount(refundAccount);
-    if (err) return res.status(400).json({ error: err });
-    updates.refundAccount = normalizeRefundAccount(refundAccount);
+    if (refundAccount === null) {
+      updates.refundAccount = null;
+    } else {
+      const err = validateRefundAccount(refundAccount);
+      if (err) return res.status(400).json({ error: err });
+      updates.refundAccount = normalizeRefundAccount(refundAccount);
+    }
   }
   if (role && req.user.role === 'admin') updates.role = role;
   if (newPassword) {
+    if (String(newPassword).length < 6) {
+      return res.status(400).json({ error: 'รหัสผ่านใหม่ต้องมีอย่างน้อย 6 ตัวอักษร' });
+    }
     if (!currentPassword || !(await bcrypt.compare(currentPassword, user.password))) {
       return res.status(400).json({ error: 'รหัสผ่านปัจจุบันไม่ถูกต้อง' });
     }
     updates.password = await bcrypt.hash(newPassword, 10);
+  }
+  if (Object.keys(updates).length === 0) {
+    return res.status(400).json({ error: 'ไม่มีข้อมูลที่จะอัปเดต' });
   }
   const updated = updateById('users.json', req.params.id, updates);
   logActivity('update_profile', `อัปเดตโปรไฟล์ ${updated.email}`, req.user.id);

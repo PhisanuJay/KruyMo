@@ -3,10 +3,12 @@ import { Heart } from 'lucide-react';
 import UniversityTag from './UniversityTag';
 import { useAuth } from '../context/AuthContext';
 import { useShop } from '../context/ShopContext';
+import { catalogCostumeName } from '../utils/costumes';
 
 export default function CostumeCard({ costume }) {
   const facultyColor = costume.faculty?.color || costume.university?.color || '#6B7280';
   const mainImage = costume.images?.[0];
+  const displayName = catalogCostumeName(costume);
   const tagTextColor = ['#f5f5f5', '#e8e8e8', '#ffd700', '#f4c430'].includes((facultyColor || '').toLowerCase())
     ? '#111'
     : undefined;
@@ -34,7 +36,7 @@ export default function CostumeCard({ costume }) {
     <Link to={`/costume/${costume.id}`} className="product-card">
       <div className="product-card-media">
         {mainImage ? (
-          <img src={mainImage} alt={costume.name} />
+          <img src={mainImage} alt={displayName} />
         ) : (
           <span style={{ fontSize: '4rem', opacity: 0.35 }}>🎓</span>
         )}
@@ -68,7 +70,7 @@ export default function CostumeCard({ costume }) {
             />
           )}
         </div>
-        <h3>{costume.name}</h3>
+        <h3>{displayName}</h3>
         <p className="product-meta">
           เลือกระดับปริญญาและไซส์ตอนจอง
         </p>
