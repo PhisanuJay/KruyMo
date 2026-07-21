@@ -12,9 +12,7 @@
   - Markdown: [docs/Final_Project_Report_KruyMo.md](./docs/Final_Project_Report_KruyMo.md)
   - UML diagrams: [docs/diagrams/](./docs/diagrams/)
   - SDLC tools: [docs/SDLC_Tools_KruyMo.md](./docs/SDLC_Tools_KruyMo.md)
-  - UAT (PDF): [docs/User_Acceptance_Testing.pdf](./docs/User_Acceptance_Testing.pdf)
-  - UAT (Markdown): [docs/UAT_KruyMo.md](./docs/UAT_KruyMo.md)
-  - UAT (Word): [docs/UAT_KruyMo.docx](./docs/UAT_KruyMo.docx)
+  - UAT: [docs/User_Acceptance_Testing.pdf](./docs/User_Acceptance_Testing.pdf)
 
 ## Tech Stack
 
