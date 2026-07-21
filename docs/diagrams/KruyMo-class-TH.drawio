@@ -1,0 +1,156 @@
+<mxfile host="app.diagrams.net" agent="KruyMo">
+  <diagram id="class-th" name="แผนภาพคลาส (ภาษาไทย)">
+    <mxGraphModel dx="2060" dy="1124" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t" parent="1" style="text;html=1;fontSize=18;fontStyle=1;fontColor=#111111;" value="KruyMo — แผนภาพคลาส (Class Diagram)&#xa;แบบจำลองโดเมน / โครงสร้างข้อมูล JSON" vertex="1">
+          <mxGeometry height="50" width="520" x="140" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="User" parent="1" style="swimlane;fontStyle=1;align=left;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#FFF1F2;strokeColor=#E63946;fontSize=11;" value="«เอนทิตี»&#xa;ผู้ใช้ (User)&#xa;———&#xa;+ รหัส: สตริง&#xa;+ ชื่อ: สตริง&#xa;+ อีเมล: สตริง&#xa;+ รหัสผ่านแฮช: สตริง&#xa;+ เบอร์โทร: สตริง&#xa;+ บทบาท: ลูกค้า|พนักงาน|แอดมิน&#xa;+ ยืนยันอีเมลแล้ว: บูลีน&#xa;+ ที่อยู่: ที่อยู่จัดส่ง&#xa;+ บัญชีคืนมัดจำ: บัญชีรับเงิน" vertex="1">
+          <mxGeometry height="230" width="250" x="140" y="174" as="geometry" />
+        </mxCell>
+        <mxCell id="Booking" parent="1" style="swimlane;fontStyle=1;align=left;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#FFFFFF;strokeColor=#111111;fontSize=11;" value="«เอนทิตี»&#xa;การจอง (Booking)&#xa;———&#xa;+ รหัส: สตริง&#xa;+ รหัสผู้ใช้: สตริง&#xa;+ รหัสชุดครุย: สตริง&#xa;+ รหัสไซส์: สตริง&#xa;+ ระดับปริญญา: สตริง&#xa;+ วันเริ่มเช่า: วันที่&#xa;+ วันสิ้นสุดเช่า: วันที่&#xa;+ สถานะ: สตริง&#xa;+ ค่าเช่า: จำนวน&#xa;+ เงินมัดจำ: จำนวน&#xa;+ ยอดรวม: จำนวน&#xa;+ ที่อยู่จัดส่ง: ที่อยู่จัดส่ง&#xa;+ แมสเซนเจอร์: ข้อมูลแมสฯ&#xa;+ บัญชีคืนมัดจำ: บัญชีรับเงิน" vertex="1">
+          <mxGeometry height="300" width="270" x="480" y="174" as="geometry" />
+        </mxCell>
+        <mxCell id="Payment" parent="1" style="swimlane;fontStyle=1;align=left;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#FFFFFF;strokeColor=#111111;fontSize=11;" value="«เอนทิตี»&#xa;การชำระเงิน (Payment)&#xa;———&#xa;+ รหัส: สตริง&#xa;+ รหัสการจอง: สตริง&#xa;+ ยอดชำระ: จำนวน&#xa;+ รูปสลิป: สตริง&#xa;+ สถานะ: รอตรวจ|ยืนยัน|ปฏิเสธ&#xa;+ บัญชีคืนมัดจำ: บัญชีรับเงิน" vertex="1">
+          <mxGeometry height="180" width="250" x="840" y="174" as="geometry" />
+        </mxCell>
+        <mxCell id="Cart" parent="1" style="swimlane;fontStyle=1;align=left;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#EFF6FF;strokeColor=#3B82F6;fontSize=11;" value="«เอนทิตี»&#xa;รายการตะกร้า (CartItem)&#xa;———&#xa;+ รหัส: สตริง&#xa;+ รหัสผู้ใช้: สตริง&#xa;+ รหัสชุดครุย: สตริง&#xa;+ รหัสไซส์: สตริง&#xa;+ ระดับปริญญา: สตริง&#xa;+ วันเริ่มเช่า: วันที่&#xa;+ วันสิ้นสุดเช่า: วันที่" vertex="1">
+          <mxGeometry height="200" width="240" x="1180" y="174" as="geometry" />
+        </mxCell>
+        <mxCell id="Costume" parent="1" style="swimlane;fontStyle=1;align=left;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#ECFDF5;strokeColor=#16A34A;fontSize=11;" value="«เอนทิตี»&#xa;ชุดครุย (Costume)&#xa;———&#xa;+ รหัส: สตริง&#xa;+ ชื่อชุด: สตริง&#xa;+ รหัสมหาวิทยาลัย: สตริง&#xa;+ รหัสคณะ: สตริง&#xa;+ ราคาต่อวัน: จำนวน&#xa;+ เงินมัดจำ: จำนวน&#xa;+ จำนวนในคลัง: จำนวน&#xa;+ รูปภาพ: สตริง[]" vertex="1">
+          <mxGeometry height="210" width="240" x="480" y="544" as="geometry" />
+        </mxCell>
+        <mxCell id="Inventory" parent="1" style="swimlane;fontStyle=1;align=left;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#ECFDF5;strokeColor=#16A34A;fontSize=11;" value="«เอนทิตี»&#xa;รายการสต็อก (InventoryItem)&#xa;———&#xa;+ รหัสชุดครุย: สตริง&#xa;+ รหัสไซส์: สตริง&#xa;+ ระดับปริญญา: ตรี|โท|เอก&#xa;+ จำนวนคงเหลือ: จำนวน" vertex="1">
+          <mxGeometry height="150" width="250" x="800" y="544" as="geometry" />
+        </mxCell>
+        <mxCell id="Size" parent="1" style="swimlane;fontStyle=1;align=left;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#F3F4F6;strokeColor=#6B7280;fontSize=11;" value="«เอนทิตี»&#xa;ไซส์ (Size)&#xa;———&#xa;+ รหัส: สตริง&#xa;+ ป้ายไซส์: สตริง&#xa;+ ส่วนสูงต่ำสุด: จำนวน&#xa;+ ส่วนสูงสูงสุด: จำนวน" vertex="1">
+          <mxGeometry height="150" width="220" x="1140" y="544" as="geometry" />
+        </mxCell>
+        <mxCell id="Faculty" parent="1" style="swimlane;fontStyle=1;align=left;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#F3F4F6;strokeColor=#6B7280;fontSize=11;" value="«เอนทิตี»&#xa;คณะ (Faculty)&#xa;———&#xa;+ รหัส: สตริง&#xa;+ รหัสมหาวิทยาลัย: สตริง&#xa;+ ชื่อคณะ: สตริง&#xa;+ สีสายสะพาย: สตริง&#xa;+ ชื่อสีสาย: สตริง" vertex="1">
+          <mxGeometry height="170" width="230" x="140" y="544" as="geometry" />
+        </mxCell>
+        <mxCell id="University" parent="1" style="swimlane;fontStyle=1;align=left;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#F3F4F6;strokeColor=#6B7280;fontSize=11;" value="«เอนทิตี»&#xa;มหาวิทยาลัย (University)&#xa;———&#xa;+ รหัส: สตริง&#xa;+ ชื่อเต็ม: สตริง&#xa;+ ชื่อย่อ: สตริง" vertex="1">
+          <mxGeometry height="130" width="230" x="140" y="784" as="geometry" />
+        </mxCell>
+        <mxCell id="Favorite" parent="1" style="swimlane;fontStyle=1;align=left;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#EFF6FF;strokeColor=#3B82F6;fontSize=11;" value="«เอนทิตี»&#xa;รายการโปรด (Favorite)&#xa;———&#xa;+ รหัส: สตริง&#xa;+ รหัสผู้ใช้: สตริง&#xa;+ รหัสชุดครุย: สตริง" vertex="1">
+          <mxGeometry height="120" width="240" x="1180" y="404" as="geometry" />
+        </mxCell>
+        <mxCell id="Notification" parent="1" style="swimlane;fontStyle=1;align=left;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=11;" value="«เอนทิตี»&#xa;การแจ้งเตือน (Notification)&#xa;———&#xa;+ รหัส: สตริง&#xa;+ รหัสผู้ใช้: สตริง&#xa;+ ประเภท: สตริง&#xa;+ ข้อความ: สตริง&#xa;+ อ่านแล้ว: บูลีน&#xa;+ วันเวลาสร้าง: วันที่" vertex="1">
+          <mxGeometry height="180" width="250" x="840" y="384" as="geometry" />
+        </mxCell>
+        <mxCell id="r1" edge="1" parent="1" source="User" style="endArrow=open;html=1;endSize=10;strokeColor=#111111;startArrow=diamondThin;startFill=1;startSize=12;fontSize=11;" target="Booking">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r1a" connectable="0" parent="r1" style="edgeLabel;html=1;fontSize=11;fontStyle=1;" value="1" vertex="1">
+          <mxGeometry relative="1" x="-0.35" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r1b" connectable="0" parent="r1" style="edgeLabel;html=1;fontSize=11;" value="จอง *" vertex="1">
+          <mxGeometry relative="1" x="0.05" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r2" edge="1" parent="1" source="Booking" style="endArrow=open;html=1;endSize=10;strokeColor=#111111;startArrow=diamondThin;startFill=0;startSize=12;" target="Payment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r2a" connectable="0" parent="r2" style="edgeLabel;html=1;fontSize=11;fontStyle=1;" value="1" vertex="1">
+          <mxGeometry relative="1" x="-0.3" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r2b" connectable="0" parent="r2" style="edgeLabel;html=1;fontSize=11;" value="ชำระเงิน 0..1" vertex="1">
+          <mxGeometry relative="1" x="0.15" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r3" edge="1" parent="1" source="Costume" style="endArrow=open;html=1;endSize=10;strokeColor=#16A34A;" target="Booking">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3l" connectable="0" parent="r3" style="edgeLabel;html=1;fontSize=11;" value="ถูกจอง *" vertex="1">
+          <mxGeometry relative="1" x="0.1" as="geometry">
+            <mxPoint y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r4" edge="1" parent="1" source="Costume" style="endArrow=open;html=1;endSize=10;strokeColor=#16A34A;startArrow=diamondThin;startFill=1;" target="Inventory">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r4l" connectable="0" parent="r4" style="edgeLabel;html=1;fontSize=11;" value="มีสต็อก *" vertex="1">
+          <mxGeometry relative="1" x="0.1" as="geometry">
+            <mxPoint y="10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r5" edge="1" parent="1" source="Faculty" style="endArrow=open;html=1;endSize=10;strokeColor=#6B7280;" target="Costume">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r5l" connectable="0" parent="r5" style="edgeLabel;html=1;fontSize=11;" value="มีชุด 1" vertex="1">
+          <mxGeometry relative="1" x="0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r6" edge="1" parent="1" source="University" style="endArrow=open;html=1;endSize=10;strokeColor=#6B7280;startArrow=diamondThin;startFill=1;" target="Faculty">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r6l" connectable="0" parent="r6" style="edgeLabel;html=1;fontSize=11;" value="มีคณะ *" vertex="1">
+          <mxGeometry relative="1" x="0.1" as="geometry">
+            <mxPoint x="12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r7" edge="1" parent="1" source="Size" style="endArrow=open;html=1;endSize=10;strokeColor=#6B7280;dashed=1;" target="Inventory">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r7l" connectable="0" parent="r7" style="edgeLabel;html=1;fontSize=11;" value="กำหนดไซส์" vertex="1">
+          <mxGeometry relative="1" x="0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r8" edge="1" parent="1" source="User" style="endArrow=open;html=1;endSize=10;strokeColor=#3B82F6;startArrow=diamondThin;startFill=1;" target="Cart">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="234" />
+              <mxPoint x="400" y="134" />
+              <mxPoint x="1300" y="134" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r8l" connectable="0" parent="r8" style="edgeLabel;html=1;fontSize=11;" value="ใส่ตะกร้า *" vertex="1">
+          <mxGeometry relative="1" x="0.2" as="geometry">
+            <mxPoint y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r9" edge="1" parent="1" source="User" style="endArrow=open;html=1;endSize=10;strokeColor=#3B82F6;dashed=1;" target="Favorite">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="265" y="444" />
+              <mxPoint x="1300" y="444" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r9l" connectable="0" parent="r9" style="edgeLabel;html=1;fontSize=11;" value="บันทึกโปรด *" vertex="1">
+          <mxGeometry relative="1" x="0.4" as="geometry">
+            <mxPoint y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r10" edge="1" parent="1" source="User" style="endArrow=open;html=1;endSize=10;strokeColor=#D97706;startArrow=diamondThin;startFill=1;" target="Notification">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="390" y="284" />
+              <mxPoint x="390" y="474" />
+              <mxPoint x="840" y="474" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r10l" connectable="0" parent="r10" style="edgeLabel;html=1;fontSize=11;" value="ได้รับการแจ้งเตือน *" vertex="1">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <mxPoint y="10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="note" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=14;fillColor=#FFFBEB;strokeColor=#D97706;align=left;spacingLeft=8;fontSize=11;" value="หมายเหตุ: ชื่อในวงเล็บคือชื่อคลาสตามโค้ดจริง&#xa;ความสัมพันธ์แบบเพชรทึบ = องค์ประกอบ (Composition)&#xa;เส้นประ = การอ้างอิง (Association)" vertex="1">
+          <mxGeometry height="90" width="360" x="480" y="804" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

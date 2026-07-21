@@ -8,7 +8,12 @@
 - Final Project / ข้อเสนอฉบับสมบูรณ์:
   - Word: [docs/ข้อเสนอโครงงาน_KruyMo_ฉบับสมบูรณ์.docx](./docs/ข้อเสนอโครงงาน_KruyMo_ฉบับสมบูรณ์.docx)
   - Markdown: [docs/Final_Project_Report_KruyMo.md](./docs/Final_Project_Report_KruyMo.md)
-  - UML diagrams: [docs/diagrams/](./docs/diagrams/)
+  - UML / diagrams:
+    - [System Architecture](./docs/diagrams/KruyMo-system-architecture.png)
+    - [Use Case](./docs/diagrams/KruyMo-usecase.png)
+    - [Class Diagram](./docs/diagrams/KruyMo-class-diagram.png)
+    - [Data Schema](./docs/diagrams/KruyMo-data-schema.png)
+    - draw.io sources: [docs/diagrams/](./docs/diagrams/)
   - SDLC tools: [docs/SDLC_Tools_KruyMo.md](./docs/SDLC_Tools_KruyMo.md)
   - UAT: [docs/User_Acceptance_Testing.pdf](./docs/User_Acceptance_Testing.pdf)
 
