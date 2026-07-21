@@ -1,6 +1,5 @@
 /**
- * ตั้งสต็อกทุกคณะ: แต่ละชั้นปี (ตรี/โท/เอก) มีอย่างละ 10 ชุด
- * กระจายตามไซส์ยอดนิยม (กลางช่วงส่วนสูง)
+ * ตั้งสต็อกทุกคณะ: ทุกไซส์ × ทุกชั้นปี (ตรี/โท/เอก) = อย่างละ 10 ชุด
  * รัน: node backend/scripts/seed-inventory.js
  */
 import fs from 'fs';
@@ -10,16 +9,9 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const dataDir = path.join(__dirname, '..', 'data');
 
-const QTY_PER_DEGREE = 10;
+const QTY = 10;
 const sizes = Array.from({ length: 13 }, (_, i) => `size-${38 + i}`);
 const degrees = ['bachelor', 'master', 'doctoral'];
-
-/** กระจาย 10 ชุดต่อชั้นปีไปไซส์กลาง (40–49) อย่างละ 1 */
-const qtyBySize = Object.fromEntries(sizes.map((id) => [id, 0]));
-for (let n = 40; n <= 49; n += 1) {
-  qtyBySize[`size-${n}`] = 1;
-}
-
 const costumesPath = path.join(dataDir, 'costumes.json');
 const costumesData = JSON.parse(fs.readFileSync(costumesPath, 'utf8'));
 
@@ -31,7 +23,7 @@ for (const costume of costumesData) {
         costumeId: costume.id,
         sizeId,
         degreeLevel,
-        quantity: qtyBySize[sizeId] || 0,
+        quantity: QTY,
       });
     }
   }
@@ -48,9 +40,6 @@ for (const costume of costumesData) {
 }
 fs.writeFileSync(costumesPath, `${JSON.stringify(costumesData, null, 2)}\n`);
 
-const sumPerDegree = Object.values(qtyBySize).reduce((a, b) => a + b, 0);
+const perDegree = sizes.length * QTY;
 console.log(`✅ Seeded ${inventory.length} rows (${costumesData.length} คณะ × ${degrees.length} ชั้นปี × ${sizes.length} ไซส์)`);
-console.log(`   ต่อคณะ: ตรี/โท/เอก อย่างละ ${sumPerDegree} ชุด · รวม ${sumPerDegree * 3} ชุด/คณะ`);
-if (sumPerDegree !== QTY_PER_DEGREE) {
-  console.warn(`   ⚠ กระจายได้ ${sumPerDegree} ไม่เท่าเป้า ${QTY_PER_DEGREE}`);
-}
+console.log(`   ไซส์ละ ${QTY} · ต่อชั้นปี ${perDegree} ชุด · รวม ${perDegree * 3} ชุด/คณะ`);
