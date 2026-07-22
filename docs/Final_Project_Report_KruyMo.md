@@ -167,17 +167,6 @@
 
 *รูปที่ 5.5 Data Schema (ER-style) ของระบบ KruyMo*
 
-สรุปไฟล์ข้อมูลหลัก
-
-| ไฟล์ | คำอธิบายสั้น ๆ |
-|------|----------------|
-| `users.json` | ผู้ใช้ บทบาท ที่อยู่ บัญชีรับมัดจำคืน |
-| `costumes.json` / `inventory.json` | ชุดครุยและสต็อกตามไซส์×ระดับปริญญา |
-| `universities.json` / `faculties.json` / `sizes.json` | ข้อมูลหลัก |
-| `bookings.json` | การจอง จัดส่ง รับคืน คืนมัดจำ |
-| `payments.json` | สลิปและสถานะตรวจชำระเงิน |
-| `cart.json` / `favorites.json` / `notifications.json` | ฟังก์ชันเสริม |
-
 ### 5.6 Wireframe / Prototype
 
 ออกแบบ Wireframe / High-Fidelity Prototype ด้วย Figma ครอบคลุมหน้า Login/Register ฝั่งลูกค้า พนักงาน และแอดมิน
