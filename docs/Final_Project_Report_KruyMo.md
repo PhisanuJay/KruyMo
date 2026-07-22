@@ -181,9 +181,39 @@
 
 ### 5.6 Wireframe / Prototype
 
-ออกแบบ High-Fidelity Prototype ด้วย Figma ครอบคลุมหน้า Login/Register ฝั่งลูกค้า พนักงาน และแอดมิน
+ออกแบบ Wireframe / High-Fidelity Prototype ด้วย Figma ครอบคลุมหน้า Login/Register ฝั่งลูกค้า พนักงาน และแอดมิน
 
 Figma: https://www.figma.com/design/Ik7O3CELdlj20X0goUSwfL/Untitled?node-id=0-1&p=f&t=brxmYBMEXTVsvpr5-0
+
+#### 5.6.1 Login / Register
+
+![Wireframe Login และสมัครสมาชิก — KruyMo](./diagrams/KruyMo-wireframe-login-register.png)
+
+*รูปที่ 5.6.1 Wireframe หน้าเข้าสู่ระบบและสมัครสมาชิก*
+
+#### 5.6.2 Customer
+
+Wireframe ฝั่งลูกค้าครอบคลุมหน้าแรก แคตตาล็อกชุดครุย เลือกขนาด/วันเช่า ยืนยันการจอง ชำระเงิน ชำระเงินเสร็จสิ้น ประวัติการจอง รายการโปรด และแก้ไขโปรไฟล์
+
+![Wireframe ฝั่งลูกค้า — KruyMo](./diagrams/KruyMo-wireframe-customer.png)
+
+*รูปที่ 5.6.2 Wireframe หน้าจอฝั่งลูกค้า*
+
+#### 5.6.3 Staff
+
+Wireframe ฝั่งพนักงานครอบคลุมแดชบอร์ด จัดการคำสั่งซื้อ คิวส่งแมส คืนเงินมัดจำ และหน้าต่างตรวจสอบสลิป
+
+![Wireframe ฝั่งพนักงาน — KruyMo](./diagrams/KruyMo-wireframe-staff.png)
+
+*รูปที่ 5.6.3 Wireframe หน้าจอฝั่งพนักงาน*
+
+#### 5.6.4 Admin
+
+Wireframe ฝั่งแอดมินครอบคลุมแดชบอร์ด ดูการจอง จัดการชุดครุย จัดการผู้ใช้ ประวัติคืนมัดจำ บันทึกกิจกรรม ข้อมูลพื้นฐาน คิวส่งแมส/รับคืน รายงานการเงิน และเทมเพลตแจ้งเตือน
+
+![Wireframe ฝั่งแอดมิน — KruyMo](./diagrams/KruyMo-wireframe-admin.png)
+
+*รูปที่ 5.6.4 Wireframe หน้าจอฝั่งแอดมิน*
 
 #### หน้าจอหลักที่พัฒนาแล้วในระบบจริง
 
@@ -253,6 +283,10 @@ Figma: https://www.figma.com/design/Ik7O3CELdlj20X0goUSwfL/Untitled?node-id=0-1&
 3. [Sequence Diagram](./diagrams/KruyMo-sequence-fullcycle.png)  
 4. [System Architecture](./diagrams/KruyMo-system-architecture.png)  
 5. [Data Schema](./diagrams/KruyMo-data-schema.png)  
+6. [Wireframe Login/Register](./diagrams/KruyMo-wireframe-login-register.png)  
+7. [Wireframe Customer](./diagrams/KruyMo-wireframe-customer.png)  
+8. [Wireframe Staff](./diagrams/KruyMo-wireframe-staff.png)  
+9. [Wireframe Admin](./diagrams/KruyMo-wireframe-admin.png)  
 
 ### ง. เอกสารอ้างอิง
 
