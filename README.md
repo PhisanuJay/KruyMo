@@ -11,7 +11,7 @@
   - UML / diagrams (5):
     1. [Use Case](./docs/diagrams/KruyMo-usecase.png)
     2. [Class Diagram](./docs/diagrams/KruyMo-class-diagram.png)
-    3. [Sequence Diagram](./docs/diagrams/KruyMo-sequence-diagram.png)
+    3. [Sequence Diagram](./docs/diagrams/KruyMo-sequence-fullcycle.png)
     4. [System Architecture](./docs/diagrams/KruyMo-system-architecture.png)
     5. [Data Schema](./docs/diagrams/KruyMo-data-schema.png)
     - draw.io sources: [docs/diagrams/](./docs/diagrams/)

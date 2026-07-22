@@ -141,11 +141,16 @@
 
 ### 5.3 Sequence Diagram
 
-แผนภาพ Sequence แสดงลำดับการทำงานหลักของระบบ ตั้งแต่ลูกค้าสร้างการจอง ชำระเงินและอัปโหลดสลิป พนักงานตรวจสลิป จัดเตรียมชุด จัดส่งด้วยแมสเซนเจอร์ จนถึงรับคืนชุดและคืนเงินมัดจำ
+แผนภาพ Sequence แสดงลำดับการทำงานแบบครบวงจรของระบบ KruyMo โดยมีผู้เกี่ยวข้อง 3 บทบาท (ลูกค้า พนักงาน ผู้ดูแลระบบ) และอ็อบเจ็กต์หลัก ได้แก่ หน้าจอระบบ ชุดครุย การจอง การชำระเงิน การคืนเงิน และบันทึกกิจกรรม แบ่งเป็น 4 ช่วงดังนี้
 
-![Sequence Diagram — KruyMo](./diagrams/KruyMo-sequence-diagram.png)
+1. **จองและชำระเงิน (ลูกค้า):** เข้าสู่ระบบ เลือกคณะ/ระดับ/วันเวลา ตรวจสต็อกว่าง เลือกไซส์ กรอกบัญชีคืนมัดจำ ยืนยันจองพร้อมอัปโหลดสลิป จากนั้นสร้างการจอง คำนวณยอด และอัปเดตสถานะเป็นรอตรวจสอบการชำระเงิน  
+2. **ตรวจสลิป จัดเตรียม และจัดส่ง (พนักงาน + ลูกค้า):** พนักงานตรวจสลิป อนุมัติจอง ล็อกสต็อก จัดเตรียมชุด พร้อมส่ง กำลังจัดส่ง จนลูกค้ายืนยันรับสินค้า  
+3. **คืนชุดและคืนมัดจำ (ลูกค้า + พนักงาน):** ลูกค้าแจ้งคืนพร้อมแนบรูป พนักงานรับคืน ตรวจสภาพ คำนวณค่าปรับ/ยอดคืน อัปโหลดสลิปคืนมัดจำ ปิดออเดอร์ คืนสต็อก และบันทึกกิจกรรม  
+4. **ติดตามและรายงาน (แอดมิน):** ดู Dashboard ดูบันทึกกิจกรรม และสร้างรายงานสรุป  
 
-*รูปที่ 5.3 Sequence Diagram วงจรจองชุดครุยของระบบ KruyMo*
+![Sequence Diagram — KruyMo แบบครบวงจร](./diagrams/KruyMo-sequence-fullcycle.png)
+
+*รูปที่ 5.3 Sequence Diagram: ระบบเช่าชุดครุยแบบครบวงจร*
 
 ### 5.4 System Architecture
 
@@ -245,7 +250,7 @@ Figma: https://www.figma.com/design/Ik7O3CELdlj20X0goUSwfL/Untitled?node-id=0-1&
 
 1. [Use Case](./diagrams/KruyMo-usecase.png)  
 2. [Class Diagram](./diagrams/KruyMo-class-diagram.png)  
-3. [Sequence Diagram](./diagrams/KruyMo-sequence-diagram.png)  
+3. [Sequence Diagram](./diagrams/KruyMo-sequence-fullcycle.png)  
 4. [System Architecture](./diagrams/KruyMo-system-architecture.png)  
 5. [Data Schema](./diagrams/KruyMo-data-schema.png)  
 
